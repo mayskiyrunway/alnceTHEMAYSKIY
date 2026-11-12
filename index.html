@@ -62,6 +62,7 @@
     .red-check:hover{transform:scale(1.15)}
     .black-check{display:inline-grid;place-items:center;width:20px;height:20px;margin-left:8px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:11px;font-weight:900;cursor:help}
     
+    /* Индикатор уведомления в меню */
     .notif-dot { display:inline-block; width:8px; height:8px; background:var(--red); border-radius:50%; margin-left:8px; vertical-align:middle; box-shadow:0 0 6px var(--red); animation:pulse 1.5s infinite; }
 
     .dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
@@ -71,6 +72,7 @@
     details.section>summary::after{content:"+";color:var(--muted);font-size:18px; transition: transform 0.3s ease;}
     details.section[open]>summary::after{content:"−"; transform: rotate(180deg);}
     .section-content{padding:0 20px 20px;display:grid;gap:15px}
+    
     details.section[open] .section-content { animation: slideDown 0.3s ease-out forwards; }
     @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
 
@@ -78,6 +80,15 @@
     body[data-theme="light"] .balance,body[data-theme="dark"] .balance{color:var(--ink)}
     .muted{color:var(--muted);font-size:13px;line-height:1.5}
     
+    /* Signature Pad Styles */
+    .sig-container { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; position: relative; margin-bottom: 10px; }
+    .sig-canvas { display: block; width: 100%; height: 150px; cursor: crosshair; touch-action: none; background: #fff; }
+    .sig-controls { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--soft); border-top: 1px solid var(--line); }
+    .sig-clear { background: none; border: none; color: var(--red); font-weight: 600; font-size: 12px; cursor: pointer; text-transform: uppercase; }
+    .sig-options { display: flex; gap: 15px; margin-bottom: 10px; flex-wrap: wrap; }
+    .sig-option { display: flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; user-select: none; }
+    .sig-warning { font-size: 11px; color: var(--red); margin-bottom: 10px; font-weight: 600; line-height: 1.4; }
+
     .fine-banner{background:#fff5f5;border:1px solid #ffcccc;border-left:4px solid var(--red);padding:15px;margin-bottom:10px;border-radius:14px}
     .fine-banner .fine-header{font-size:11px;color:#a7352a;text-transform:uppercase;font-weight:700;margin-bottom:5px;display:flex;align-items:center}
     .fine-banner .fine-amount{font-size:20px;font-weight:800;color:#a7352a;margin-bottom:5px}
@@ -453,6 +464,31 @@
               <option value="false">Нет, отключить</option>
             </select>
           </div>
+          
+          <div class="field">
+            <label>Подпись авиакомпании</label>
+            <p class="sig-warning">⚠️ ВНИМАНИЕ: Распишитесь не своей настоящей подписью! Она не сохраняется, но обязательна для подтверждения.</p>
+            <div class="sig-options">
+              <label class="sig-option"><input type="radio" name="appSigType" value="yes" checked onchange="toggleAppSig('yes')"> Есть подпись от авиакомпании</label>
+              <label class="sig-option"><input type="radio" name="appSigType" value="no" onchange="toggleAppSig('no')"> Нету подписи от авиакомпании</label>
+            </div>
+            <div id="appSigDrawArea">
+              <div class="sig-container">
+                <canvas id="appSigCanvas" class="sig-canvas" width="600" height="150"></canvas>
+                <div class="sig-controls">
+                  <span style="font-size:11px;color:var(--muted)">Нарисуйте подпись мышью или пальцем</span>
+                  <button type="button" class="sig-clear" onclick="clearAppSig()">Очистить</button>
+                </div>
+              </div>
+            </div>
+            <div id="appSigTypeArea" class="hidden">
+              <div class="field">
+                <label>Напишите название авиакомпании еще раз</label>
+                <input id="appSigText" type="text" placeholder="Название вашей компании">
+              </div>
+            </div>
+          </div>
+
           <button class="primary" id="applicationSubmit" type="submit">Подать документ</button>
         </form>
       </section>
@@ -461,7 +497,7 @@
         <h1>О нас</h1>
         <div class="about-block">
           <div class="about-text">
-            <p>Официальный портал Альянса THEMAYSKIY. Первый в истории СНГ автоматизированный ERP-портал виртуальной авиации. Все права на дизайн, лор и код защищены. Автор продукта: Майские авиалинии (c) <span id="aboutYear"></span></p>
+            <p>Официальный портал Альянса THEMAYSKIY. Первый в истории СНГ автоматизированный ERP-портал виртуальной авиации. Все права на дизайн, лор и код защищены. Автор продукта: © MAYSKIE AIRLINES <span id="aboutYear"></span></p>
             <div style="margin-top:20px; padding:15px; background:var(--paper); border-radius:12px; border-left:4px solid var(--accent);">
               <p style="margin-bottom:5px;"><b>Год создания:</b> 16.02.2016 (игровая версия)</p>
               <p><b>Год создания:</b> 16.02.2024 (настоящая)</p>
@@ -971,6 +1007,31 @@
       <p class="muted" style="margin-bottom:15px; line-height:1.5;">Заполните заявление. <b>Внимание:</b> при выходе вы потеряете звание, все накопленные МайБиты (получение будет приостановлено), поддержку от Майских авиалиний и альянса. Ваши дочерние компании и праздники также будут аннулированы.</p>
       <div class="field"><label>Название авиакомпании</label><input id="exitCompany" readonly style="background:var(--soft)"></div>
       <div class="field"><label>Причина выхода</label><textarea id="exitReason" placeholder="Почему ваша авиакомпания уходит?"></textarea></div>
+      
+      <div class="field">
+        <label>Подпись авиакомпании</label>
+        <p class="sig-warning">⚠️ ВНИМАНИЕ: Распишитесь не своей настоящей подписью! Она не сохраняется, но обязательна для подтверждения.</p>
+        <div class="sig-options">
+          <label class="sig-option"><input type="radio" name="exitSigType" value="yes" checked onchange="toggleExitSig('yes')"> Есть подпись от авиакомпании</label>
+          <label class="sig-option"><input type="radio" name="exitSigType" value="no" onchange="toggleExitSig('no')"> Нету подписи от авиакомпании</label>
+        </div>
+        <div id="exitSigDrawArea">
+          <div class="sig-container">
+            <canvas id="exitSigCanvas" class="sig-canvas" width="600" height="150"></canvas>
+            <div class="sig-controls">
+              <span style="font-size:11px;color:var(--muted)">Нарисуйте подпись мышью или пальцем</span>
+              <button type="button" class="sig-clear" onclick="clearExitSig()">Очистить</button>
+            </div>
+          </div>
+        </div>
+        <div id="exitSigTypeArea" class="hidden">
+          <div class="field">
+            <label>Напишите название авиакомпании еще раз</label>
+            <input id="exitSigText" type="text" placeholder="Название вашей компании">
+          </div>
+        </div>
+      </div>
+
       <button class="primary" id="btnSubmitExit" onclick="submitExitRequest()" style="margin-top:15px">Отправить заявление</button>
       <button class="secondary" onclick="closeExitModal()" style="margin-top:5px;width:100%">Отмена</button>
     </div>
@@ -999,8 +1060,6 @@
     const ADMIN_RANK = 'Главная Верховная Авиакомпания по управлению Альянсом и Майской экосистемой, флотом и бюджетом';
     const ADMIN_JOIN_DATE = '2016-01-01T00:00:00Z';
 
-    // 132642 = ЧЁРНЫЙ шрифт (для светлого фона / светлой темы)
-    // 132639 = БЕЛЫЙ шрифт (для тёмного фона / альянсовой и тёмной темы)
     const LOGO_DARK = 'https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F146_20261103132639.png';
     const LOGO_LIGHT = 'https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F146_20261103132642.png';
     const LOGO_BLOOD = 'https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F146_20261103132645.png';
@@ -1034,6 +1093,7 @@
     let allMembersCache = [];
     let membersFiltered = [];
     let membersCurrentPage = 0;
+    let appSigPad = null, exitSigPad = null;
     const MEMBERS_PER_PAGE = 20;
 
     const HOLIDAYS = [
@@ -1097,6 +1157,100 @@
 
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
+    function setupCanvas(canvas) {
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+        let lastX = 0, lastY = 0;
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clientX - rect.left) * (canvas.width / rect.width),
+                y: (clientY - rect.top) * (canvas.height / rect.height)
+            };
+        }
+
+        function start(e) {
+            e.preventDefault();
+            drawing = true;
+            const pos = getPos(e);
+            lastX = pos.x; lastY = pos.y;
+        }
+
+        function move(e) {
+            e.preventDefault();
+            if (!drawing) return;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.strokeStyle = '#260704';
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            lastX = pos.x; lastY = pos.y;
+        }
+
+        function stop(e) {
+            e.preventDefault();
+            drawing = false;
+        }
+
+        canvas.addEventListener('mousedown', start);
+        canvas.addEventListener('mousemove', move);
+        canvas.addEventListener('mouseup', stop);
+        canvas.addEventListener('mouseout', stop);
+        
+        canvas.addEventListener('touchstart', start, {passive: false});
+        canvas.addEventListener('touchmove', move, {passive: false});
+        canvas.addEventListener('touchend', stop, {passive: false});
+
+        return {
+            clear: () => ctx.clearRect(0, 0, canvas.width, canvas.height),
+            isEmpty: () => {
+                const blank = document.createElement('canvas');
+                blank.width = canvas.width;
+                blank.height = canvas.height;
+                return canvas.toDataURL() === blank.toDataURL();
+            }
+        };
+    }
+
+    window.toggleAppSig = function(type) {
+        if (type === 'yes') {
+            $('appSigDrawArea').classList.remove('hidden');
+            $('appSigTypeArea').classList.add('hidden');
+            if (appSigPad) appSigPad.clear();
+        } else {
+            $('appSigDrawArea').classList.add('hidden');
+            $('appSigTypeArea').classList.remove('hidden');
+            $('appSigText').value = '';
+        }
+    };
+
+    window.toggleExitSig = function(type) {
+        if (type === 'yes') {
+            $('exitSigDrawArea').classList.remove('hidden');
+            $('exitSigTypeArea').classList.add('hidden');
+            if (exitSigPad) exitSigPad.clear();
+        } else {
+            $('exitSigDrawArea').classList.add('hidden');
+            $('exitSigTypeArea').classList.remove('hidden');
+            $('exitSigText').value = '';
+        }
+    };
+
+    window.clearAppSig = function() {
+        if (appSigPad) appSigPad.clear();
+    };
+
+    window.clearExitSig = function() {
+        if (exitSigPad) exitSigPad.clear();
+    };
+
     async function getSignatureForDoc(docType) {
       if (!userProfile) return SIGNATURES[0];
       let sigMap = userProfile.signature_map || {};
@@ -1116,7 +1270,7 @@
     }
 
     function getDocLogo() {
-      return localStorage.getItem('custom_doc_logo') || LOGO_LIGHT;  // LOGO_LIGHT = 132642 = чёрный, для белой бумаги
+      return localStorage.getItem('custom_doc_logo') || LOGO_LIGHT;
     }
     async function uploadDocLogo(event) {
       const file = event.target.files?.[0];
@@ -1187,9 +1341,6 @@
       startBloodDemoInternal();
     }
     
-    // ГЛАВНЫЙ ЛОГОТИП (шапка):
-    // Альянс/тёмная → БЕЛЫЙ (LOGO_DARK = 132639)
-    // Светлая → ЧЁРНЫЙ (LOGO_LIGHT = 132642)
     function updateBrand() {
       const img = $('brandLogo'); if (!img) return;
       let src;
@@ -1229,9 +1380,6 @@
     function showLoading(t = 'Подождите...') { isProcessing = true; $('loadingText').textContent = t; $('loadingOverlay').classList.remove('hidden'); }
     function hideLoading() { isProcessing = false; $('loadingOverlay').classList.add('hidden'); }
     
-    // ЛОГОТИП "О НАС":
-    // Альянс/светлая → ЧЁРНЫЙ (LOGO_LIGHT = 132642)
-    // Тёмная → БЕЛЫЙ (LOGO_DARK = 132639)
     function updateAboutLogo() {
       const aboutLogo = $('aboutLogo');
       if (!aboutLogo) return;
@@ -2116,6 +2264,10 @@
         if (!userProfile) return;
         $('exitCompany').value = userProfile.company_name;
         $('exitReason').value = '';
+        if (exitSigPad) exitSigPad.clear();
+        $('exitSigText').value = '';
+        document.querySelector('input[name="exitSigType"][value="yes"]').checked = true;
+        window.toggleExitSig('yes');
         $('exitModal').classList.add('show');
     }
     function closeExitModal() {
@@ -2125,6 +2277,17 @@
         if (!currentUser || !userProfile) return;
         const reason = $('exitReason').value.trim();
         if (!reason) return message('Укажите причину выхода', true);
+
+        const isSigYes = document.querySelector('input[name="exitSigType"]:checked').value === 'yes';
+        if (isSigYes) {
+            if (exitSigPad.isEmpty()) return message('Пожалуйста, распишитесь в поле для подписи.', true);
+        } else {
+            const typedName = $('exitSigText').value.trim();
+            const originalName = userProfile.company_name;
+            if (!typedName || typedName.toLowerCase() !== originalName.toLowerCase()) {
+                return message('Название авиакомпании не совпадает. Напишите точно так же, как в профиле.', true);
+            }
+        }
         
         $('btnSubmitExit').disabled = true;
         $('btnSubmitExit').textContent = 'Отправка...';
@@ -2756,6 +2919,17 @@
       if (isProcessing) return;
       const { data: { user } } = await db.auth.getUser();
       if (!user) return message('Войдите в аккаунт', true);
+
+      const isSigYes = document.querySelector('input[name="appSigType"]:checked').value === 'yes';
+      if (isSigYes) {
+          if (appSigPad.isEmpty()) return message('Пожалуйста, распишитесь в поле для подписи.', true);
+      } else {
+          const typedName = $('appSigText').value.trim();
+          const originalName = $('applicationCompany').value.trim();
+          if (!typedName || typedName.toLowerCase() !== originalName.toLowerCase()) {
+              return message('Название авиакомпании не совпадает. Напишите точно так же, как в первом поле.', true);
+          }
+      }
       
       $('applicationSubmit').disabled = true;
       $('applicationSubmit').textContent = 'Отправка...';
@@ -2801,6 +2975,9 @@
       setupRealtime();
       $('switchAuth').addEventListener('click', () => setMode('register'));
       setTimeout(checkAutoBlood19Sept, 500);
+
+      appSigPad = setupCanvas($('appSigCanvas'));
+      exitSigPad = setupCanvas($('exitSigCanvas'));
 
       const hash = window.location.hash || '';
       const isRecovery = hash.includes('type=recovery') || hash.includes('access_token');
