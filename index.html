@@ -10,44 +10,46 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     
-    :root { --wine:#260704; --paper:#fffefa; --ink:#171513; --muted:#77716b; --line:#e4ddd3; --accent:#e8b37e; --green:#276b4b; --red:#a7352a; --soft:#f6f2ec; --bg:var(--wine); --topbar-text:#fff; --topbar-border:rgba(255,255,255,.35); }
+    :root { --wine:#260704; --paper:#fffefa; --ink:#171513; --muted:#77716b; --line:#e4ddd3; --accent:#e8b37e; --green:#276b4b; --red:#a7352a; --soft:#f6f2ec; --bg:var(--wine); --topbar-text:#fff; --topbar-border:rgba(255,255,255,.35); --ios-ease:cubic-bezier(0.4,0,0.2,1); --ios-spring:cubic-bezier(0.34,1.56,0.64,1); }
     body[data-theme="light"] { --wine:#1d1d1f; --paper:#fff; --ink:#1d1d1f; --muted:#86868b; --line:#d2d2d7; --accent:#1d1d1f; --soft:#f5f5f7; --bg:#fff; --topbar-text:#1d1d1f; --topbar-border:#d2d2d7; }
     body[data-theme="dark"] { --wine:#000; --paper:#1c1c1e; --ink:#f5f5f7; --muted:#98989d; --line:#38383a; --accent:#e8b37e; --soft:#2c2c2e; --bg:#000; --topbar-text:#fff; --topbar-border:rgba(255,255,255,.2); }
     
     *{box-sizing:border-box;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
-    body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif;transition:background .3s,color .3s}
+    body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif;transition:background .4s var(--ios-ease),color .4s var(--ios-ease)}
     button,input,textarea,select{font:inherit}button{cursor:pointer}
     .page{width:min(100% - 28px,1100px);margin:0 auto;padding:28px 0 42px}
     
     .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:25px;color:var(--topbar-text);flex-wrap:wrap}
     .brand{margin:0;display:flex;align-items:center}
-    .brand img{height:clamp(84px, 14.5vw, 144px);width:auto;max-width:620px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.3));transition:height .3s}
+    .brand img{height:clamp(84px, 14.5vw, 144px);width:auto;max-width:620px;object-fit:contain;filter:drop-shadow(0 4px 10px rgba(0,0,0,.3));transition:height .4s var(--ios-ease)}
     .top-actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
-    .plain-button{padding:12px 18px;border:1px solid var(--topbar-border);border-radius:12px;background:transparent;color:var(--topbar-text);transition:.2s;font-weight:600;position:relative;display:inline-flex;align-items:center;gap:6px}
-    .plain-button:hover{background:rgba(255,255,255,.1)}
+    .plain-button{padding:12px 18px;border:1px solid var(--topbar-border);border-radius:12px;background:transparent;color:var(--topbar-text);font-weight:600;position:relative;display:inline-flex;align-items:center;gap:6px;transition:background .3s var(--ios-ease),transform .3s var(--ios-spring),border-color .3s var(--ios-ease)}
+    .plain-button:hover{background:rgba(255,255,255,.1);transform:translateY(-1px)}
     body[data-theme="light"] .plain-button:hover{background:rgba(0,0,0,.05)}
     .plain-button.admin-btn{border-color:var(--accent);color:var(--accent);font-weight:bold}
     .badge-count{background:var(--red);color:#fff;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:800;line-height:1.4;min-width:18px;text-align:center;animation:pulse 1.5s infinite}
     
-    .sheet{width:100%;margin:auto;padding:clamp(22px,5vw,54px);background:var(--paper);box-shadow:0 18px 70px rgba(0,0,0,.1);border-radius:28px}
+    .sheet{width:100%;margin:auto;padding:clamp(22px,5vw,54px);background:var(--paper);box-shadow:0 18px 70px rgba(0,0,0,.1);border-radius:28px;transition:background .4s var(--ios-ease)}
     h1,h2,h3{margin-top:0}
     h1{margin-bottom:20px;font-size:clamp(24px,4vw,32px);font-weight:600;letter-spacing:.05em;text-transform:uppercase}
-    .notice{display:none;margin-bottom:20px;padding:14px 18px;border-left:3px solid var(--green);background:#edf5ef;color:var(--green);font-size:13px;border-radius:12px}
+    .notice{display:none;margin-bottom:20px;padding:14px 18px;border-left:3px solid var(--green);background:#edf5ef;color:var(--green);font-size:13px;border-radius:12px;animation:noticeIn .4s var(--ios-spring)}
     .notice.show{display:block}
     .notice.error{border-color:var(--red);background:#fbefed;color:var(--red)}
+    @keyframes noticeIn{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
     .form-grid{display:grid;gap:19px}
     .field label{display:block;margin-bottom:7px;font-size:13px;font-weight:600}
-    .field input,.field textarea,.field select{width:100%;padding:14px 8px;border:0;border-bottom:1px solid var(--line);border-radius:0;outline:none;background:transparent;color:var(--ink);font-size:16px}
+    .field input,.field textarea,.field select{width:100%;padding:14px 8px;border:0;border-bottom:1px solid var(--line);border-radius:0;outline:none;background:transparent;color:var(--ink);font-size:16px;transition:border-color .3s var(--ios-ease)}
     .field input:focus{border-bottom:2px solid var(--wine)}
     .field textarea{border:1px solid var(--line);padding:12px;min-height:85px;resize:vertical;border-radius:12px}
     .field select{background:var(--soft);border:1px solid var(--line);border-radius:10px;padding:12px 10px}
-    .primary,.secondary{min-height:48px;padding:14px 18px;border:0;border-radius:12px;text-transform:uppercase;letter-spacing:.025em;font-weight:600;font-size:14px;transition:.2s}
+    .primary,.secondary{min-height:48px;padding:14px 18px;border:0;border-radius:12px;text-transform:uppercase;letter-spacing:.025em;font-weight:600;font-size:14px;transition:transform .3s var(--ios-spring),box-shadow .3s var(--ios-ease),background .3s var(--ios-ease),opacity .3s var(--ios-ease)}
     .primary{background:var(--accent);color:var(--paper)}
     body[data-theme="light"] .primary{background:#1d1d1f;color:#fff}
     body[data-theme="ally"] .primary{color:#21140d}
-    .primary:hover{opacity:.9;transform:translateY(-1px)}
+    .primary:hover{opacity:.92;transform:translateY(-2px) scale(1.01);box-shadow:0 8px 22px rgba(0,0,0,.18)}
+    .primary:active{transform:translateY(0) scale(0.98)}
     .secondary{border:1px solid var(--line);background:transparent;color:var(--ink)}
-    .secondary:hover{background:var(--soft)}
+    .secondary:hover{background:var(--soft);transform:translateY(-1px)}
     .switch{margin:20px 0 0;color:var(--muted);font-size:13px;text-align:center}
     .link{padding:0;border:0;background:none;color:var(--wine);text-decoration:underline;font-size:13px;cursor:pointer}
     .hidden{display:none!important}
@@ -58,29 +60,31 @@
     .account-name{margin:0 0 4px;font-size:22px;display:flex;align-items:center;flex-wrap:wrap}
     .account-email{margin:0;color:var(--muted);font-size:12px}
     .code-badge{font-size:11px;background:var(--paper);border:1px solid var(--line);padding:3px 8px;border-radius:8px;margin-left:8px;font-weight:normal;vertical-align:middle;color:var(--ink)}
-    .red-check{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:8px;border-radius:50%;background:var(--red);color:#000;font-size:12px;font-weight:900;cursor:help;box-shadow:0 2px 5px rgba(167,53,42,.3);transition:transform .2s}
+    .red-check{display:inline-grid;place-items:center;width:22px;height:22px;margin-left:8px;border-radius:50%;background:var(--red);color:#000;font-size:12px;font-weight:900;cursor:help;box-shadow:0 2px 5px rgba(167,53,42,.3);transition:transform .3s var(--ios-spring)}
     .red-check:hover{transform:scale(1.15)}
     .black-check{display:inline-grid;place-items:center;width:20px;height:20px;margin-left:8px;border-radius:50%;background:var(--ink);color:var(--paper);font-size:11px;font-weight:900;cursor:help}
     
     .notif-dot { display:inline-block; width:8px; height:8px; background:var(--red); border-radius:50%; margin-left:8px; vertical-align:middle; box-shadow:0 0 6px var(--red); animation:pulse 1.5s infinite; }
 
     .dashboard-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
-    details.section{border:1px solid var(--line);background:var(--paper);margin-bottom:15px;border-radius:16px;overflow:hidden}
-    details.section>summary{padding:17px 20px;cursor:pointer;font-size:14px;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center}
+    details.section{border:1px solid var(--line);background:var(--paper);margin-bottom:15px;border-radius:16px;overflow:hidden;transition:border-color .3s var(--ios-ease),box-shadow .3s var(--ios-ease)}
+    details.section[open]{box-shadow:0 4px 18px rgba(0,0,0,.06)}
+    details.section>summary{padding:17px 20px;cursor:pointer;font-size:14px;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;transition:background .25s var(--ios-ease)}
+    details.section>summary:hover{background:var(--soft)}
     details.section>summary::-webkit-details-marker{display:none}
-    details.section>summary::after{content:"+";color:var(--muted);font-size:18px; transition: transform 0.3s ease;}
-    details.section[open]>summary::after{content:"−"; transform: rotate(180deg);}
+    details.section>summary::after{content:"+";color:var(--muted);font-size:18px;transition:transform .4s var(--ios-spring)}
+    details.section[open]>summary::after{content:"−";transform:rotate(180deg)}
     .section-content{padding:0 20px 20px;display:grid;gap:15px}
     
-    details.section[open] .section-content { animation: slideDown 0.3s ease-out forwards; }
-    @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    details.section[open] .section-content { animation: slideDown .45s var(--ios-ease) forwards; }
+    @keyframes slideDown { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
 
     .balance{color:var(--wine);font-size:32px;font-weight:800}
     body[data-theme="light"] .balance,body[data-theme="dark"] .balance{color:var(--ink)}
     .muted{color:var(--muted);font-size:13px;line-height:1.5}
     
     .sig-container { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: #fff; position: relative; margin-bottom: 10px; }
-    .sig-canvas { display: block; width: 100%; height: 150px; cursor: crosshair; touch-action: none; background: #fff; }
+    .sig-canvas { display: block; width: 100%; height: 220px; cursor: crosshair; touch-action: none; background: #fff; }
     .sig-controls { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: var(--soft); border-top: 1px solid var(--line); }
     .sig-clear { background: none; border: none; color: var(--red); font-weight: 600; font-size: 12px; cursor: pointer; text-transform: uppercase; }
     .sig-options { display: flex; gap: 15px; margin-bottom: 10px; flex-wrap: wrap; }
@@ -94,22 +98,24 @@
     .fine-banner .btn-pay{background:#a7352a;color:#fff;border:0;padding:10px 15px;font-size:13px;font-weight:600;text-transform:uppercase;border-radius:10px;width:100%}
     
     .folders-container{display:grid;grid-template-columns:repeat(4,1fr);gap:15px;margin-top:30px}
-    .folder{border:1px solid var(--line);background:var(--soft);padding:18px 15px;text-align:center;cursor:pointer;transition:.2s;border-radius:16px}
-    .folder:hover{background:var(--line);transform:translateY(-2px)}
+    .folder{border:1px solid var(--line);background:var(--soft);padding:18px 15px;text-align:center;cursor:pointer;border-radius:16px;transition:transform .35s var(--ios-spring),background .3s var(--ios-ease),box-shadow .3s var(--ios-ease)}
+    .folder:hover{background:var(--line);transform:translateY(-4px) scale(1.02);box-shadow:0 8px 22px rgba(0,0,0,.1)}
     .folder h4{margin:0 0 5px;font-size:14px}
     .folder p{margin:0;font-size:11px;color:var(--muted)}
     
     .rank-badge{display:inline-block;padding:5px 12px;background:var(--wine);color:var(--accent);font-size:11px;font-weight:700;text-transform:uppercase;margin-top:5px;border-radius:8px}
     body[data-theme="light"] .rank-badge{background:#1d1d1f;color:#fff}
     
-    .admin-card{border:1px solid var(--line);padding:15px;margin-bottom:10px;background:var(--paper);display:flex;gap:15px;align-items:center;flex-wrap:wrap;border-radius:14px}
+    .admin-card{border:1px solid var(--line);padding:15px;margin-bottom:10px;background:var(--paper);display:flex;gap:15px;align-items:center;flex-wrap:wrap;border-radius:14px;transition:transform .3s var(--ios-ease),box-shadow .3s var(--ios-ease)}
+    .admin-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.06)}
     .admin-card .avatar{width:40px;height:40px;flex:0 0 40px;font-size:16px}
     .admin-card-info{flex:1;min-width:150px}
     .admin-card h4{margin:0 0 3px;font-size:14px;cursor:pointer;display:flex;align-items:center;flex-wrap:wrap}
     .admin-card h4:hover{color:var(--red);text-decoration:underline}
     .admin-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
     
-    .transaction-item{border-bottom:1px dashed var(--line);padding:10px 0;font-size:13px;display:flex;justify-content:space-between;align-items:center}
+    .transaction-item{border-bottom:1px dashed var(--line);padding:10px 0;font-size:13px;display:flex;justify-content:space-between;align-items:center;transition:background .2s var(--ios-ease)}
+    .transaction-item:hover{background:var(--soft)}
     .transaction-item:last-child{border-bottom:0}
     .trans-amount.pos{color:var(--green);font-weight:bold}
     .trans-amount.neg{color:var(--red);font-weight:bold}
@@ -120,8 +126,8 @@
     .post-delete-btn{position:absolute;top:8px;right:8px;background:var(--red);color:#fff;border:none;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;line-height:1;font-weight:bold;z-index:5}
     
     .aircraft-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
-    .aircraft-card{border:1px solid var(--line);padding:16px;background:var(--paper);border-radius:16px;display:flex;flex-direction:column;justify-content:space-between;transition:.2s}
-    .aircraft-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+    .aircraft-card{border:1px solid var(--line);padding:16px;background:var(--paper);border-radius:16px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .35s var(--ios-spring),box-shadow .3s var(--ios-ease)}
+    .aircraft-card:hover{transform:translateY(-4px);box-shadow:0 8px 22px rgba(0,0,0,.1)}
     .aircraft-card h4{margin:0 0 5px;font-size:16px}
     .aircraft-card .price{color:var(--red);font-weight:bold;margin-bottom:10px;font-size:14px}
     .aircraft-card button{width:100%;margin-top:10px}
@@ -133,7 +139,8 @@
     .order-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px dashed #ffcccc;gap:10px;flex-wrap:wrap;font-size:13px}
     .order-row:last-child{border-bottom:none}
     
-    .holiday-card{display:flex;gap:15px;padding:15px 45px 15px 15px;margin-bottom:10px;border:1px solid var(--line);background:var(--soft);border-radius:16px;align-items:center;position:relative;overflow:hidden}
+    .holiday-card{display:flex;gap:15px;padding:15px 45px 15px 15px;margin-bottom:10px;border:1px solid var(--line);background:var(--soft);border-radius:16px;align-items:center;position:relative;overflow:hidden;transition:transform .35s var(--ios-spring)}
+    .holiday-card:hover{transform:translateY(-2px)}
     .holiday-card.close{border-color:var(--red);background:linear-gradient(135deg,#fff5f5 0%,#ffe0e0 100%);animation:glow 2s ease-in-out infinite}
     .holiday-card.today{border-color:var(--red);background:linear-gradient(135deg,#fff5f5 0%,#ffcccc 100%);animation:glow 1s ease-in-out infinite}
     @keyframes glow{0%,100%{box-shadow:0 0 5px rgba(167,53,42,.3)}50%{box-shadow:0 0 25px rgba(167,53,42,.7)}}
@@ -142,15 +149,15 @@
     .holiday-info h4{margin:0 0 5px 0;font-size:15px}
     .holiday-info p{margin:0 0 3px 0;font-size:13px}
     .holiday-company{font-size:11px;color:var(--muted);margin-top:6px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
-    .holiday-delete{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:rgba(167,53,42,.1);color:var(--red);border:1px solid var(--red);cursor:pointer;font-size:16px;line-height:1;font-weight:bold;transition:.2s;z-index:5}
+    .holiday-delete{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:rgba(167,53,42,.1);color:var(--red);border:1px solid var(--red);cursor:pointer;font-size:16px;line-height:1;font-weight:bold;z-index:5;transition:background .25s var(--ios-ease),color .25s var(--ios-ease)}
     .holiday-delete:hover{background:var(--red);color:#fff}
     .party-decor{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden;opacity:0.4;z-index:1}
     .party-decor span{position:absolute;font-size:20px;animation:fall linear infinite}
     @keyframes fall{0%{transform:translateY(-20px) rotate(0)}100%{transform:translateY(100px) rotate(360deg)}}
     
     .members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
-    .member-card{border:1px solid var(--line);background:var(--paper);padding:16px;border-radius:14px;text-align:center;cursor:pointer;transition:.2s}
-    .member-card:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.08);background:var(--soft)}
+    .member-card{border:1px solid var(--line);background:var(--paper);padding:16px;border-radius:14px;text-align:center;cursor:pointer;transition:transform .35s var(--ios-spring),box-shadow .3s var(--ios-ease),background .25s var(--ios-ease)}
+    .member-card:hover{transform:translateY(-4px);box-shadow:0 8px 22px rgba(0,0,0,.1);background:var(--soft)}
     .member-card .avatar{width:60px;height:60px;margin:0 auto 10px;font-size:22px}
     .member-card h4{margin:0 0 5px 0;font-size:14px;display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap}
     .member-card p{margin:0;font-size:12px}
@@ -160,16 +167,16 @@
     .profile-badge.no{background:#f6efee;color:#999;border:1px solid #e0d5d3}
     
     .pagination{display:flex;justify-content:center;gap:10px;margin-top:15px;align-items:center}
-    .pagination button{padding:8px 14px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--ink);font-weight:600;cursor:pointer}
+    .pagination button{padding:8px 14px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--ink);font-weight:600;cursor:pointer;transition:transform .3s var(--ios-spring)}
     .pagination button:disabled{opacity:.4;cursor:not-allowed}
     .pagination .page-info{font-size:13px;color:var(--muted)}
     
-    #docModal,#themeModal,#resetModal,#buyAircraftModal,#memberProfileModal,#resetPasswordModal,#exitModal{position:fixed;inset:0;width:100%;height:100%;background:rgba(0,0,0,.85);display:flex;justify-content:center;align-items:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:opacity .3s ease;overflow-y:auto}
+    #docModal,#themeModal,#resetModal,#buyAircraftModal,#memberProfileModal,#resetPasswordModal,#exitModal{position:fixed;inset:0;width:100%;height:100%;background:rgba(0,0,0,.85);display:flex;justify-content:center;align-items:center;z-index:1000;padding:20px;opacity:0;pointer-events:none;transition:opacity .35s var(--ios-ease);overflow-y:auto}
     #docModal.show,#themeModal.show,#resetModal.show,#buyAircraftModal.show,#memberProfileModal.show,#resetPasswordModal.show,#exitModal.show{opacity:1;pointer-events:auto}
     
     .modal-content, .doc-paper, .assistant-chat {
-      transform: scale(0.95);
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s ease;
+      transform: scale(0.94);
+      transition: transform .4s var(--ios-spring), opacity .35s var(--ios-ease);
       opacity: 0;
     }
     #docModal.show .doc-paper,
@@ -179,6 +186,7 @@
     #memberProfileModal.show .modal-content,
     #resetPasswordModal.show .modal-content,
     #exitModal.show .modal-content,
+    #deviceModal.show .modal-content,
     .assistant-modal.show .assistant-chat {
       transform: scale(1);
       opacity: 1;
@@ -209,8 +217,8 @@
     .doc-logo.center{margin: 40px auto; max-width: 220px}
     .doc-logo.bottom{margin: 40px auto 20px}
     
-    .close-modal{position:absolute;top:20px;right:25px;font-size:30px;cursor:pointer;color:#777;border:0;background:none;z-index:10;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;transition:.2s}
-    .close-modal:hover{color:#000;background:rgba(0,0,0,.05)}
+    .close-modal{position:absolute;top:20px;right:25px;font-size:30px;cursor:pointer;color:#777;border:0;background:none;z-index:10;border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;transition:background .25s var(--ios-ease),color .25s var(--ios-ease),transform .3s var(--ios-spring)}
+    .close-modal:hover{color:#000;background:rgba(0,0,0,.05);transform:rotate(90deg)}
     
     .qr-container{text-align:center;padding:25px;background:#fff;border:1px solid var(--line);margin:15px 0;border-radius:16px;display:flex;flex-direction:column;align-items:center;gap:12px}
     .qr-container svg{display:block;width:260px;height:260px;max-width:100%;padding:8px;background:#fff;border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
@@ -224,14 +232,14 @@
     
     .modal-content{background:var(--paper);padding:30px;border-radius:22px;max-width:500px;width:100%;color:var(--ink);position:relative;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
     .modal-content h3{margin-top:0}
-    .theme-option{display:block;width:100%;padding:14px;margin-bottom:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink);text-align:left;cursor:pointer;border-radius:12px;transition:.2s}
+    .theme-option{display:block;width:100%;padding:14px;margin-bottom:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink);text-align:left;cursor:pointer;border-radius:12px;transition:background .25s var(--ios-ease),transform .3s var(--ios-spring)}
     .theme-option:hover{background:var(--line);transform:translateY(-1px)}
     
     .toggle-label{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;background:var(--soft);border-radius:12px;margin-top:15px;cursor:pointer;font-size:13px}
     .toggle-switch{position:relative;width:44px;height:24px;flex-shrink:0}
     .toggle-switch input{opacity:0;width:0;height:0}
-    .toggle-slider{position:absolute;inset:0;background:#ccc;border-radius:24px;transition:.3s;cursor:pointer}
-    .toggle-slider:before{content:"";position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.3s}
+    .toggle-slider{position:absolute;inset:0;background:#ccc;border-radius:24px;transition:background .3s var(--ios-ease);cursor:pointer}
+    .toggle-slider:before{content:"";position:absolute;height:18px;width:18px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:transform .35s var(--ios-spring)}
     .toggle-switch input:checked + .toggle-slider{background:var(--green)}
     .toggle-switch input:checked + .toggle-slider:before{transform:translateX(20px)}
     
@@ -245,32 +253,35 @@
     .assistant-btn{
       position:fixed;bottom:20px;right:20px;width:84px;height:84px;
       background:transparent!important;border:none!important;border-radius:0!important;padding:0;
-      display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:500;transition:transform .2s;overflow:visible;
+      display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:500;overflow:visible;
       filter:drop-shadow(0 4px 14px rgba(0,0,0,.4));box-shadow:none!important;
+      transition:transform .35s var(--ios-spring);
     }
-    .assistant-btn:hover{transform:scale(1.1)}
+    .assistant-btn:hover{transform:scale(1.12) rotate(-3deg)}
     .assistant-btn img{width:100%;height:100%;object-fit:contain;display:block;border:none!important;border-radius:0!important;background:transparent!important}
     
-    .assistant-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1001;display:flex;justify-content:flex-end;align-items:flex-end;padding:20px;opacity:0;pointer-events:none;transition:.3s}
+    .assistant-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:1001;display:flex;justify-content:flex-end;align-items:flex-end;padding:20px;opacity:0;pointer-events:none;transition:opacity .35s var(--ios-ease)}
     .assistant-modal.show{opacity:1;pointer-events:auto}
     
     .assistant-chat{background:var(--paper);color:var(--ink);width:100%;max-width:420px;height:640px;max-height:80vh;border-radius:24px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.5);display:flex;flex-direction:column;position:relative}
     
     .chat-messages{flex:1;overflow-y:auto;padding:12px;margin-bottom:15px;background:var(--soft);border-radius:16px;display:flex;flex-direction:column;gap:10px;min-height:200px}
-    .bot-msg,.user-msg{padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5;max-width:90%;word-wrap:break-word}
+    .bot-msg,.user-msg{padding:10px 14px;border-radius:14px;font-size:14px;line-height:1.5;max-width:90%;word-wrap:break-word;animation:msgIn .4s var(--ios-spring)}
+    @keyframes msgIn{from{opacity:0;transform:translateY(6px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
     .bot-msg{background:var(--paper);border:1px solid var(--line);align-self:flex-start}
     .user-msg{background:var(--accent);color:var(--paper);align-self:flex-end}
     body[data-theme="ally"] .user-msg{color:#21140d}
     .chat-questions{display:flex;flex-direction:column;gap:8px;max-height:220px;overflow-y:auto;padding-right:4px}
-    .chat-q-btn{padding:10px 14px;border:1px solid var(--line);background:var(--soft);color:var(--ink);text-align:left;cursor:pointer;border-radius:12px;font-size:13px;transition:.2s;line-height:1.4}
-    .chat-q-btn:hover{background:var(--accent);color:var(--paper);border-color:var(--accent)}
+    .chat-q-btn{padding:10px 14px;border:1px solid var(--line);background:var(--soft);color:var(--ink);text-align:left;cursor:pointer;border-radius:12px;font-size:13px;line-height:1.4;transition:background .25s var(--ios-ease),color .25s var(--ios-ease),transform .3s var(--ios-spring),border-color .25s var(--ios-ease)}
+    .chat-q-btn:hover{background:var(--accent);color:var(--paper);border-color:var(--accent);transform:translateX(3px)}
     body[data-theme="ally"] .chat-q-btn:hover{color:#21140d}
     
-    .highlight-pulse{animation:highlightAnim 1s ease-in-out infinite!important;position:relative;z-index:150!important;border-radius:6px}
-    @keyframes highlightAnim{0%,100%{box-shadow:0 0 0 0 rgba(232,179,126,.8)}50%{box-shadow:0 0 0 14px rgba(232,179,126,0)}}
+    .highlight-pulse{animation:highlightAnim 1.2s var(--ios-ease) infinite!important;position:relative;z-index:150!important;border-radius:6px}
+    @keyframes highlightAnim{0%,100%{box-shadow:0 0 0 0 rgba(232,179,126,.8)}50%{box-shadow:0 0 0 16px rgba(232,179,126,0)}}
     
-    #deviceModal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;justify-content:center;align-items:center;z-index:2000;padding:20px}
-    #deviceModal.show{display:flex}
+    #deviceModal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;justify-content:center;align-items:center;z-index:2000;padding:20px;opacity:0;transition:opacity .35s var(--ios-ease)}
+    #deviceModal.show{display:flex;opacity:1}
+    #deviceModal .modal-content{opacity:1!important;transform:scale(1)!important}
     
     #printProfileContent{display:none}
     .print-profile{background:#fff;color:#000;padding:60px;font-family:Inter,sans-serif;max-width:794px;margin:0 auto;min-height:1000px;position:relative}
@@ -339,6 +350,7 @@
     body.mobile-mode .field input, body.mobile-mode .field textarea, body.mobile-mode .field select { font-size: 15px !important; padding: 12px 6px !important; }
     body.mobile-mode .company-orders-box { padding: 12px !important; }
     body.mobile-mode .balance { font-size: 26px !important; }
+    body.mobile-mode .sig-canvas { height: 200px !important; }
     
     body.mobile-mode #docModal { align-items: flex-start !important; padding: 60px 10px 20px !important; }
     body.mobile-mode .doc-paper { border-radius: 12px !important; padding: 20px 15px !important; }
@@ -349,78 +361,32 @@
 
     @media print {
       body.printing-doc > *:not(#docModal) { display: none !important; }
-      body.printing-doc #docModal {
-        display: block !important;
-        position: static !important;
-        inset: auto !important;
-        width: auto !important;
-        height: auto !important;
-        background: transparent !important;
-        padding: 0 !important;
-        opacity: 1 !important;
-        pointer-events: auto !important;
-        overflow: visible !important;
-        transition: none !important;
-      }
-      body.printing-doc #docModal .doc-paper {
-        box-shadow: none !important;
-        margin: 0 auto !important;
-        padding: 40px 60px !important;
-        background: #fff !important;
-        color: #000 !important;
-        min-height: auto !important;
-        border-radius: 0 !important;
-        max-width: 100% !important;
-        page-break-inside: avoid;
-      }
-      body.printing-doc #docModal .close-modal,
-      body.printing-doc #docModal .print-btn,
-      body.printing-doc #docModal .doc-logo-selector { display: none !important; }
-      body.printing-doc .doc-paper h2,
-      body.printing-doc .doc-paper p,
-      body.printing-doc .doc-paper .header-doc,
-      body.printing-doc .doc-paper .signature { color: #000 !important; border-color: #000 !important; }
+      body.printing-doc #docModal { display: block !important; position: static !important; inset: auto !important; width: auto !important; height: auto !important; background: transparent !important; padding: 0 !important; opacity: 1 !important; pointer-events: auto !important; overflow: visible !important; transition: none !important; }
+      body.printing-doc #docModal .doc-paper { box-shadow: none !important; margin: 0 auto !important; padding: 40px 60px !important; background: #fff !important; color: #000 !important; min-height: auto !important; border-radius: 0 !important; max-width: 100% !important; page-break-inside: avoid; }
+      body.printing-doc #docModal .close-modal, body.printing-doc #docModal .print-btn, body.printing-doc #docModal .doc-logo-selector { display: none !important; }
+      body.printing-doc .doc-paper h2, body.printing-doc .doc-paper p, body.printing-doc .doc-paper .header-doc, body.printing-doc .doc-paper .signature { color: #000 !important; border-color: #000 !important; }
       body.printing-doc .doc-logo { display: block !important; visibility: visible !important; }
-      
-      body.printing-doc .doc-qr { 
-        display: flex !important; 
-        visibility: visible !important; 
-        position: absolute !important; 
-        bottom: 40px !important; 
-        right: 40px !important;
-      }
-      body.printing-doc .doc-qr canvas,
-      body.printing-doc .doc-qr img { 
-        display: block !important; 
-        visibility: visible !important; 
-      }
-
+      body.printing-doc .doc-qr { display: flex !important; visibility: visible !important; position: absolute !important; bottom: 40px !important; right: 40px !important; }
+      body.printing-doc .doc-qr canvas, body.printing-doc .doc-qr img { display: block !important; visibility: visible !important; }
       body.printing-profile > *:not(#printProfileContent) { display: none !important; }
-      body.printing-profile #printProfileContent {
-        display: block !important;
-        position: static !important;
-      }
-      body.printing-profile #printProfileContent .print-profile {
-        page-break-inside: avoid;
-        min-height: auto !important;
-      }
+      body.printing-profile #printProfileContent { display: block !important; position: static !important; }
+      body.printing-profile #printProfileContent .print-profile { page-break-inside: avoid; min-height: auto !important; }
       body.printing-profile #printProfileContent img { display: inline-block !important; visibility: visible !important; }
     }
     
     @media(max-width:768px){.dashboard-grid,.folders-container{grid-template-columns:1fr}.aircraft-grid{grid-template-columns:1fr}.doc-paper{padding:30px 20px;min-height:auto}.doc-paper .header-doc{flex-direction:column;gap:10px;text-align:center}.doc-paper .stamp{position:static;margin:30px auto;transform:rotate(-10deg)}.doc-paper .signature{margin-top:40px}.admin-card{flex-direction:column;align-items:flex-start}.admin-actions{width:100%}.admin-actions button{flex:1}.calc-row{grid-template-columns:1fr}.brand img{height:70px;max-width:300px}.qr-container svg{width:200px;height:200px}.assistant-btn{width:68px;height:68px;bottom:15px;right:15px}.assistant-chat{padding:16px;height:70vh}.sheet{border-radius:20px}.members-grid{grid-template-columns:1fr 1fr}.print-profile{padding:30px}}
 
-    /* ===== Социальные кнопки (официальные) ===== */
-    .social-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:700;font-size:14px;color:#fff!important;transition:transform .2s,box-shadow .2s}
+    .social-btn{display:inline-flex;align-items:center;gap:10px;padding:12px 22px;border-radius:12px;text-decoration:none;font-weight:700;font-size:14px;color:#fff!important;transition:transform .35s var(--ios-spring),box-shadow .3s var(--ios-ease)}
     .social-btn span{color:#fff!important;font-weight:700}
     .social-vk{background:#0077FF;box-shadow:0 4px 14px rgba(0,119,255,.4)}
-    .social-vk:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,119,255,.55)}
+    .social-vk:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 22px rgba(0,119,255,.55)}
     .social-tg{background:#0088cc;box-shadow:0 4px 14px rgba(0,136,204,.4)}
-    .social-tg:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,136,204,.55)}
+    .social-tg:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 22px rgba(0,136,204,.55)}
 
-    /* ===== Красивые карты авиакомпании (MAYCard / Balocard) ===== */
+    /* ===== КАРТЫ ===== */
     .cards-wrap{display:flex;flex-direction:column;gap:18px}
-    .bank-card{width:100%;max-width:380px;aspect-ratio:1.586/1;border-radius:20px;padding:20px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.28);display:flex;flex-direction:column;justify-content:space-between;margin:0 auto;font-family:Inter,sans-serif;transition:transform .2s}
-    .bank-card:hover{transform:translateY(-3px)}
+    .bank-card{width:100%;max-width:380px;aspect-ratio:1.586/1;border-radius:20px;padding:20px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.28);display:flex;flex-direction:column;justify-content:space-between;margin:0 auto;font-family:Inter,sans-serif;transition:transform .4s var(--ios-spring),box-shadow .3s var(--ios-ease)}
+    .bank-card:hover{transform:translateY(-4px) scale(1.015);box-shadow:0 16px 42px rgba(0,0,0,.35)}
     .bank-card.maycard{background:linear-gradient(135deg,#7a1a12 0%,#b13a2c 45%,#4a0e08 100%)}
     .bank-card.maycard::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 85% 15%,rgba(232,179,126,.35) 0%,transparent 55%);pointer-events:none}
     .bank-card.maycard .card-logo{filter:brightness(0) invert(1) drop-shadow(0 2px 6px rgba(0,0,0,.3))}
@@ -429,7 +395,7 @@
     .bank-card.frozen{background:linear-gradient(135deg,#a8a8a8 0%,#7a7a7a 50%,#5a5a5a 100%)!important;color:#ededed!important;filter:grayscale(1)}
     .bank-card.frozen::before{display:none}
     .bank-card.frozen .card-logo{filter:brightness(0) invert(1);opacity:.6}
-    .bank-card .card-logo{position:absolute;top:16px;right:18px;height:44px;width:auto;opacity:.95}
+    .bank-card .card-logo{position:absolute;top:16px;right:18px;height:44px;width:auto;opacity:.95;z-index:2}
     .bank-card .card-chip{width:42px;height:30px;border-radius:6px;background:linear-gradient(135deg,#f6d365 0%,#c79b2b 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.15);position:relative}
     .bank-card .card-chip::before,.bank-card .card-chip::after{content:"";position:absolute;left:6px;right:6px;height:1px;background:rgba(0,0,0,.3)}
     .bank-card .card-chip::before{top:9px}
@@ -439,16 +405,26 @@
     .bank-card .card-bottom{display:flex;flex-direction:column;gap:6px}
     .bank-card .card-number{font-size:clamp(15px,4.2vw,21px);letter-spacing:2.5px;font-weight:600;font-family:'Courier New',monospace;white-space:nowrap;text-shadow:0 1px 2px rgba(0,0,0,.25)}
     .bank-card.balocard .card-number{text-shadow:none}
+    .bank-card .card-holder-small{font-size:10px;text-transform:uppercase;letter-spacing:1.2px;opacity:.85;font-weight:600;margin-top:2px;margin-bottom:4px}
     .bank-card .card-row{display:flex;justify-content:space-between;align-items:flex-end;gap:10px}
-    .bank-card .card-holder{font-size:11px;text-transform:uppercase;letter-spacing:1.4px;font-weight:700}
-    .bank-card .card-expiry{font-size:12px;font-weight:600;letter-spacing:1px}
-    .bank-card .frozen-overlay{position:absolute;inset:0;background:rgba(30,30,30,.78);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;text-align:center;color:#fff;z-index:3;gap:6px}
+    .bank-card .card-bank{font-size:12px;text-transform:uppercase;letter-spacing:1.4px;font-weight:800}
+    .bank-card .card-expiry{font-size:12px;font-weight:700;letter-spacing:1px}
+    .bank-card .frozen-overlay{position:absolute;inset:0;background:rgba(30,30,30,.78);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;text-align:center;color:#fff;z-index:3;gap:6px;animation:fadeIn .4s var(--ios-ease)}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
     .bank-card .frozen-overlay .frozen-icon{font-size:26px}
     .bank-card .frozen-overlay .frozen-title{font-weight:800;font-size:13px;letter-spacing:1.5px;text-transform:uppercase}
     .bank-card .frozen-overlay .frozen-msg{font-size:11px;line-height:1.4;opacity:.9}
     .bank-card .frozen-overlay a{color:#e8b37e;text-decoration:underline;font-weight:700}
     .card-action-row{display:flex;gap:8px;justify-content:center;margin-top:6px;flex-wrap:wrap}
     .card-action-row .primary,.card-action-row .secondary{width:100%;text-align:center}
+
+    .card-status-block{padding:16px;background:var(--soft);border-radius:14px;margin-bottom:14px;border:1px solid var(--line)}
+    .card-status-block h4{margin:0 0 8px 0;font-size:14px;display:flex;align-items:center;gap:6px}
+    .card-status-block .status-line{font-size:13px;margin:6px 0;color:var(--muted)}
+    .card-status-block .status-line strong{color:var(--ink)}
+    .card-status-block .expiry-warn{color:#b8651a;font-weight:700;background:#fff5e6;padding:8px 12px;border-radius:10px;margin:8px 0;font-size:12px}
+    .card-status-block .expired-box{color:var(--red);font-weight:700;background:#fbeae8;padding:8px 12px;border-radius:10px;margin:8px 0;font-size:12px}
+    .card-status-block .pending-box{color:#a06c1b;background:#fff5e6;padding:8px 12px;border-radius:10px;margin:8px 0;font-size:12px}
   </style>
 </head>
 <body data-theme="ally">
@@ -510,7 +486,6 @@
               <option value="false">Нет, отключить</option>
             </select>
           </div>
-          
           <div class="field">
             <label>Подпись авиакомпании</label>
             <p class="sig-warning">⚠️ ВНИМАНИЕ: Распишитесь не своей настоящей подписью! Она не сохраняется, но обязательна для подтверждения.</p>
@@ -520,7 +495,7 @@
             </div>
             <div id="appSigDrawArea">
               <div class="sig-container">
-                <canvas id="appSigCanvas" class="sig-canvas" width="600" height="150"></canvas>
+                <canvas id="appSigCanvas" class="sig-canvas" width="600" height="220"></canvas>
                 <div class="sig-controls">
                   <span style="font-size:11px;color:var(--muted)">Нарисуйте подпись мышью или пальцем</span>
                   <button type="button" class="sig-clear" onclick="clearAppSig()">Очистить</button>
@@ -534,7 +509,6 @@
               </div>
             </div>
           </div>
-
           <button class="primary" id="applicationSubmit" type="submit">Подать документ</button>
         </form>
       </section>
@@ -558,7 +532,6 @@
             </div>
           </div>
         </div>
-        
         <h3 style="margin-bottom:15px; font-size:18px;">Значение логотипа альянса:</h3>
         <ul class="about-list">
           <li><b>Солнце:</b> Альянс всегда идет вперед, след за солнцем</li>
@@ -617,7 +590,6 @@
                   </div>
                   <p class="muted" id="birthdayHint" style="margin-top:8px;font-size:11px"></p>
                 </div>
-                <!-- NEW: заявка на кастомный праздник -->
                 <div style="margin-top:20px;padding-top:20px;border-top:1px dashed var(--line)">
                   <h4 style="font-size:14px;margin-bottom:10px">🎉 Запросить свой праздник</h4>
                   <p class="muted" style="font-size:11px;margin-bottom:10px">Заявка уйдёт на рассмотрение главе альянса. После одобрения праздник появится в календаре.</p>
@@ -763,7 +735,6 @@
               <p class="muted" id="statDate">Дата вступления: -</p>
             </div>
 
-            <!-- NEW: Мои карты (MAYCard + Balocard) -->
             <details class="section" id="cardsSection">
               <summary>💳 Мои карты</summary>
               <div class="section-content" id="cardsDisplay">Загрузка...</div>
@@ -791,14 +762,12 @@
                   <div class="field"><select id="regReady"><option value="Да">Готова ли компания? (Да)</option><option value="Нет">Нет</option></select></div>
                   <button class="primary" id="btnSubmitRegistry" type="button" style="margin-top:10px">Отправить заявление</button>
                 </div>
-
                 <button class="secondary" id="btnOpenSubsidiaryRegistryForm" type="button" style="margin-top:10px">Подать доч.компанию в реестр</button>
                 <div id="subsidiaryRegistryFormContainer" class="hidden" style="margin-top:15px;padding:15px;background:var(--soft);border-radius:12px">
                   <div class="field"><label>Выберите дочернюю компанию</label><select id="subsRegSelect"></select></div>
                   <div class="field"><textarea id="subsRegReason" placeholder="Почему хотите внести дочку в реестр?"></textarea></div>
                   <button class="primary" id="btnSubmitSubsidiaryRegistry" type="button" style="margin-top:10px">Отправить заявление</button>
                 </div>
-
                 <div id="registryStatus" style="margin-top:15px"></div>
               </div>
             </details>
@@ -822,8 +791,12 @@
               <div class="section-content">
                 <p class="muted">Заявка на разрешение полётов в Майск. После одобрения разрешение появится в документах.</p>
                 <div class="field"><label>Авиакомпания</label><input id="mayskCompany" placeholder="Название авиакомпании"></div>
+                <div class="field hidden" id="mayskSubField"><label>Дочерняя компания</label><select id="mayskSubSelect"></select></div>
                 <div class="field"><label>Почему вы хотите летать в Майск?</label><textarea id="mayskReason"></textarea></div>
-                <button class="primary" id="btnSubmitMaysk" type="button">Отправить заявку</button>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+                  <button class="primary" id="btnSubmitMayskSelf" type="button" style="flex:1;min-width:140px">Подать себя</button>
+                  <button class="primary" id="btnSubmitMayskSub" type="button" style="flex:1;min-width:140px">Подать дочку</button>
+                </div>
                 <div id="mayskStatus" style="margin-top:15px"></div>
               </div>
             </details>
@@ -881,7 +854,7 @@
         </details>
 
         <details class="section" id="adminCardsSection">
-          <summary>Заявки на Карты</summary>
+          <summary>💳 Заявки на карты (MAYCard / Balocard)</summary>
           <div class="section-content" id="adminCardsList">Загрузка...</div>
         </details>
 
@@ -910,13 +883,11 @@
           <div class="section-content" id="adminLoansList">Загрузка...</div>
         </details>
 
-        <!-- NEW: Заявки на праздники -->
         <details class="section" id="adminHolidayRequestsSection">
           <summary>🎉 Заявки на праздники</summary>
           <div class="section-content" id="adminHolidayRequestsList">Загрузка...</div>
         </details>
 
-        <!-- NEW: Заморозка карт -->
         <details class="section" id="adminFreezeSection">
           <summary>❄️ Заморозка карт</summary>
           <div class="section-content">
@@ -938,7 +909,6 @@
               <button class="primary" id="btnAdminFine" type="button" style="background:var(--red);color:white">Выписать штраф</button>
             </div>
           </details>
-
           <details class="section">
             <summary>Начислить баллы</summary>
             <div class="section-content">
@@ -955,15 +925,11 @@
       <p>© THEMAYskiy 2025-<span id="footerYear"></span></p>
       <div style="display: flex; gap: 12px; justify-content: center; margin: 15px 0; flex-wrap: wrap;">
         <a href="https://vk.ru/mayskiyrunway" target="_blank" rel="noopener" class="social-btn social-vk">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true">
-            <path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.864 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.762-.491h1.744c.525 0 .643.271.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.78 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/>
-          </svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.864 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.762-.491h1.744c.525 0 .643.271.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.78 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/></svg>
           <span>ВКонтакте</span>
         </a>
         <a href="https://t.me/AliansMY_bot" target="_blank" rel="noopener" class="social-btn social-tg">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true">
-            <path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/>
-          </svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
           <span>Telegram</span>
         </a>
       </div>
@@ -1030,17 +996,14 @@
       <button class="theme-option" onclick="setTheme('light')">Светлая тема (Ч/Б)</button>
       <button class="theme-option" onclick="setTheme('dark')">Темная тема</button>
       <button class="theme-option" onclick="setTheme('system')">Системная</button>
-      
       <h4 style="font-size:14px;margin:20px 0 10px 0">Устройство</h4>
       <button class="theme-option" onclick="setDeviceMode('pc', true)">💻 ПК (компьютер / ноутбук)</button>
       <button class="theme-option" onclick="setDeviceMode('mobile', true)">📱 Мобильное (телефон / планшет)</button>
-
       <h4 style="font-size:14px;margin:20px 0 10px 0">Логотип для документов</h4>
       <button class="theme-option" onclick="document.getElementById('docLogoUpload').click()">📤 Загрузить свой логотип</button>
       <button class="theme-option" onclick="resetDocLogo()">↩️ Стандартный логотип</button>
       <input type="file" id="docLogoUpload" accept="image/*" style="display:none" onchange="uploadDocLogo(event)">
       <p class="muted" style="font-size:11px;margin-top:8px">Используется в печати документов и профиля.</p>
-      
       <h4 style="font-size:14px;margin:20px 0 10px 0">Особые эффекты</h4>
       <label class="toggle-label">
         <span>🩸 Кровавые эффекты (19 сентября)</span>
@@ -1050,7 +1013,6 @@
         </div>
       </label>
       <p class="muted" style="font-size:11px;margin-top:8px">Если выключено — праздничные кровавые версии логотипа и помощника не будут отображаться.</p>
-      
       <button class="secondary" style="width:100%;margin-top:15px" onclick="closeThemeModal()">Закрыть</button>
     </div>
   </div>
@@ -1085,8 +1047,7 @@
       <div class="field"><label>Количество (макс. 5 одной модели за месяц)</label><input id="buyQuantity" type="number" value="1" min="1" max="5"></div>
       <p class="muted">Итого за заказ: <strong id="buyTotalPrice">0 МайБит</strong></p>
       <div class="field"><label>Почта для связи</label><input id="buyEmail" type="email" placeholder="director@company.com"></div>
-      <div class="field"><label>Введите номер карты авиакомпании (не настоящей!)</label><input id="buyCard" type="text" placeholder="БББ 0000 000 000"></div>
-      <!-- NEW: скидка по Balocard -->
+      <div class="field"><label>Введите номер MAYCard (не настоящей!)</label><input id="buyCard" type="text" placeholder="МАА 0000 000 000"></div>
       <div class="field">
         <label>💳 Скидочная карта Balocard (если есть)</label>
         <input id="buyDiscountCard" type="text" placeholder="Номер Balocard или пусто">
@@ -1107,7 +1068,6 @@
       <p class="muted" style="margin-bottom:15px; line-height:1.5;">Заполните заявление. <b>Внимание:</b> при выходе вы потеряете звание, все накопленные МайБиты (получение будет приостановлено), поддержку от Майских авиалиний и альянса. Ваши дочерние компании и праздники также будут аннулированы.</p>
       <div class="field"><label>Название авиакомпании</label><input id="exitCompany" readonly style="background:var(--soft)"></div>
       <div class="field"><label>Причина выхода</label><textarea id="exitReason" placeholder="Почему ваша авиакомпания уходит?"></textarea></div>
-      
       <div class="field">
         <label>Подпись авиакомпании</label>
         <p class="sig-warning">⚠️ ВНИМАНИЕ: Распишитесь не своей настоящей подписью! Она не сохраняется, но обязательна для подтверждения.</p>
@@ -1117,7 +1077,7 @@
         </div>
         <div id="exitSigDrawArea">
           <div class="sig-container">
-            <canvas id="exitSigCanvas" class="sig-canvas" width="600" height="150"></canvas>
+            <canvas id="exitSigCanvas" class="sig-canvas" width="600" height="220"></canvas>
             <div class="sig-controls">
               <span style="font-size:11px;color:var(--muted)">Нарисуйте подпись мышью или пальцем</span>
               <button type="button" class="sig-clear" onclick="clearExitSig()">Очистить</button>
@@ -1131,7 +1091,6 @@
           </div>
         </div>
       </div>
-
       <button class="primary" id="btnSubmitExit" onclick="submitExitRequest()" style="margin-top:15px">Отправить заявление</button>
       <button class="secondary" onclick="closeExitModal()" style="margin-top:5px;width:100%">Отмена</button>
     </div>
@@ -1145,7 +1104,6 @@
         vkBridge.send('VKWebAppInit').then(function(data){ if (data.result) console.log("VK Bridge запущен!"); })
         .catch(function(error){ console.error("VK Bridge ошибка:", error); });
       } else { console.error("Библиотека VK Bridge не найдена!"); }
-      
       const currentYear = new Date().getFullYear();
       if ($('footerYear')) $('footerYear').textContent = currentYear;
       if ($('aboutYear')) $('aboutYear').textContent = currentYear;
@@ -1179,7 +1137,8 @@
       'https://raw.githubusercontent.com/balovzena9-ops/mozno-da/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041108.png',
       'https://raw.githubusercontent.com/balovzena9-ops/mozno-da/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041112.png',
       'https://raw.githubusercontent.com/balovzena9-ops/mozno-da/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041117.png',
-      'https://raw.githubusercontent.com/balovzena9-ops/mozno-da/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041122.png'
+      'https://raw.githubusercontent.com/balovzena9-ops/mozno-da/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041122.png',
+      'https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041030.png'
     ];
 
     const STAMP_URL = 'https://raw.githubusercontent.com/balovzena9-ops/mozno-da/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041015.png';
@@ -1218,41 +1177,47 @@
       ['Б-1⁶⁶⁰С (Карго)', 24500900, 'Карго'], ['Б-2⁶⁶⁰С (Карго)', 26000000000, 'Карго'],
       ['Б-2⁵⁵⁰С (Карго)', 25000000000, 'Карго'], ['Б-17³⁴⁰⁰С (Карго)', 156780000000, 'Карго'],
       ['Б-1⁸⁹⁰С (Карго)', 55000000, 'Карго'], ['БЭКО-1 (Экотопливо)', 170000000000, 'Экотопливо']
-    ].map(([model, rubPrice, note]) => ({ 
-      model, 
-      price: rubPrice * 50,
-      note: note || '' 
-    }));
+    ].map(([model, rubPrice, note]) => ({ model, price: rubPrice * 50, note: note || '' }));
 
     const ASSISTANT_QA = [
       { q: "Как получить валюту альянса?", a: "Каждые 3 недели начисляется по 100 МайБит. Также по праздникам начисляются бонусы — например, 5 октября и 16 февраля приходит по 10 000 000 МайБит! Следите за разделом «Праздники».", highlight: '#holidaysSection' },
       { q: "Как вступить в реестр Майских компаний?", a: "Откройте раздел «Реестр Майские компании» в вашем кабинете и нажмите «Подать заявление в реестр». После одобрения вы получите код MY.", highlight: '#btnOpenRegistryForm' },
-      { q: "Как начать летать в Майск?", a: "Подайте заявку в разделе «Полет в Майск». Заполните название компании и причину. После одобрения главой альянса разрешение появится в документах.", highlight: '#mayskCompany' },
+      { q: "Как начать летать в Майск?", a: "Подайте заявку в разделе «Полет в Майск». Заполните название компании и причину, затем нажмите «Подать себя» или «Подать дочку». После одобрения главой альянса разрешение появится в документах.", highlight: '#mayskCompany' },
       { q: "Где купить Баловск?", a: "В разделе «Заказы Баловск» — там вы найдёте все модели самолётов с ценами. Лимит — 5 самолётов одной модели в месяц.", highlight: '#aircraftMarketplace' },
       { q: "Что делать если не хватает для погашения штрафа?", a: "Возьмите кредит в «МайБанк (Кредиты)» — это внутренняя валюта альянса, не настоящий кредит. Процент 2% в час, срок 7 дней.", highlight: '#loanAmount' },
       { q: "Где можно поменять тему?", a: "Нажмите «Настройки» в верхней панели. Там доступны 4 темы: альянсовая, светлая (Ч/Б), тёмная и системная.", highlight: '#btnSettings' },
       { q: "Кто главный здесь?", a: "Глава альянса — «Майские авиалинии». Официальный аккаунт управления альянсом. У них красная галочка рядом с названием.", highlight: null },
       { q: "Кто ты?", a: "Я — ИИ МайУмшка! Виртуальный помощник альянса THEMAYSKIY. Помогаю участникам с вопросами по сайту и подсказываю куда нажать.", highlight: null },
       { q: "Кто тебя создал?", a: "Меня создал холдинг MYRY специально для альянса THEMAYSKIY. Мы вместе работаем над развитием экосистемы.", highlight: null },
-      { q: "Когда появился этот сайт?", a: "С конца октября 2026 года. Тогда уже были первые тесты, и с тех времён альянс активно развивается.", highlight: null },
-      { q: "Кем создан этот сайт?", a: "Сайт создан Майскими авиалиниями, Альянсом THEMAYSKIY и компанией MayS. Каждая деталь продумана для удобства участников.", highlight: null },
-      { q: "Почему теперь сайт, а не Telegram?", a: "Директор Майских авиалиний решил развивать структуру альянса, выйдя на самостоятельный план. Собственный сайт даёт полный контроль, безопасность, гибкость и новые возможности — то, что невозможно реализовать в Telegram-боте.", highlight: null },
+      { q: "Почему теперь сайт, а не Telegram?", a: "Директор Майских авиалиний решил развивать структуру альянса, выйдя на самостоятельный план. Собственный сайт даёт полный контроль, безопасность, гибкость и новые возможности.", highlight: null },
       { q: "Как перевести МайБиты?", a: "В разделе «💸 Перевод МайБитов» — выберите получателя из списка и введите сумму. Перевод выполняется мгновенно.", highlight: '#transferTarget' },
-      { q: "Как взять кредит в МайБанке?", a: "В разделе «МайБанк (Кредиты)» введите сумму и нажмите «Взять кредит». Помните: процент растёт 2% в час, а при просрочке (7 дней) — штраф 10 МайБит.", highlight: '#btnTakeLoan' },
-      { q: "Как добавить дочернюю компанию?", a: "В разделе «Дочерние компании» нажмите «Добавить дочернюю» и введите название. Заявка уйдёт главе альянса на рассмотрение.", highlight: '#btnOpenSubsidiaryForm' },
-      { q: "Что такое МайБит?", a: "МайБит — это внутренняя валюта альянса THEMAYSKIY. Её нельзя обменять на настоящие деньги, но внутри экосистемы она используется для покупки самолётов, оплаты штрафов и переводов между компаниями.", highlight: null },
+      { q: "Как взять кредит в МайБанке?", a: "В разделе «МайБанк (Кредиты)» введите сумму и нажмите «Взять кредит». Процент растёт 2% в час, при просрочке (7 дней) — штраф 10 МайБит.", highlight: '#btnTakeLoan' },
+      { q: "Как добавить дочернюю компанию?", a: "В разделе «Дочерние компании» нажмите «Добавить дочернюю» и введите название. Заявка уйдёт главе альянса.", highlight: '#btnOpenSubsidiaryForm' },
+      { q: "Что такое МайБит?", a: "МайБит — это внутренняя валюта альянса THEMAYSKIY. Используется для покупки самолётов, оплаты штрафов и переводов между компаниями. Не является настоящими деньгами.", highlight: null },
       { q: "Как оплатить штраф?", a: "В разделе «Штрафы» нажмите кнопку «Оплатить» рядом со штрафом. Если не хватает МайБитов — возьмите кредит в МайБанке.", highlight: '#finesList' },
-      { q: "Как связаться с поддержкой?", a: "В самом низу сайта есть кнопка «Нашли проблему? нужна помощь? Есть идея? жмите!». Она откроет почту mayskiyrunway@gmail.com — напишите нам, и мы поможем.", highlight: null },
+      { q: "Как связаться с поддержкой?", a: "В самом низу сайта есть кнопка «Нашли проблему? нужна помощь? Есть идея? жмите!». Она откроет почту mayskiyrunway@gmail.com.", highlight: null },
       { q: "Как увидеть свой код компании?", a: "Ваш код компании (например, MY00001) отображается рядом с названием авиакомпании в верхней части вашего кабинета.", highlight: '#headerCompany' },
       { q: "Как выйти из аккаунта?", a: "Нажмите кнопку «Выйти» в правом верхнем углу сайта. Это безопасно завершит сессию.", highlight: '#topLogout' },
-      { q: "Как стать заместителем альянса?", a: "Звание в альянсе назначает лично глава — «Майские авиалинии». Покажи себя активным участником, помогай альянсу и заслужи доверие.", highlight: null },
+      { q: "Как стать заместителем альянса?", a: "Звание в альянсе назначает лично глава — «Майские авиалинии». Покажи себя активным участником и заслужи доверие.", highlight: null },
       { q: "Что делать если забыл пароль?", a: "На экране входа нажми «Забыли пароль?». Введи свою почту, и мы отправим ссылку для восстановления.", highlight: null },
-      { q: "Как изменить аватар компании?", a: "В верхней части кабинета рядом с вашим аватаром есть кнопка «Сменить фото». Нажми её и выбери картинку.", highlight: null },
+      { q: "Как изменить аватар компании?", a: "В верхней части кабинета рядом с аватаром есть кнопка «Сменить фото». Нажми её и выбери картинку.", highlight: null },
       { q: "Как сменить пароль?", a: "В вашем кабинете откройте раздел «🔐 Сменить пароль». Введите текущий и новый пароль.", highlight: '#newPass' },
-      { q: "Где скачать документы?", a: "Внизу вашего кабинета есть папки: Альянс, Дочерние, Реестр и Майск. Нажмите на нужную, чтобы открыть документ и распечатать его.", highlight: '.folders-container' },
-      { q: "Как распечатать профиль?", a: "В верхней части кабинета, рядом с вашим аватаром, есть кнопка «🖨 Печать». Она сгенерирует официальный бланк вашей компании.", highlight: 'button[onclick="printProfile()"]' },
+      { q: "Где скачать документы?", a: "Внизу вашего кабинета есть папки: Альянс, Дочерние, Реестр и Майск. Нажмите на нужную, чтобы открыть документ и распечатать.", highlight: '.folders-container' },
+      { q: "Как распечатать профиль?", a: "В верхней части кабинета рядом с аватаром есть кнопка «🖨 Печать». Она сгенерирует официальный бланк вашей компании.", highlight: 'button[onclick="printProfile()"]' },
       { q: "Как выйти из альянса?", a: "В верхней панели нажмите «Выйти из альянса». Заполните заявление, и после одобрения главой альянса вы покинете его.", highlight: '#topExit' },
-      { q: "Где посмотреть других участников?", a: "В разделе «👥 Участники альянса» вы можете найти любую компанию по названию или коду.", highlight: '#membersSection' }
+      { q: "Где посмотреть других участников?", a: "В разделе «👥 Участники альянса» вы можете найти любую компанию по названию или коду.", highlight: '#membersSection' },
+      { q: "Где встретиться для заключения контракта?", a: "Все официальные встречи проходят онлайн через поддержку: mayskiyrunway@gmail.com или Telegram-бот @AliansMY_bot. Личные встречи не проводятся.", highlight: null },
+      { q: "Как поменять название авиакомпании?", a: "В кабинете откройте раздел «Информация о компании» → поле «Название» → сохраните изменения.", highlight: '#profileName' },
+      { q: "Что за красная галочка?", a: "Красная галочка — это официальный аккаунт Майских авиалиний (главы альянса). Только у них есть такая метка.", highlight: null },
+      { q: "Как оплатить кредит?", a: "В разделе «МайБанк (Кредиты)» нажмите «Погасить кредит» рядом с вашим кредитом. Сумма спишется с баланса.", highlight: '#btnPayLoan' },
+      { q: "Почему моя карта стала серой?", a: "Это значит, что карта заморожена главой альянса или истёк срок действия. Для апелляции напишите в поддержку (VK/Telegram/Почта).", highlight: '#cardsSection' },
+      { q: "Как заказать карту MAYCard?", a: "В разделе «Карта авиакомпании» нажмите «Заказать MAYCard». После одобрения главой карта появится в «Мои карты».", highlight: '#cardStatusContent' },
+      { q: "Как заказать Balocard?", a: "В разделе «Карта авиакомпании» нажмите «Заказать Balocard» (доступно после 5 дней в альянсе). Даёт скидку 10% на Баловск.", highlight: '#cardStatusContent' },
+      { q: "Как отменить заказ самолёта?", a: "В разделе «Флот Баловск» → «Собираются» → нажмите «Отменить» рядом с заказом.", highlight: '#myFleetList' },
+      { q: "Почему мой документ о вступлении недоступен?", a: "Документ станет доступен только после одобрения вашей заявки главой альянса. Пока заявка на рассмотрении — документа нет.", highlight: null },
+      { q: "Как подать заявку на праздник?", a: "В разделе «Праздники» → «Запросить свой праздник» → укажите название и дату. Глава альянса рассмотрит и одобрит/отклонит.", highlight: '#reqHolidayName' },
+      { q: "Почему моя карта не работает?", a: "Проверьте срок действия карты — возможно, она истекла. Если истекла — в разделе «Карта авиакомпании» появится кнопка «Перезаказать».", highlight: '#cardStatusContent' },
+      { q: "Как попасть в реестр Майских компаний?", a: "Подайте заявление в разделе «Реестр Майские компании». После одобрения главой вы получите код MY.", highlight: '#btnOpenRegistryForm' }
     ];
 
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1271,107 +1236,50 @@
                 y: (clientY - rect.top) * (canvas.height / rect.height)
             };
         }
-
-        function start(e) {
-            e.preventDefault();
-            drawing = true;
-            const pos = getPos(e);
-            lastX = pos.x; lastY = pos.y;
-        }
-
+        function start(e) { e.preventDefault(); drawing = true; const pos = getPos(e); lastX = pos.x; lastY = pos.y; }
         function move(e) {
             e.preventDefault();
             if (!drawing) return;
             const pos = getPos(e);
-            ctx.beginPath();
-            ctx.strokeStyle = '#260704';
-            ctx.lineWidth = 2.5;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.moveTo(lastX, lastY);
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
+            ctx.beginPath(); ctx.strokeStyle = '#260704'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+            ctx.moveTo(lastX, lastY); ctx.lineTo(pos.x, pos.y); ctx.stroke();
             lastX = pos.x; lastY = pos.y;
         }
-
-        function stop(e) {
-            e.preventDefault();
-            drawing = false;
-        }
-
-        canvas.addEventListener('mousedown', start);
-        canvas.addEventListener('mousemove', move);
-        canvas.addEventListener('mouseup', stop);
-        canvas.addEventListener('mouseout', stop);
-        
-        canvas.addEventListener('touchstart', start, {passive: false});
-        canvas.addEventListener('touchmove', move, {passive: false});
-        canvas.addEventListener('touchend', stop, {passive: false});
-
+        function stop(e) { e.preventDefault(); drawing = false; }
+        canvas.addEventListener('mousedown', start); canvas.addEventListener('mousemove', move); canvas.addEventListener('mouseup', stop); canvas.addEventListener('mouseout', stop);
+        canvas.addEventListener('touchstart', start, {passive: false}); canvas.addEventListener('touchmove', move, {passive: false}); canvas.addEventListener('touchend', stop, {passive: false});
         return {
             clear: () => ctx.clearRect(0, 0, canvas.width, canvas.height),
-            isEmpty: () => {
-                const blank = document.createElement('canvas');
-                blank.width = canvas.width;
-                blank.height = canvas.height;
-                return canvas.toDataURL() === blank.toDataURL();
-            }
+            isEmpty: () => { const blank = document.createElement('canvas'); blank.width = canvas.width; blank.height = canvas.height; return canvas.toDataURL() === blank.toDataURL(); }
         };
     }
 
     window.toggleAppSig = function(type) {
-        if (type === 'yes') {
-            $('appSigDrawArea').classList.remove('hidden');
-            $('appSigTypeArea').classList.add('hidden');
-            if (appSigPad) appSigPad.clear();
-        } else {
-            $('appSigDrawArea').classList.add('hidden');
-            $('appSigTypeArea').classList.remove('hidden');
-            $('appSigText').value = '';
-        }
+        if (type === 'yes') { $('appSigDrawArea').classList.remove('hidden'); $('appSigTypeArea').classList.add('hidden'); if (appSigPad) appSigPad.clear(); }
+        else { $('appSigDrawArea').classList.add('hidden'); $('appSigTypeArea').classList.remove('hidden'); $('appSigText').value = ''; }
     };
-
     window.toggleExitSig = function(type) {
-        if (type === 'yes') {
-            $('exitSigDrawArea').classList.remove('hidden');
-            $('exitSigTypeArea').classList.add('hidden');
-            if (exitSigPad) exitSigPad.clear();
-        } else {
-            $('exitSigDrawArea').classList.add('hidden');
-            $('exitSigTypeArea').classList.remove('hidden');
-            $('exitSigText').value = '';
-        }
+        if (type === 'yes') { $('exitSigDrawArea').classList.remove('hidden'); $('exitSigTypeArea').classList.add('hidden'); if (exitSigPad) exitSigPad.clear(); }
+        else { $('exitSigDrawArea').classList.add('hidden'); $('exitSigTypeArea').classList.remove('hidden'); $('exitSigText').value = ''; }
     };
-
-    window.clearAppSig = function() {
-        if (appSigPad) appSigPad.clear();
-    };
-
-    window.clearExitSig = function() {
-        if (exitSigPad) exitSigPad.clear();
-    };
+    window.clearAppSig = function() { if (appSigPad) appSigPad.clear(); };
+    window.clearExitSig = function() { if (exitSigPad) exitSigPad.clear(); };
 
     async function getSignatureForDoc(docType) {
       if (!userProfile) return SIGNATURES[0];
       let sigMap = userProfile.signature_map || {};
-      if (typeof sigMap === 'string') {
-          try { sigMap = JSON.parse(sigMap); } catch(e) { sigMap = {}; }
-      }
+      if (typeof sigMap === 'string') { try { sigMap = JSON.parse(sigMap); } catch(e) { sigMap = {}; } }
       if (sigMap[docType]) return sigMap[docType];
-      
       const usedSigs = Object.values(sigMap);
       const availableSigs = SIGNATURES.filter(s => !usedSigs.includes(s));
       const newSig = availableSigs.length > 0 ? availableSigs[0] : SIGNATURES[Math.floor(Math.random() * SIGNATURES.length)];
-      
       sigMap[docType] = newSig;
       await db.from('profiles').update({ signature_map: sigMap }).eq('id', currentUser.id);
       userProfile.signature_map = sigMap;
       return newSig;
     }
 
-    function getDocLogo() {
-      return localStorage.getItem('custom_doc_logo') || LOGO_LIGHT;
-    }
+    function getDocLogo() { return localStorage.getItem('custom_doc_logo') || LOGO_LIGHT; }
     async function uploadDocLogo(event) {
       const file = event.target.files?.[0];
       if (!file) return;
@@ -1385,25 +1293,18 @@
         if (uploadError) { hideLoading(); return message('Ошибка: ' + uploadError.message, true); }
         const { data: urlData } = db.storage.from('avatars').getPublicUrl(path);
         localStorage.setItem('custom_doc_logo', urlData.publicUrl);
-        hideLoading();
-        message('✅ Логотип загружен!');
-        closeThemeModal();
-        event.target.value = '';
+        hideLoading(); message('✅ Логотип загружен!'); closeThemeModal(); event.target.value = '';
       } catch (err) { hideLoading(); message('Ошибка: ' + err.message, true); }
     }
     window.uploadDocLogo = uploadDocLogo;
-    window.resetDocLogo = function() {
-      localStorage.removeItem('custom_doc_logo');
-      message('Логотип сброшен на стандартный');
-      closeThemeModal();
-    };
+    window.resetDocLogo = function() { localStorage.removeItem('custom_doc_logo'); message('Логотип сброшен на стандартный'); closeThemeModal(); };
 
     function updateSectionBadge(sectionId, count) {
       const el = document.getElementById(sectionId);
       if (!el) return;
       const summary = el.querySelector('summary');
       if (!summary) return;
-      const currentText = summary.innerHTML.replace('<span class="notif-dot"></span>', '');
+      const currentText = summary.innerHTML.replace(/<span class="notif-dot"><\/span>/g, '');
       if (count > 0) summary.innerHTML = currentText + ' <span class="notif-dot"></span>';
       else summary.innerHTML = currentText;
     }
@@ -1414,6 +1315,7 @@
       $('deviceModal').classList.remove('show');
       if (fromSettings) { closeThemeModal(); message(mode === 'mobile' ? '📱 Мобильный режим включён' : '💻 ПК-режим включён'); }
     }
+    window.setDeviceMode = setDeviceMode;
 
     function isBloodWeek() {
       const now = new Date(); const year = now.getFullYear();
@@ -1440,7 +1342,6 @@
       localStorage.setItem('blood_19sept_shown', today);
       startBloodDemoInternal();
     }
-    
     function updateBrand() {
       const img = $('brandLogo'); if (!img) return;
       let src;
@@ -1479,20 +1380,15 @@
     }
     function showLoading(t = 'Подождите...') { isProcessing = true; $('loadingText').textContent = t; $('loadingOverlay').classList.remove('hidden'); }
     function hideLoading() { isProcessing = false; $('loadingOverlay').classList.add('hidden'); }
-    
     function updateAboutLogo() {
-      const aboutLogo = $('aboutLogo');
-      if (!aboutLogo) return;
+      const aboutLogo = $('aboutLogo'); if (!aboutLogo) return;
       const theme = document.body.getAttribute('data-theme');
-      if (theme === 'dark') aboutLogo.src = LOGO_DARK;
-      else aboutLogo.src = LOGO_LIGHT;
+      if (theme === 'dark') aboutLogo.src = LOGO_DARK; else aboutLogo.src = LOGO_LIGHT;
     }
-
     function applyTheme(theme) {
       if (theme === 'system') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
       document.body.setAttribute('data-theme', theme);
-      updateBrand(); updateAssistantAvatar();
-      updateAboutLogo();
+      updateBrand(); updateAssistantAvatar(); updateAboutLogo();
     }
     function setTheme(theme) { localStorage.setItem('theme', theme); applyTheme(theme); closeThemeModal(); }
     function openThemeModal() {
@@ -1513,14 +1409,11 @@
       const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo });
       hideLoading();
       if (error) return message(error.message, true);
-      message('Ссылка отправлена на почту!');
-      closeResetModal();
+      message('Ссылка отправлена на почту!'); closeResetModal();
     }
-
     window.closeResetPasswordModal = () => $('resetPasswordModal').classList.remove('show');
     window.saveNewPassword = async function() {
-      const p1 = $('newPassword').value;
-      const p2 = $('newPasswordConfirm').value;
+      const p1 = $('newPassword').value; const p2 = $('newPasswordConfirm').value;
       if (p1.length < 6) return message('Пароль должен быть не менее 6 символов', true);
       if (p1 !== p2) return message('Пароли не совпадают', true);
       showLoading('Сохранение...');
@@ -1529,10 +1422,7 @@
       if (error) return message('Ошибка: ' + error.message, true);
       message('✅ Пароль изменён! Войдите с новым паролем.');
       try { history.replaceState(null, '', window.location.pathname); } catch(e){}
-      await db.auth.signOut();
-      closeResetPasswordModal();
-      showPage('authPage');
-      setMode('login');
+      await db.auth.signOut(); closeResetPasswordModal(); showPage('authPage'); setMode('login');
     };
 
     function showSupport() { location.href = 'mailto:mayskiyrunway@gmail.com?subject=Проблема%20на%20сайте%20THEMAYSKIY&body=Опишите%20проблему...'; }
@@ -1541,44 +1431,29 @@
     function showPage(name) {
       ['authPage', 'applicationPage', 'dashboardPage', 'adminPage', 'aboutPage'].forEach(p => $(p).classList.add('hidden'));
       $(name).classList.remove('hidden');
-      
-      const isAuth = name === 'authPage';
-      const isAbout = name === 'aboutPage';
-      
+      const isAuth = name === 'authPage'; const isAbout = name === 'aboutPage';
       $('topLogin').classList.toggle('hidden', !isAuth);
       $('topRegister').classList.toggle('hidden', !isAuth);
       $('topLogout').classList.toggle('hidden', isAuth);
-      
       $('btnAbout').classList.toggle('hidden', isAbout);
       $('btnSettings').classList.toggle('hidden', isAuth || isAbout);
-      
       $('topAdmin').classList.toggle('hidden', !isAdmin || name === 'adminPage' || isAuth || isAbout);
       $('topCabinet').classList.toggle('hidden', !isAdmin || name !== 'adminPage');
       $('topExit').classList.toggle('hidden', name !== 'dashboardPage' || isAdmin || !userProfile?.joined_at);
     }
 
     function setMfaMode(visible) {
-      const emailField = $('email').closest('.field');
-      const passField = $('password').closest('.field');
-      const mfaField = $('mfaField');
+      const emailField = $('email').closest('.field'); const passField = $('password').closest('.field'); const mfaField = $('mfaField');
       if (visible) {
-        if (emailField) emailField.classList.add('hidden');
-        if (passField) passField.classList.add('hidden');
-        $('email').required = false;
-        $('password').required = false;
-        mfaField.classList.remove('hidden');
-        $('authSubmit').textContent = 'Подтвердить код';
+        if (emailField) emailField.classList.add('hidden'); if (passField) passField.classList.add('hidden');
+        $('email').required = false; $('password').required = false;
+        mfaField.classList.remove('hidden'); $('authSubmit').textContent = 'Подтвердить код';
       } else {
-        if (emailField) emailField.classList.remove('hidden');
-        if (passField) passField.classList.remove('hidden');
-        $('email').required = true;
-        $('password').required = true;
-        mfaField.classList.add('hidden');
-        $('mfaCode').value = '';
-        window.tempFactorId = null;
+        if (emailField) emailField.classList.remove('hidden'); if (passField) passField.classList.remove('hidden');
+        $('email').required = true; $('password').required = true;
+        mfaField.classList.add('hidden'); $('mfaCode').value = ''; window.tempFactorId = null;
       }
     }
-
     function setMode(next) {
       const reg = next === 'register';
       setMfaMode(false);
@@ -1593,11 +1468,7 @@
     }
     $('topLogin').addEventListener('click', () => { showPage('authPage'); setMode('login'); });
     $('topRegister').addEventListener('click', () => { showPage('authPage'); setMode('register'); });
-
-    $('btnAbout').addEventListener('click', () => {
-      showPage('aboutPage');
-      updateAboutLogo();
-    });
+    $('btnAbout').addEventListener('click', () => { showPage('aboutPage'); updateAboutLogo(); });
 
     function scheduleReload() {
       clearTimeout(realtimeTimer);
@@ -1615,14 +1486,10 @@
       });
       channel.subscribe();
     }
-
     async function logAdminAction(action, target, details) {
       if (!isAdmin) return;
-      try {
-        await db.from('admin_logs').insert({ admin_id: ADMIN_UID, action, target: target || null, details: details || null });
-      } catch (e) { console.error('Log error:', e); }
+      try { await db.from('admin_logs').insert({ admin_id: ADMIN_UID, action, target: target || null, details: details || null }); } catch (e) { console.error('Log error:', e); }
     }
-
     async function ensureAdminProfile() {
       if (!isAdmin) return;
       const { data: existing } = await db.from('profiles').select('id,company_name,company_code,registry_status,joined_at').eq('id', ADMIN_UID).maybeSingle();
@@ -1639,19 +1506,28 @@
         await db.from('profiles').update(updates).eq('id', ADMIN_UID);
       }
     }
-
     async function updateAdminBadge() {
       if (!isAdmin) return;
       try {
-        const [apps, regs, maysks, subs, cards, exits] = await Promise.all([
+        const [apps, regs, maysks, subs, exits] = await Promise.all([
           db.from('applications').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
           db.from('registry_applications').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
           db.from('maysk_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
           db.from('subsidiaries').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-          db.from('profiles').select('id', { count: 'exact', head: true }).eq('card_status', 'pending'),
           db.from('exit_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending')
         ]);
-        const total = (apps.count||0)+(regs.count||0)+(maysks.count||0)+(subs.count||0)+(cards.count||0)+(exits.count||0);
+        // Count pending cards (maycard/balocard)
+        let cardsCount = 0;
+        try {
+          const { data: cdProfiles } = await db.from('profiles').select('card_data');
+          (cdProfiles || []).forEach(p => {
+            let cd = p.card_data;
+            if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } }
+            if (cd?.maycard_status === 'pending') cardsCount++;
+            if (cd?.balocard_status === 'pending') cardsCount++;
+          });
+        } catch(e) {}
+        const total = (apps.count||0)+(regs.count||0)+(maysks.count||0)+(subs.count||0)+(exits.count||0)+cardsCount;
         const badge = $('adminBadgeCount');
         if (badge) { badge.textContent = total; badge.classList.toggle('hidden', total === 0); }
       } catch (e) { console.error(e); }
@@ -1662,7 +1538,7 @@
       if (!profiles) return;
       const members = profiles.filter(p => p.id === ADMIN_UID || p.joined_at != null);
       if (!members.find(m => m.id === ADMIN_UID)) {
-        members.unshift({ id: ADMIN_UID, company_name: ADMIN_NAME, company_code: ADMIN_CODE, rank: 'Глава Альянса', joined_at: ADMIN_JOIN_DATE, balance: 999999999, avatar_url: userProfile?.avatar_url || null, description: userProfile?.description || '', history: userProfile?.history || '' });
+        members.unshift({ id: ADMIN_UID, company_name: ADMIN_NAME, company_code: ADMIN_CODE, rank: 'Глава Альянса', joined_at: ADMIN_JOIN_DATE, balance: 999999999, avatar_url: userProfile?.avatar_url || null });
       }
       const { data: fleets } = await db.from('user_fleet').select('user_id, model, quantity');
       const fleetMap = {};
@@ -1671,56 +1547,40 @@
       membersFiltered = [...allMembersCache];
       renderMembersPage();
     }
-
     function filterMembers() {
       const q = ($('membersSearch').value || '').toLowerCase().trim();
       if (!q) membersFiltered = [...allMembersCache];
-      else membersFiltered = allMembersCache.filter(m => 
-        (m.company_name || '').toLowerCase().includes(q) || 
-        (m.company_code || '').toLowerCase().includes(q) ||
-        (m.id || '').toLowerCase().includes(q)
-      );
+      else membersFiltered = allMembersCache.filter(m => (m.company_name || '').toLowerCase().includes(q) || (m.company_code || '').toLowerCase().includes(q) || (m.id || '').toLowerCase().includes(q));
       membersCurrentPage = 0;
       renderMembersPage();
     }
-
     function changeMembersPage(delta) {
       const maxPage = Math.max(0, Math.ceil(membersFiltered.length / MEMBERS_PER_PAGE) - 1);
       membersCurrentPage = Math.min(maxPage, Math.max(0, membersCurrentPage + delta));
       renderMembersPage();
     }
-
+    window.filterMembers = filterMembers;
+    window.changeMembersPage = changeMembersPage;
     function renderMembersPage() {
       const total = membersFiltered.length;
       const maxPage = Math.max(0, Math.ceil(total / MEMBERS_PER_PAGE) - 1);
       const start = membersCurrentPage * MEMBERS_PER_PAGE;
       const list = membersFiltered.slice(start, start + MEMBERS_PER_PAGE);
-      
       $('membersList').innerHTML = list.map(m => {
         const isAdminUser = m.id === ADMIN_UID;
         const joined = isAdminUser ? ADMIN_JOIN_DATE : m.joined_at;
         const days = joined ? Math.floor((Date.now() - new Date(joined).getTime()) / 86400000) : 0;
         const code = displayCompanyCode(m, m.id);
         const check = isAdminUser ? adminBadge() : '<span class="black-check" title="Участник альянса">✓</span>';
-        return `
-          <div class="member-card" onclick="openMemberProfile('${m.id}')">
-            <div class="avatar">${m.avatar_url ? `<img src="${esc(m.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div>
-            <h4>${esc(m.company_name)} ${check}</h4>
-            <p class="muted">${esc(m.rank || 'Участник')} · ${days} ${pluralDays(days)}</p>
-            <p class="muted" style="font-size:11px">${esc(code)}</p>
-          </div>
-        `;
+        return `<div class="member-card" onclick="openMemberProfile('${m.id}')"><div class="avatar">${m.avatar_url ? `<img src="${esc(m.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div><h4>${esc(m.company_name)} ${check}</h4><p class="muted">${esc(m.rank || 'Участник')} · ${days} ${pluralDays(days)}</p><p class="muted" style="font-size:11px">${esc(code)}</p></div>`;
       }).join('') || '<div class="muted">Нет участников</div>';
-      
       const pag = $('membersPagination');
       if (total > MEMBERS_PER_PAGE) {
         pag.classList.remove('hidden');
         $('membersPageInfo').textContent = `${membersCurrentPage+1} / ${maxPage+1}`;
         $('membersPrev').disabled = membersCurrentPage <= 0;
         $('membersNext').disabled = membersCurrentPage >= maxPage;
-      } else {
-        pag.classList.add('hidden');
-      }
+      } else { pag.classList.add('hidden'); }
     }
 
     window.openMemberProfile = async (userId) => {
@@ -1732,7 +1592,6 @@
       const code = displayCompanyCode(m, m.id);
       const check = isAdminUser ? adminBadge() : '';
       const inRegistry = isAdminUser || m.registry_status === 'approved';
-      
       let mayskRes = { data: [] }, subsRes = { data: [] };
       try {
         [mayskRes, subsRes] = await Promise.all([
@@ -1740,30 +1599,17 @@
           db.from('subsidiaries').select('company_name').or(`parent_id.eq.${userId},user_id.eq.${userId}`).eq('status', 'approved')
         ]);
       } catch (e) { console.error(e); }
-      
       const fliesToMaysk = mayskRes.data && mayskRes.data.length > 0;
       const hasSubs = subsRes.data && subsRes.data.length > 0;
       const subsList = subsRes.data || [];
-      
       $('memberProfileContent').innerHTML = `
         <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap">
           <div class="avatar" style="width:80px;height:80px;flex:0 0 80px;font-size:28px">${m.avatar_url ? `<img src="${esc(m.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div>
-          <div style="flex:1;min-width:150px">
-            <h2 style="margin:0 0 6px 0;font-size:22px">${esc(m.company_name)} ${check}</h2>
-            <p class="muted" style="margin:0">${esc(m.rank || 'Участник')} · ${esc(code)}</p>
-            <p class="muted" style="margin:4px 0 0 0">В альянсе: ${days} ${pluralDays(days)}</p>
-          </div>
+          <div style="flex:1;min-width:150px"><h2 style="margin:0 0 6px 0;font-size:22px">${esc(m.company_name)} ${check}</h2><p class="muted" style="margin:0">${esc(m.rank || 'Участник')} · ${esc(code)}</p><p class="muted" style="margin:4px 0 0 0">В альянсе: ${days} ${pluralDays(days)}</p></div>
         </div>
-        <div style="margin-bottom:15px">
-          <div class="profile-badge ${inRegistry ? 'yes' : 'no'}">${inRegistry ? '✅' : '❌'} В реестре</div>
-          <div class="profile-badge ${fliesToMaysk ? 'yes' : 'no'}">${fliesToMaysk ? '✅' : '❌'} Летает в Майск</div>
-          <div class="profile-badge ${hasSubs ? 'yes' : 'no'}">${hasSubs ? '✅' : '❌'} Дочерние компании</div>
-        </div>
+        <div style="margin-bottom:15px"><div class="profile-badge ${inRegistry ? 'yes' : 'no'}">${inRegistry ? '✅' : '❌'} В реестре</div><div class="profile-badge ${fliesToMaysk ? 'yes' : 'no'}">${fliesToMaysk ? '✅' : '❌'} Летает в Майск</div><div class="profile-badge ${hasSubs ? 'yes' : 'no'}">${hasSubs ? '✅' : '❌'} Дочерние компании</div></div>
         ${hasSubs ? `<div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Дочерние</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.8">${subsList.map(s => `• ${esc(s.company_name)}`).join('<br>')}</div></div>` : ''}
-        <div style="margin-bottom:15px">
-          <label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Баланс</label>
-          <div style="font-size:26px;font-weight:800;color:var(--red)">${isAdminUser ? '∞' : Number(m.balance || 0).toLocaleString('ru-RU')} <span style="font-size:14px;color:var(--muted)">МайБит</span></div>
-        </div>
+        <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Баланс</label><div style="font-size:26px;font-weight:800;color:var(--red)">${isAdminUser ? '∞' : Number(m.balance || 0).toLocaleString('ru-RU')} <span style="font-size:14px;color:var(--muted)">МайБит</span></div></div>
         <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Описание</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.6">${esc(m.description || '—')}</div></div>
         <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">История</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.6">${esc(m.history || '—')}</div></div>
         <div><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Флот Баловск</label>${m.fleet?.length ? m.fleet.map(f => `<div class="transaction-item"><span>${esc(f.model)}</span><strong>${Number(f.quantity)} шт.</strong></div>`).join('') : '<span class="muted">Нет самолётов</span>'}</div>
@@ -1782,7 +1628,6 @@
       const rank = isAdminUser ? ADMIN_RANK : (userProfile.rank || 'Участник');
       const inRegistry = isAdminUser || userProfile.registry_status === 'approved';
       const docLogo = getDocLogo();
-      
       Promise.all([
         db.from('maysk_requests').select('id').eq('user_id', currentUser.id).eq('status', 'approved').limit(1),
         db.from('subsidiaries').select('company_name').or(`parent_id.eq.${currentUser.id},user_id.eq.${currentUser.id}`).eq('status', 'approved')
@@ -1791,74 +1636,33 @@
         const hasSubs = subsRes.data && subsRes.data.length > 0;
         const subsList = subsRes.data || [];
         const today = new Date().toLocaleDateString('ru-RU');
-        
         $('printProfileContent').innerHTML = `
           <div class="print-profile">
             <img src="${docLogo}" class="print-logo-top" alt="logo" onerror="this.style.display='none'">
-            <div class="print-header">
-              <div class="print-avatar">${userProfile.avatar_url ? `<img src="${esc(userProfile.avatar_url)}">` : '✦'}</div>
-              <h1>${esc(companyName)}</h1>
-              <div class="print-rank">${esc(rank)}</div>
-              <p style="color:#666;font-size:13px;margin:0">Код компании: <strong>${esc(code)}</strong> · В альянсе с ${joined ? new Date(joined).toLocaleDateString('ru-RU') : '—'}</p>
-            </div>
-            
+            <div class="print-header"><div class="print-avatar">${userProfile.avatar_url ? `<img src="${esc(userProfile.avatar_url)}">` : '✦'}</div><h1>${esc(companyName)}</h1><div class="print-rank">${esc(rank)}</div><p style="color:#666;font-size:13px;margin:0">Код компании: <strong>${esc(code)}</strong> · В альянсе с ${joined ? new Date(joined).toLocaleDateString('ru-RU') : '—'}</p></div>
             <div class="print-info">
-              <div class="print-info-item">
-                <strong>Дней в альянсе</strong>
-                <span>${days} ${pluralDays(days)}</span>
-              </div>
-              <div class="print-info-item">
-                <strong>Реестр Майских компаний</strong>
-                <span>${inRegistry ? '✅ В реестре' : '❌ Не в реестре'}</span>
-              </div>
-              <div class="print-info-item">
-                <strong>Полет в Майск</strong>
-                <span>${fliesToMaysk ? '✅ Разрешено' : '❌ Не разрешено'}</span>
-              </div>
-              <div class="print-info-item">
-                <strong>Дочерние компании</strong>
-                <span>${hasSubs ? '✅ Есть (' + subsList.length + ')' : '❌ Нет'}</span>
-              </div>
-              <div class="print-info-item" style="grid-column: 1/-1">
-                <strong>Баланс</strong>
-                <span>${isAdminUser ? '∞' : Number(userProfile.balance || 0).toLocaleString('ru-RU')} МайБит</span>
-              </div>
+              <div class="print-info-item"><strong>Дней в альянсе</strong><span>${days} ${pluralDays(days)}</span></div>
+              <div class="print-info-item"><strong>Реестр</strong><span>${inRegistry ? '✅ В реестре' : '❌ Не в реестре'}</span></div>
+              <div class="print-info-item"><strong>Полет в Майск</strong><span>${fliesToMaysk ? '✅ Разрешено' : '❌ Не разрешено'}</span></div>
+              <div class="print-info-item"><strong>Дочерние</strong><span>${hasSubs ? '✅ Есть (' + subsList.length + ')' : '❌ Нет'}</span></div>
+              <div class="print-info-item" style="grid-column: 1/-1"><strong>Баланс</strong><span>${isAdminUser ? '∞' : Number(userProfile.balance || 0).toLocaleString('ru-RU')} МайБит</span></div>
               ${hasSubs ? `<div class="print-info-item" style="grid-column: 1/-1"><strong>Дочерние авиакомпании</strong><span>${subsList.map(s => esc(s.company_name)).join(', ')}</span></div>` : ''}
             </div>
-            
-            <div style="text-align:right;margin-top:40px;font-size:13px;color:#666">
-              <p style="margin:0">Дата печати: ${today}</p>
-            </div>
-            
-            <div class="print-footer">
-              <img src="${docLogo}" alt="logo" onerror="this.style.display='none'">
-              <p>Официальная страничка сайта Альянса</p>
-              <img src="${docLogo}" alt="logo" onerror="this.style.display='none'">
-            </div>
-            <div class="print-stamp">
-              <img src="${STAMP_URL}" alt="Stamp">
-            </div>
+            <div style="text-align:right;margin-top:40px;font-size:13px;color:#666"><p style="margin:0">Дата печати: ${today}</p></div>
+            <div class="print-footer"><img src="${docLogo}" alt="logo" onerror="this.style.display='none'"><p>Официальная страничка сайта Альянса</p><img src="${docLogo}" alt="logo" onerror="this.style.display='none'"></div>
+            <div class="print-stamp"><img src="${STAMP_URL}" alt="Stamp"></div>
           </div>
         `;
-        
         document.body.classList.add('printing-profile');
-        setTimeout(() => {
-          window.print();
-          setTimeout(() => document.body.classList.remove('printing-profile'), 500);
-        }, 200);
-      }).catch(e => {
-        console.error(e);
-        message('Ошибка печати: ' + e.message, true);
-      });
+        setTimeout(() => { window.print(); setTimeout(() => document.body.classList.remove('printing-profile'), 500); }, 200);
+      }).catch(e => { console.error(e); message('Ошибка печати: ' + e.message, true); });
     }
-
+    window.printProfile = printProfile;
     function printDocument() {
       document.body.classList.add('printing-doc');
-      setTimeout(() => {
-        window.print();
-        setTimeout(() => document.body.classList.remove('printing-doc'), 500);
-      }, 200);
+      setTimeout(() => { window.print(); setTimeout(() => document.body.classList.remove('printing-doc'), 500); }, 200);
     }
+    window.printDocument = printDocument;
 
     function renderChatQuestions() {
       $('chatQuestions').innerHTML = ASSISTANT_QA.map((qa, i) => `<button class="chat-q-btn" onclick="askAssistant(${i})">${esc(qa.q)}</button>`).join('');
@@ -1872,6 +1676,9 @@
       setTimeout(() => { const botMsg = document.createElement('div'); botMsg.className = 'bot-msg'; botMsg.textContent = qa.a; messages.appendChild(botMsg); messages.scrollTop = messages.scrollHeight; }, 400);
       if (qa.highlight) { setTimeout(() => { closeAssistant(); highlightElement(qa.highlight); }, 2200); }
     }
+    window.openAssistant = openAssistant;
+    window.closeAssistant = closeAssistant;
+    window.askAssistant = askAssistant;
     function highlightElement(selector) {
       const el = document.querySelector(selector); if (!el) return;
       let parent = el.closest('details'); while (parent) { parent.open = true; parent = parent.parentElement?.closest('details'); }
@@ -1952,21 +1759,20 @@
       const allHolidays = [];
       HOLIDAYS.forEach(h => {
         const key = `hardcoded_${h.month}_${h.day}_${h.name}`;
-        if (!hiddenKeys.includes(key)) allHolidays.push({ ...h, key, company: ADMIN_NAME, isAdminOwned: true, isUser: false, nextDate: getNextHoliday(h.month, h.day) });
+        if (!hiddenKeys.includes(key)) allHolidays.push({ ...h, key, company: ADMIN_NAME, isAdminOwned: true, nextDate: getNextHoliday(h.month, h.day) });
       });
       profiles?.forEach(p => {
         if (p.birthday_date && p.id !== ADMIN_UID) {
           const [, month, day] = p.birthday_date.split('-');
           const key = `birthday_${p.id}`;
-          if (!hiddenKeys.includes(key)) allHolidays.push({ month: Number(month), day: Number(day), name: `🎂 День рождения ${p.company_name}`, company: p.company_name, isAdminOwned: false, isUser: true, userId: p.id, key, type: 'birthday', icon: '🎈', nextDate: getNextHoliday(Number(month), Number(day)) });
+          if (!hiddenKeys.includes(key)) allHolidays.push({ month: Number(month), day: Number(day), name: `🎂 День рождения ${p.company_name}`, company: p.company_name, isAdminOwned: false, key, type: 'birthday', icon: '🎈', nextDate: getNextHoliday(Number(month), Number(day)) });
         }
-        // NEW: кастомные праздники
         let cd = p.card_data;
         if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } }
         (cd?.custom_holidays || []).forEach((ch, idx) => {
           const key = `custom_${p.id}_${idx}_${ch.name}`;
           if (!hiddenKeys.includes(key) && ch.month && ch.day) {
-            allHolidays.push({ month: ch.month, day: ch.day, name: ch.name, company: p.company_name, isAdminOwned: false, isUser: true, userId: p.id, key, type: 'custom', icon: ch.icon || '🎉', nextDate: getNextHoliday(ch.month, ch.day) });
+            allHolidays.push({ month: ch.month, day: ch.day, name: ch.name, company: p.company_name, isAdminOwned: false, key, type: 'custom', icon: ch.icon || '🎉', nextDate: getNextHoliday(ch.month, ch.day) });
           }
         });
       });
@@ -2019,270 +1825,60 @@
       await loadDashboard(true);
     });
 
-    async function loadCardStatus() {
-      const content = $('cardStatusContent');
-      if (!content || !userProfile) return;
-      
-      const status = userProfile.card_status || 'none';
-      const cardNum = userProfile.card_number || '—';
-      const rejAt = userProfile.card_rejected_at ? new Date(userProfile.card_rejected_at).getTime() : 0;
-      const daysLeft = 7 - Math.floor((Date.now() - rejAt) / 86400000);
-
-      if (status === 'approved') {
-        content.innerHTML = `<p style="font-size:20px;font-weight:bold;color:var(--green);letter-spacing:2px">${esc(cardNum)}</p><p class="muted">Ваша карта активна. Используйте этот номер при покупке самолётов.</p>`;
-      } else if (status === 'pending') {
-        content.innerHTML = `<p style="color:var(--accent)">⏳ Заявка на рассмотрении у главы альянса...</p>`;
-      } else {
-        let msg = status === 'rejected' && daysLeft > 0 ? `Отказано. Повторно через ${daysLeft} дн.` : '';
-        content.innerHTML = `<p class="muted">Получите карту для покупки самолетов.</p><button class="primary" ${daysLeft > 0 ? 'disabled' : ''} onclick="requestCard()">Получить карту</button><p style="color:var(--red);font-size:12px;margin-top:8px">${msg}</p>`;
-      }
-    }
-
-    window.requestCard = async () => {
-      if (!currentUser) return;
-      showLoading('Генерация...');
-      try {
-        const name = (userProfile.company_name || 'XX').trim();
-        const words = name.split(/\s+/);
-        let prefix = '';
-        if (words.length >= 3) prefix = (words[0][0] + words[1][0] + words[2][0]).toUpperCase();
-        else if (words.length === 2) prefix = (words[0][0] + words[1][0]).toUpperCase();
-        else prefix = name.slice(0, 3).toUpperCase();
-
-        const p1 = Math.floor(1000 + Math.random() * 9000);
-        const p2 = Math.floor(100 + Math.random() * 900);
-        const p3 = Math.floor(100 + Math.random() * 900);
-        const newCard = `${prefix} БББ ${p1} ${p2} ${p3}`;
-
-        const { error } = await db.from('profiles').update({ card_status: 'pending', card_number: newCard }).eq('id', currentUser.id);
-        if (error) throw error;
-        message('Заявка на карту отправлена!');
-        await loadDashboard(true);
-      } catch (err) {
-        message('Ошибка: ' + err.message, true);
-      } finally {
-        hideLoading();
-      }
-    };
-
-    $('btnChangePassword').addEventListener('click', async () => {
-      const curr = $('currPass').value;
-      const p1 = $('newPass').value;
-      const p2 = $('newPassConfirm').value;
-      if (!curr) return message('Введите текущий пароль', true);
-      if (p1.length < 6) return message('Новый пароль должен быть не менее 6 символов', true);
-      if (p1 !== p2) return message('Новые пароли не совпадают', true);
-      
-      showLoading('Проверка текущего пароля...');
-      
-      const { error: signInError } = await db.auth.signInWithPassword({ email: currentUser.email, password: curr });
-      if (signInError) { hideLoading(); return message('Неверный текущий пароль!', true); }
-      
-      showLoading('Смена пароля...');
-      const { error } = await db.auth.updateUser({ password: p1 });
-      hideLoading();
-      if (error) return message(error.message, true);
-      
-      message('✅ Пароль успешно изменён! Проверьте почту, Supabase отправил уведомление.');
-      $('currPass').value = ''; $('newPass').value = ''; $('newPassConfirm').value = '';
-    });
-
-    function updateBuyTotal() {
-      if (!selectedAircraft) return;
-      const qty = Math.max(1, Number($('buyQuantity').value) || 1);
-      const discountPct = getDiscountPct();
-      const total = Math.round(selectedAircraft.price * qty * (1 - discountPct/100));
-      $('buyTotalPrice').textContent = total.toLocaleString('ru-RU') + ' МайБит';
-      const dp = $('discountPreview');
-      if (dp) {
-        const hasInput = ($('buyDiscountCard')?.value || '').trim();
-        if (discountPct > 0) { dp.textContent = `🎉 Скидка ${discountPct}% по Balocard применена`; dp.style.color = 'var(--green)'; }
-        else if (hasInput) { dp.textContent = '❌ Balocard не найдена или неактивна'; dp.style.color = 'var(--red)'; }
-        else { dp.textContent = ''; }
-      }
-    }
-    $('buyQuantity').addEventListener('input', updateBuyTotal);
-    $('buyDiscountCard')?.addEventListener('input', updateBuyTotal);
-    function renderMarketplace() {
-      $('aircraftMarketplace').innerHTML = AIRCRAFT_DATA.map((a, i) => `<div class="aircraft-card"><div><h4>${esc(a.model)}</h4>${a.note ? `<div class="muted">${esc(a.note)}</div>` : ''}<div class="price">${a.price.toLocaleString('ru-RU')} МайБит</div></div><button class="primary" onclick="openBuyAircraft(${i})">Заказать</button></div>`).join('');
-    }
-    function openBuyAircraft(index) {
-      if (isProcessing) return;
-      selectedAircraft = AIRCRAFT_DATA[index];
-      if (!currentUser) return message('Сначала войдите в аккаунт', true);
-      $('buyModelName').textContent = selectedAircraft.model;
-      $('buyModelPrice').textContent = selectedAircraft.price.toLocaleString('ru-RU');
-      $('buyQuantity').value = 1; $('buyEmail').value = currentUser.email || '';
-      $('buyCard').value = ''; $('buyConsent').checked = false;
-      if ($('buyDiscountCard')) $('buyDiscountCard').value = '';
-      if ($('discountPreview')) { $('discountPreview').textContent = ''; $('discountPreview').style.color = 'var(--green)'; }
-      updateBuyTotal(); $('buyAircraftModal').classList.add('show');
-    }
-    function closeBuyAircraftModal() { if (isProcessing) return; $('buyAircraftModal').classList.remove('show'); }
-    async function confirmBuyAircraft() {
-      if (isProcessing) return;
-      if (!selectedAircraft || !currentUser) return message('Не выбран самолёт', true);
-      if (userProfile?.card_status !== 'approved') return message('У вас нет одобренной карты!', true);
-      const qty = Number($('buyQuantity').value);
-      const email = $('buyEmail').value.trim();
-      const consent = $('buyConsent').checked;
-      if (!Number.isInteger(qty) || qty < 1 || qty > 5) return message('Количество от 1 до 5', true);
-      if (!email || !$('buyEmail').validity.valid) return message('Введите корректную почту', true);
-      if ($('buyCard').value.trim().toUpperCase() !== (userProfile.card_number || '').toUpperCase()) return message('Неверный номер карты!', true);
-      if (!consent) return message('Необходимо согласие', true);
-      showLoading('Оформляем заказ...');
-      const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0,0,0,0);
-      const { data: existing, error: readErr } = await db.from('aircraft_orders').select('quantity').eq('user_id', currentUser.id).eq('model', selectedAircraft.model).gte('created_at', monthStart.toISOString());
-      if (readErr) { hideLoading(); return message(readErr.message, true); }
-      const sum = (existing || []).reduce((n, o) => n + Number(o.quantity || 0), 0);
-      if (sum + qty > 5) { hideLoading(); return message(`Лимит — 5 самолётов за месяц. Уже: ${sum}.`, true); }
-      const discountPct = getDiscountPct();
-      const finalPrice = Math.round(selectedAircraft.price * qty * (1 - discountPct/100));
-      const createdAt = new Date();
-      const readyAt = new Date(createdAt.getTime() + 7 * 86400000);
-      const { error } = await db.from('aircraft_orders').insert({ user_id: currentUser.id, model: selectedAircraft.model, price: finalPrice, quantity: qty, email, status: 'assembling', created_at: createdAt.toISOString(), ready_at: readyAt.toISOString() });
-      if (error) { hideLoading(); return message(error.message, true); }
-      fetch('https://formspree.io/f/xeaalzlg', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: `Заказ Баловск: ${selectedAircraft.model} x${qty}${discountPct > 0 ? ' (скидка Balocard 10%)' : ''}`, email, type: 'Покупка Баловск', price: finalPrice }) }).catch(() => {});
-      hideLoading(); message(discountPct > 0 ? `Заявка зарегистрирована! Применена скидка ${discountPct}%` : 'Заявка зарегистрирована!'); closeBuyAircraftModal(); await loadDashboard(true);
-    }
-
-    function loanDebt(loan) {
-      const hours = Math.max(0, Math.ceil((Date.now() - new Date(loan.created_at).getTime()) / 3600000));
-      return Math.ceil(Number(loan.amount) * Math.pow(1.02, hours));
-    }
-
-    async function checkOverdueLoanFines() {
-      if (!currentUser) return;
-      try {
-        let q = db.from('loans').select('*')
-          .eq('status', 'active')
-          .eq('fine_applied', false)
-          .lt('due_date', new Date().toISOString());
-        if (!isAdmin) q = q.eq('user_id', currentUser.id);
-        const { data: overdueLoans } = await q;
-        for (const loan of (overdueLoans || [])) {
-          try {
-            await db.from('fines').insert({
-              user_id: loan.user_id,
-              amount: 10,
-              reason: 'Просрочка по кредиту МайБанка (более 7 дней)',
-              status: 'unpaid'
-            });
-            await db.from('loans').update({ fine_applied: true }).eq('id', loan.id);
-          } catch (e) { console.error('Fine insert error:', e); }
-        }
-      } catch (e) { console.error('checkOverdueLoanFines:', e); }
-    }
-
-    async function loadLoans() {
-      const { data: loans, error } = await db.from('loans').select('*').eq('user_id', currentUser.id).eq('status', 'active').order('created_at', { ascending: false }).limit(1);
-      if (error) { $('loanInfo').textContent = error.message; return; }
-      const loan = loans?.[0];
-      if (!loan) { $('activeLoanBox').classList.add('hidden'); $('newLoanBox').classList.remove('hidden'); return; }
-      $('activeLoanBox').classList.remove('hidden'); $('newLoanBox').classList.add('hidden');
-      const debt = loanDebt(loan);
-      const created = new Date(loan.created_at);
-      const due = new Date(loan.due_date || created.getTime() + 7 * 86400000);
-      const overdue = Date.now() >= due.getTime();
-      $('loanInfo').innerHTML = `Сумма: ${Number(loan.amount).toLocaleString('ru-RU')} МайБит<br>Долг: <strong>${debt.toLocaleString('ru-RU')} МайБит</strong><br>Погасить до: ${due.toLocaleString('ru-RU')}<br>${overdue ? 'Срок истёк!' : 'Штраф 10 МайБит при просрочке.'}`;
-      $('btnPayLoan').onclick = async () => {
-        if (isProcessing) return;
-        showLoading('Погашение...');
-        const { data: profile, error: pe } = await db.from('profiles').select('balance').eq('id', currentUser.id).single();
-        if (pe) { hideLoading(); return message(pe.message, true); }
-        if (Number(profile.balance || 0) < debt) { hideLoading(); return message('Недостаточно МайБитов', true); }
-        const { error: ue } = await db.from('profiles').update({ balance: Number(profile.balance || 0) - debt }).eq('id', currentUser.id);
-        if (ue) { hideLoading(); return message(ue.message, true); }
-        const { error: le } = await db.from('loans').update({ status: 'paid', paid_at: new Date().toISOString() }).eq('id', loan.id);
-        if (le) { hideLoading(); return message(le.message, true); }
-        hideLoading(); message('Кредит погашен!'); await loadDashboard(true);
-      };
-    }
-    $('btnTakeLoan').addEventListener('click', async () => {
-      if (isProcessing) return;
-      if (!currentUser) return message('Войдите в аккаунт', true);
-      const amount = Number($('loanAmount').value);
-      if (!Number.isSafeInteger(amount) || amount <= 0) return message('Введите положительную сумму', true);
-      showLoading('Оформление кредита...');
-      const created = new Date(); const due = new Date(created.getTime() + 7 * 86400000);
-      const { error } = await db.from('loans').insert({ user_id: currentUser.id, amount, status: 'active', created_at: created.toISOString(), due_date: due.toISOString(), fine_applied: false });
-      if (error) { hideLoading(); return message(error.message, true); }
-      const { data: prof, error: profileError } = await db.from('profiles').select('balance,company_name').eq('id', currentUser.id).single();
-      if (profileError) { hideLoading(); return message('Кредит создан, но баланс не загружен', true); }
-      await db.from('profiles').update({ balance: Number(prof.balance || 0) + amount }).eq('id', currentUser.id);
-      await db.from('transactions').insert({ sender_name: 'МайБанк', receiver_name: prof.company_name || 'Компания', amount, type: 'loan' });
-      hideLoading(); message(`Кредит оформлен. +${amount} МайБит начислено.`);
-      $('loanAmount').value = ''; await loadDashboard(true);
-    });
-
-    function addClassInput() {
-      const wrap = document.createElement('div');
-      wrap.className = 'custom-class-block';
-      wrap.innerHTML = `<div class="calc-row"><div class="field"><label>Название класса</label><input class="custom-class-name" maxlength="50" placeholder="Например, Премиум"></div><div class="field"><label>Доход за месяц</label><input class="custom-class-month" type="number" step="any" placeholder="0"></div></div><div class="field"><label>Доход за год</label><input class="custom-class-year" type="number" step="any" placeholder="0"></div>`;
-      $('classInputs').appendChild(wrap);
-    }
-    function addExpenseInput() {
-      const wrap = document.createElement('div');
-      wrap.className = 'calc-row';
-      wrap.innerHTML = `<div class="field"><label>Название расхода</label><input class="expense-name" maxlength="50" placeholder="Обслуживание"></div><div class="field"><label>За месяц</label><input class="expense-month" type="number" step="any" placeholder="0"></div><div class="field"><label>За год</label><input class="expense-year" type="number" step="any" placeholder="0"></div>`;
-      $('expenseInputs').appendChild(wrap);
-    }
-    $('btnAddClass').addEventListener('click', addClassInput);
-    $('btnAddExpense').addEventListener('click', addExpenseInput);
-    $('btnCalc').addEventListener('click', () => {
-      const num = id => Number($(id).value) || 0;
-      const revenueM = num('c_total_m'), revenueY = num('c_total_y');
-      let expensesM = 0, expensesY = 0;
-      document.querySelectorAll('.expense-month').forEach(x => expensesM += Number(x.value) || 0);
-      document.querySelectorAll('.expense-year').forEach(x => expensesY += Number(x.value) || 0);
-      const netM = revenueM - expensesM, netY = revenueY - expensesY;
-      $('calcResult').innerHTML = `Чистая прибыль за месяц: <span style="color:${netM >= 0 ? 'var(--green)' : 'var(--red)'}">${netM.toLocaleString('ru-RU')} МайБит</span><br>Чистая прибыль за год: <span style="color:${netY >= 0 ? 'var(--green)' : 'var(--red)'}">${netY.toLocaleString('ru-RU')} МайБит</span><div class="muted" style="margin-top:8px">Расчёт выполнен в браузере.</div>`;
-    });
-
     /* ==========================================================
-       КАРТЫ (MAYCard / Balocard) + ЗАМОРОЗКА + ПРАЗДНИКИ (кастомные)
+       КАРТЫ (MAYCard / Balocard)
        ========================================================== */
-
     function getCardData() {
-      if (!userProfile) return { maycard: false, balocard: false, frozen_until: null, holiday_requests: [], custom_holidays: [] };
+      if (!userProfile) return {};
       let cd = userProfile.card_data;
       if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } }
       if (!cd || typeof cd !== 'object') cd = {};
-      cd.maycard = cd.maycard || false;
-      cd.balocard = cd.balocard || false;
-      cd.frozen_until = cd.frozen_until || null;
       cd.holiday_requests = Array.isArray(cd.holiday_requests) ? cd.holiday_requests : [];
       cd.custom_holidays = Array.isArray(cd.custom_holidays) ? cd.custom_holidays : [];
       return cd;
     }
 
-    function isCardFrozen() {
-      const cd = getCardData();
-      if (!cd.frozen_until) return false;
-      return new Date(cd.frozen_until) > new Date();
+    function getCardPrefix(companyName) {
+      const clean = (companyName || 'XX').trim().toUpperCase().replace(/[^А-ЯЁA-Z0-9 ]/g, '');
+      const words = clean.split(/\s+/).filter(w => w.length > 0);
+      if (words.length >= 3) return (words[0][0] + words[1][0] + words[2][0]);
+      if (words.length === 2) return (words[0].slice(0,2) + words[1][0]).padEnd(3, words[1][0] || 'X');
+      return clean.slice(0, 3).padEnd(3, clean[0] || 'X');
+    }
+
+    function generateCardNumber(companyName) {
+      const prefix = getCardPrefix(companyName);
+      const rnd = (n) => Array.from({length: n}, () => Math.floor(Math.random() * 10)).join('');
+      return `${prefix} ${rnd(4)} ${rnd(3)} ${rnd(3)}`;
+    }
+
+    function isCardExpired(cd, type) {
+      const exp = cd?.[type + '_expires_at'];
+      if (!exp) return false;
+      return new Date(exp) < new Date();
+    }
+
+    function isCardFrozen(cd) {
+      const fz = cd?.frozen_until;
+      if (!fz) return false;
+      return new Date(fz) > new Date();
+    }
+
+    function daysUntilExpiry(cd, type) {
+      const exp = cd?.[type + '_expires_at'];
+      if (!exp) return null;
+      return Math.floor((new Date(exp).getTime() - Date.now()) / 86400000);
     }
 
     function daysInAlliance() {
-      if (!userProfile) return 0;
-      const joined = userProfile.joined_at || userProfile.created_at;
-      if (!joined) return 0;
-      return Math.floor((Date.now() - new Date(joined).getTime()) / 86400000);
+      if (!userProfile?.joined_at) return 0;
+      return Math.floor((Date.now() - new Date(userProfile.joined_at).getTime()) / 86400000);
     }
 
     function frozenOverlayHTML(cd) {
       let until = '—';
       try { until = new Date(cd.frozen_until).toLocaleDateString('ru-RU'); } catch(e) {}
-      return `
-        <div class="frozen-overlay">
-          <div class="frozen-icon">❄️</div>
-          <div class="frozen-title">Карта заморожена</div>
-          <div class="frozen-msg">
-            Заморожена до ${esc(until)}.<br>Для апелляции напишите нам:<br>
-            <a href="https://vk.ru/mayskiyrunway" target="_blank" rel="noopener">VK</a> ·
-            <a href="https://t.me/AliansMY_bot" target="_blank" rel="noopener">Telegram</a> ·
-            <a href="mailto:mayskiyrunway@gmail.com">Почта</a>
-          </div>
-        </div>`;
+      return `<div class="frozen-overlay"><div class="frozen-icon">❄️</div><div class="frozen-title">Карта заморожена</div><div class="frozen-msg">Заморожена до ${esc(until)}.<br>Для апелляции напишите нам:<br><a href="https://vk.ru/mayskiyrunway" target="_blank" rel="noopener">VK</a> · <a href="https://t.me/AliansMY_bot" target="_blank" rel="noopener">Telegram</a> · <a href="mailto:mayskiyrunway@gmail.com">Почта</a></div></div>`;
     }
 
     function renderCards() {
@@ -2290,94 +1886,241 @@
       if (!el) return;
       if (!userProfile) { el.innerHTML = '<p class="muted">Войдите в аккаунт.</p>'; return; }
       const cd = getCardData();
-      const frozen = isCardFrozen();
-      const days = daysInAlliance();
-      const holder = (userProfile.company_name || userProfile.email || 'КОМПАНИЯ').toUpperCase().slice(0, 22);
-      const exp = cd.expiry || '••/••';
+      const frozen = isCardFrozen(cd);
+      const holder = (userProfile.company_name || 'КОМПАНИЯ').toUpperCase().slice(0, 22);
 
       let html = '<div class="cards-wrap">';
+      let hasAny = false;
 
-      if (cd.maycard) {
+      if (cd.maycard_status === 'approved' && cd.maycard_number) {
+        hasAny = true;
+        const expired = isCardExpired(cd, 'maycard');
+        const expStr = cd.maycard_expires_at ? (() => {
+          const d = new Date(cd.maycard_expires_at);
+          return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`;
+        })() : '••/••';
         html += `
-          <div class="bank-card maycard ${frozen ? 'frozen' : ''}">
+          <div class="bank-card maycard ${(frozen || expired) ? 'frozen' : ''}">
             <img class="card-logo" src="${LOGO_LIGHT}" alt="THEMAYSKIY" onerror="this.style.display='none'">
             <div class="card-chip"></div>
             <div class="card-brand">MAYCard<small>Payment card</small></div>
             <div class="card-bottom">
-              <div class="card-number">${esc(cd.maycard_number || '•••• •••• •••• ••••')}</div>
-              <div class="card-row">
-                <div class="card-holder">${esc(holder)}</div>
-                <div class="card-expiry">${esc(exp)}</div>
-              </div>
+              <div class="card-number">${esc(cd.maycard_number)}</div>
+              <div class="card-holder-small">${esc(holder)}</div>
+              <div class="card-row"><div class="card-bank">МайБанк</div><div class="card-expiry">${esc(expStr)}</div></div>
             </div>
-            ${frozen ? frozenOverlayHTML(cd) : ''}
+            ${frozen ? frozenOverlayHTML(cd) : (expired ? `<div class="frozen-overlay"><div class="frozen-icon">⏰</div><div class="frozen-title">Срок истёк</div><div class="frozen-msg">Перезакажите карту в разделе<br>«Карта авиакомпании»</div></div>` : '')}
           </div>`;
       }
 
-      if (cd.balocard) {
+      if (cd.balocard_status === 'approved' && cd.balocard_number) {
+        hasAny = true;
+        const expired = isCardExpired(cd, 'balocard');
+        const expStr = cd.balocard_expires_at ? (() => {
+          const d = new Date(cd.balocard_expires_at);
+          return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`;
+        })() : '••/••';
         html += `
-          <div class="bank-card balocard ${frozen ? 'frozen' : ''}">
+          <div class="bank-card balocard ${(frozen || expired) ? 'frozen' : ''}">
             <img class="card-logo" src="${LOGO_DARK}" alt="THEMAYSKIY" onerror="this.style.display='none'">
             <div class="card-chip"></div>
             <div class="card-brand">Balocard<small>Discount card</small></div>
             <div class="card-bottom">
-              <div class="card-number">${esc(cd.balocard_number || '•••• •••• •••• ••••')}</div>
-              <div class="card-row">
-                <div class="card-holder">${esc(holder)}</div>
-                <div class="card-expiry">${esc(exp)}</div>
-              </div>
+              <div class="card-number">${esc(cd.balocard_number)}</div>
+              <div class="card-holder-small">${esc(holder)}</div>
+              <div class="card-row"><div class="card-bank">МайБанк</div><div class="card-expiry">${esc(expStr)}</div></div>
             </div>
-            ${frozen ? frozenOverlayHTML(cd) : ''}
+            ${frozen ? frozenOverlayHTML(cd) : (expired ? `<div class="frozen-overlay"><div class="frozen-icon">⏰</div><div class="frozen-title">Срок истёк</div><div class="frozen-msg">Перезакажите карту в разделе<br>«Карта авиакомпании»</div></div>` : '')}
           </div>`;
       }
 
-      html += '<div class="card-action-row">';
-      if (!cd.maycard) {
-        if (days >= 0 && userProfile.joined_at) html += `<button class="primary" type="button" onclick="orderCard('maycard')">Заказать MAYCard</button>`;
-        else html += `<p class="muted" style="font-size:11px;text-align:center;width:100%">MAYCard доступна после одобрения в альянс</p>`;
+      if (!hasAny) {
+        html += '<p class="muted" style="text-align:center;padding:20px 0">У вас пока нет активных карт. Закажите их в разделе «Карта авиакомпании».</p>';
       }
-      if (!cd.balocard) {
-        if (days >= 5) html += `<button class="primary" type="button" onclick="orderCard('balocard')">Заказать Balocard</button>`;
-        else html += `<p class="muted" style="font-size:11px;text-align:center;width:100%">Balocard доступна после 5 дней в альянсе (сейчас ${days} дн.)</p>`;
-      }
-      html += '</div></div>';
+      html += '</div>';
       el.innerHTML = html;
     }
+    window.renderCards = renderCards;
 
-    async function orderCard(type) {
-      if (!currentUser) return message('Войдите в аккаунт', true);
+    async function loadCardStatus() {
+      const content = $('cardStatusContent');
+      if (!content || !userProfile) return;
       const cd = getCardData();
-      if (type === 'maycard') {
-        if (!userProfile?.joined_at) return message('MAYCard доступна после одобрения в альянс', true);
-        if (cd.maycard) return message('У вас уже есть MAYCard', true);
+      const days = daysInAlliance();
+      const hasJoined = !!userProfile.joined_at;
+
+      const statusBlock = (type, title, icon, color, requiredDays) => {
+        const status = cd[type + '_status'] || 'none';
+        const expired = isCardExpired(cd, type);
+        const isFrozen = isCardFrozen(cd);
+        const expiryDays = daysUntilExpiry(cd, type);
+        let inner = '';
+        if (status === 'pending') {
+          inner = `<div class="pending-box">⏳ Заявка на рассмотрении у главы альянса...</div>`;
+        } else if (status === 'rejected') {
+          inner = `<div class="expired-box">❌ Заявка отклонена. Обратитесь в поддержку.</div><button class="secondary" type="button" onclick="requestNewCard('${type}')" style="width:100%;margin-top:8px">Попробовать снова</button>`;
+        } else if (status === 'approved' && !expired) {
+          const expDate = cd[type + '_expires_at'] ? new Date(cd[type + '_expires_at']).toLocaleDateString('ru-RU') : '—';
+          inner = `<p class="status-line">Номер: <strong>${esc(cd[type + '_number'] || '')}</strong></p><p class="status-line">Действует до: <strong>${expDate}</strong></p>`;
+          if (isFrozen) inner += `<div class="expired-box">❄️ Карта заморожена</div>`;
+          else if (expiryDays !== null && expiryDays <= 30 && expiryDays > 0) inner += `<div class="expiry-warn">⚠️ Карта истекает через ${expiryDays} ${pluralDays(expiryDays)}. Перезакажите заранее.</div>`;
+          inner += `<button class="secondary" type="button" onclick="requestNewCard('${type}')" style="width:100%;margin-top:8px">Перезаказать карту</button>`;
+        } else if (expired) {
+          inner = `<div class="expired-box">⏰ Срок действия истёк</div><button class="primary" type="button" onclick="requestNewCard('${type}')" style="width:100%;margin-top:8px">Перезаказать карту</button>`;
+        } else {
+          // no card
+          if (type === 'maycard' && !hasJoined) {
+            inner = `<p class="muted" style="font-size:12px">Доступна после одобрения в альянс</p>`;
+          } else if (type === 'balocard' && days < requiredDays) {
+            inner = `<p class="muted" style="font-size:12px">Доступна после ${requiredDays} дней в альянсе (сейчас ${days} дн.)</p>`;
+          } else {
+            inner = `<button class="primary" type="button" onclick="requestNewCard('${type}')" style="width:100%">Заказать ${title}</button>`;
+          }
+        }
+        return `<div class="card-status-block"><h4>${icon} ${esc(title)}</h4>${inner}</div>`;
+      };
+
+      content.innerHTML = statusBlock('maycard', 'MAYCard (платёжная)', '💳', '#7a1a12', 0) + statusBlock('balocard', 'Balocard (скидочная)', '💠', '#3d7fb5', 5);
+    }
+
+    async function requestNewCard(type) {
+      if (!currentUser || !userProfile) return message('Войдите в аккаунт', true);
+      const cd = getCardData();
+      if (type === 'maycard' && !userProfile.joined_at) return message('MAYCard доступна после одобрения в альянс', true);
+      if (type === 'balocard' && daysInAlliance() < 5) return message('Balocard доступна после 5 дней в альянсе', true);
+      if (cd[type + '_status'] === 'pending') return message('Заявка уже отправлена', true);
+      if (cd[type + '_status'] === 'approved' && !isCardExpired(cd, type)) {
+        if (!confirm('У вас уже есть активная карта. Перезаказать (старая аннулируется)?')) return;
       }
-      if (type === 'balocard') {
-        if (daysInAlliance() < 5) return message('Balocard доступна после 5 дней в альянсе', true);
-        if (cd.balocard) return message('У вас уже есть Balocard', true);
+      showLoading('Отправка заявки...');
+      cd[type + '_status'] = 'pending';
+      cd[type + '_requested_at'] = new Date().toISOString();
+      // Clear old card data on reorder
+      if (isCardExpired(cd, type) || cd[type + '_status'] !== 'approved') {
+        cd[type + '_number'] = null;
+        cd[type + '_issued_at'] = null;
+        cd[type + '_expires_at'] = null;
       }
-      showLoading('Выпуск карты...');
-      const num = Array.from({length:4}, () => Math.floor(1000 + Math.random()*9000)).join(' ');
-      const exp = `${String(new Date().getMonth()+1).padStart(2,'0')}/${String(new Date().getFullYear()+2).slice(-2)}`;
-      if (type === 'maycard') { cd.maycard = true; cd.maycard_number = num; }
-      else { cd.balocard = true; cd.balocard_number = num; }
-      cd.expiry = exp;
       const { error } = await db.from('profiles').update({ card_data: cd }).eq('id', currentUser.id);
       hideLoading();
-      if (error) return message('Ошибка: ' + error.message, true);
+      if (error) return message(error.message, true);
       userProfile.card_data = cd;
-      message('✅ Карта выпущена!');
+      message('✅ Заявка на карту отправлена главе альянса');
+      await loadCardStatus();
       renderCards();
+      if (isAdmin) await updateAdminBadge();
     }
-    window.orderCard = orderCard;
-    window.renderCards = renderCards;
+    window.requestNewCard = requestNewCard;
+
+    /* ---------- Админ: карты ---------- */
+    async function renderAdminCards() {
+      const el = $('adminCardsList');
+      if (!el) return;
+      const { data, error } = await db.from('profiles').select('id,company_name,avatar_url,joined_at,card_data');
+      if (error) { el.innerHTML = '<p class="muted">Ошибка: ' + esc(error.message) + '</p>'; return; }
+      let items = [];
+      (data || []).forEach(p => {
+        let cd = p.card_data;
+        if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } }
+        if (!cd) return;
+        if (cd.maycard_status === 'pending') items.push({ _id: p.id, _name: p.company_name, _avatar: p.avatar_url, _req: cd.maycard_requested_at, type: 'maycard', title: 'MAYCard' });
+        if (cd.balocard_status === 'pending') items.push({ _id: p.id, _name: p.company_name, _avatar: p.avatar_url, _req: cd.balocard_requested_at, type: 'balocard', title: 'Balocard' });
+      });
+      // Also legacy card_status='pending'
+      const { data: legacy } = await db.from('profiles').select('id,company_name,avatar_url,card_number').eq('card_status', 'pending');
+      (legacy || []).forEach(p => {
+        items.push({ _id: p.id, _name: p.company_name, _avatar: p.avatar_url, _req: null, type: 'legacy', title: 'Старая карта', _legacyNum: p.card_number });
+      });
+      updateSectionBadge('adminCardsSection', items.length);
+      if (!items.length) { el.innerHTML = '<p class="muted">Нет заявок на карты.</p>'; return; }
+      el.innerHTML = items.map(it => {
+        const isLegacy = it.type === 'legacy';
+        const reqDate = it._req ? new Date(it._req).toLocaleString('ru-RU') : '—';
+        return `<div class="admin-card">
+          <div class="avatar">${it._avatar ? `<img src="${esc(it._avatar)}">` : '✦'}</div>
+          <div class="admin-card-info">
+            <h4>${esc(it._name)}</h4>
+            <p class="muted" style="font-size:12px;margin:4px 0">
+              <span class="code-badge" style="margin:0">${esc(it.title)}</span>
+              ${isLegacy ? 'Номер: <strong>' + esc(it._legacyNum || '—') + '</strong>' : 'Запрошено: ' + reqDate}
+            </p>
+          </div>
+          <div class="admin-actions">
+            <button class="primary" type="button" onclick="approveNewCard('${esc(it._id)}','${it.type}')">✅ Одобрить</button>
+            <button class="secondary" type="button" style="border-color:var(--red);color:var(--red)" onclick="rejectNewCard('${esc(it._id)}','${it.type}')">❌ Отклонить</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    async function approveNewCard(profileId, type) {
+      if (isProcessing) return;
+      if (!confirm('Одобрить карту?')) return;
+      showLoading('Одобрение...');
+      const { data: prof, error: pe } = await db.from('profiles').select('company_name,card_data').eq('id', profileId).maybeSingle();
+      if (pe) { hideLoading(); return message(pe.message, true); }
+      let cd = prof?.card_data;
+      if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } }
+      cd = cd || {};
+      const now = new Date();
+      const expiresAt = new Date(now.getTime() + 365 * 86400000);
+      const updates = {};
+      if (type === 'legacy') {
+        updates.card_status = 'approved';
+      } else {
+        cd[type + '_status'] = 'approved';
+        cd[type + '_number'] = generateCardNumber(prof?.company_name || 'XX');
+        cd[type + '_issued_at'] = now.toISOString();
+        cd[type + '_expires_at'] = expiresAt.toISOString();
+        updates.card_data = cd;
+        // For MAYCard, also update legacy card_status for aircraft purchase compatibility
+        if (type === 'maycard') {
+          updates.card_status = 'approved';
+          updates.card_number = cd.maycard_number;
+        }
+      }
+      const { error } = await db.from('profiles').update(updates).eq('id', profileId);
+      hideLoading();
+      if (error) return message(error.message, true);
+      await logAdminAction('Одобрение карты ' + type, profileId, cd[type + '_number'] || '');
+      message('✅ Карта одобрена и выдана');
+      await renderAdminCards();
+      await updateAdminBadge();
+    }
+    async function rejectNewCard(profileId, type) {
+      if (!confirm('Отклонить карту?')) return;
+      showLoading('...');
+      const { data: prof, error: pe } = await db.from('profiles').select('card_data').eq('id', profileId).maybeSingle();
+      if (pe) { hideLoading(); return message(pe.message, true); }
+      let cd = prof?.card_data;
+      if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } }
+      cd = cd || {};
+      const updates = {};
+      if (type === 'legacy') {
+        updates.card_status = 'rejected';
+        updates.card_rejected_at = new Date().toISOString();
+      } else {
+        cd[type + '_status'] = 'rejected';
+        updates.card_data = cd;
+      }
+      const { error } = await db.from('profiles').update(updates).eq('id', profileId);
+      hideLoading();
+      if (error) return message(error.message, true);
+      await logAdminAction('Отклонение карты ' + type, profileId);
+      message('Карта отклонена');
+      await renderAdminCards();
+      await updateAdminBadge();
+    }
+    window.approveNewCard = approveNewCard;
+    window.rejectNewCard = rejectNewCard;
 
     function getDiscountPct() {
       const input = ($('buyDiscountCard')?.value || '').trim();
       if (!input) return 0;
       const cd = getCardData();
-      if (!cd.balocard || !cd.balocard_number) return 0;
-      if (isCardFrozen()) return 0;
-      if (input.replace(/\s/g,'').toUpperCase() === cd.balocard_number.replace(/\s/g,'').toUpperCase()) return 10;
+      if (!cd.balocard_number || cd.balocard_status !== 'approved') return 0;
+      if (isCardFrozen(cd) || isCardExpired(cd, 'balocard')) return 0;
+      if (input.replace(/\s/g,'').toUpperCase() === String(cd.balocard_number).replace(/\s/g,'').toUpperCase()) return 10;
       return 0;
     }
 
@@ -2414,8 +2157,7 @@
       let cd = prof?.card_data;
       if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } }
       cd = cd || {};
-      cd.frozen_until = null;
-      cd.frozen_reason = '';
+      cd.frozen_until = null; cd.frozen_reason = '';
       const { error } = await db.from('profiles').update({ card_data: cd }).eq('id', target);
       hideLoading();
       if (error) return message('Ошибка: ' + error.message, true);
@@ -2426,7 +2168,7 @@
     window.freezeCard = freezeCard;
     window.unfreezeCard = unfreezeCard;
 
-    /* ---------- Пользователь: заявка на праздник ---------- */
+    /* ---------- Праздники кастомные ---------- */
     async function requestHoliday() {
       if (!currentUser) return message('Войдите в аккаунт', true);
       const name = $('reqHolidayName')?.value?.trim();
@@ -2435,40 +2177,29 @@
       if (!name || name.length < 3) return message('Введите название праздника (мин. 3 символа)', true);
       if (!date) return message('Выберите дату', true);
       const cd = getCardData();
-      cd.holiday_requests.push({
-        id: 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
-        name, date, comment,
-        user_id: currentUser.id,
-        user_company: userProfile?.company_name || 'Компания',
-        status: 'pending',
-        created_at: new Date().toISOString()
-      });
+      cd.holiday_requests.push({ id: 'req_' + Date.now() + '_' + Math.random().toString(36).slice(2,7), name, date, comment, user_id: currentUser.id, user_company: userProfile?.company_name || 'Компания', status: 'pending', created_at: new Date().toISOString() });
       showLoading('Отправка...');
       const { error } = await db.from('profiles').update({ card_data: cd }).eq('id', currentUser.id);
       hideLoading();
       if (error) return message('Ошибка: ' + error.message, true);
       userProfile.card_data = cd;
-      $('reqHolidayName').value = '';
-      $('reqHolidayDate').value = '';
-      $('reqHolidayComment').value = '';
+      $('reqHolidayName').value = ''; $('reqHolidayDate').value = ''; $('reqHolidayComment').value = '';
       message('✅ Заявка отправлена главе альянса');
     }
     window.requestHoliday = requestHoliday;
 
-    /* ---------- Админ: заявки на праздники ---------- */
     async function renderHolidayRequestsForAdmin() {
       const el = $('adminHolidayRequestsList');
       if (!el) return;
       const { data, error } = await db.from('profiles').select('id,company_name,card_data');
-      if (error) { el.innerHTML = '<p class="muted">Ошибка загрузки: ' + esc(error.message) + '</p>'; return; }
+      if (error) { el.innerHTML = '<p class="muted">Ошибка: ' + esc(error.message) + '</p>'; return; }
       let items = [];
       (data || []).forEach(p => {
         let cd = p.card_data;
         if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } }
-        (cd?.holiday_requests || []).forEach(r => {
-          if (r.status === 'pending') items.push({ ...r, _profile: p });
-        });
+        (cd?.holiday_requests || []).forEach(r => { if (r.status === 'pending') items.push({ ...r, _profile: p }); });
       });
+      updateSectionBadge('adminHolidayRequestsSection', items.length);
       if (!items.length) { el.innerHTML = '<p class="muted">Нет новых заявок на праздники.</p>'; return; }
       el.innerHTML = items.map(r => `
         <div class="admin-card">
@@ -2519,17 +2250,13 @@
         currentUser = user;
         isAdmin = ADMIN_UIDS.includes(user.id);
         if (isAdmin) { await ensureAdminProfile(); updateAdminBadge(); }
-
         await checkOverdueLoanFines();
-
         let { data: profile } = await db.from('profiles').select('*').eq('id', user.id).maybeSingle();
-        
         if (profile && !profile.signature_url) {
             const randomSig = SIGNATURES[Math.floor(Math.random() * SIGNATURES.length)];
             await db.from('profiles').update({ signature_url: randomSig }).eq('id', user.id);
             profile.signature_url = randomSig;
         }
-
         userProfile = profile;
         if (profile?.blood_effects !== undefined && profile?.blood_effects !== null) localStorage.setItem('blood_effects', profile.blood_effects ? 'true' : 'false');
         updateBrand(); updateAssistantAvatar();
@@ -2567,7 +2294,7 @@
           else { $('statTime').textContent = 'В альянсе: не состоит'; $('statDate').textContent = 'Дата вступления: —'; }
           await loadLoans();
           await loadCardStatus();
-          if (typeof renderCards === 'function') renderCards();
+          renderCards();
           await loadExitRequest();
           
           const joined = profile?.joined_at != null;
@@ -2593,10 +2320,8 @@
         const since = new Date(Date.now() - 86400000).toISOString();
         const { data: posts } = await db.from('posts').select('*').gte('created_at', since).order('created_at', { ascending: false }).limit(10);
         $('newsList').innerHTML = posts?.length ? posts.map(p => `<div class="post-card"><div class="post-header"><strong>${esc(p.author_name)}</strong>${p.author_name === ADMIN_NAME ? adminBadge() : ''}<span>${new Date(p.created_at).toLocaleString()}</span></div><div class="post-content">${esc(p.content)}</div></div>`).join('') : '<div class="muted">Новостей нет.</div>';
-
         updateSectionBadge('newsSection', posts?.length || 0);
 
-        // NEW: добавляем card_data для чтения кастомных праздников
         const { data: allProfiles } = await db.from('profiles').select('id,company_name,birthday_date,card_data');
         await renderHolidays(allProfiles);
         await loadMembers();
@@ -2611,13 +2336,16 @@
           $('myFleetList').innerHTML = fleetHtml;
           const { data: maysk } = await db.from('maysk_requests').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1);
           $('mayskStatus').innerHTML = maysk?.length ? `<div class="muted">Заявка: ${maysk[0].status === 'approved' ? 'Одобрена' : maysk[0].status === 'rejected' ? 'Отклонена' : 'На проверке'}</div>` : '';
+          // update sub select for Maysk
+          const { data: subsApproved } = await db.from('subsidiaries').select('id,company_name').eq('parent_id', user.id).eq('status', 'approved');
+          if ($('mayskSubSelect')) $('mayskSubSelect').innerHTML = subsApproved?.length ? subsApproved.map(s => `<option value="${esc(s.id)}">${esc(s.company_name)}</option>`).join('') : '<option value="">Нет дочек</option>';
+          if ($('mayskCompany') && profile?.company_name) $('mayskCompany').value = profile.company_name;
           await updateRegistryButtons();
           await checkMfaStatus();
         }
 
         const { data: fines } = await db.from('fines').select('*').eq('user_id', user.id).eq('status', 'unpaid');
         $('statFines').textContent = `Штрафов: ${fines?.length || 0}`;
-        
         updateSectionBadge('finesSection', fines?.length || 0);
 
         if (!isAdmin) {
@@ -2643,20 +2371,13 @@
     async function loadExitRequest() {
       const content = $('exitRequestList');
       if (!content || !currentUser) return;
-      
       const { data: reqs } = await db.from('exit_requests').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false });
-      
       if (reqs && reqs.length > 0) {
         const req = reqs[0];
-        if (req.status === 'pending') {
-            content.innerHTML = `<p style="color:var(--accent)">⏳ Заявка на выход подана и находится на рассмотрении.</p>`;
-        } else if (req.status === 'approved') {
-            content.innerHTML = `<p style="color:var(--red); font-weight:bold;">Вы вышли из альянса.</p>
-            <button class="secondary" style="margin-top:10px;" onclick="showExitDocument()">Посмотреть документ</button>`;
-        }
+        if (req.status === 'pending') content.innerHTML = `<p style="color:var(--accent)">⏳ Заявка на выход подана и находится на рассмотрении.</p>`;
+        else if (req.status === 'approved') content.innerHTML = `<p style="color:var(--red); font-weight:bold;">Вы вышли из альянса.</p><button class="secondary" style="margin-top:10px;" onclick="showExitDocument()">Посмотреть документ</button>`;
       } else {
-        content.innerHTML = `<p class="muted">Вы можете выйти из альянса, заполнив заявление.</p>
-        <button class="primary" style="background:var(--red);" onclick="openExitModal()">Подать заявление</button>`;
+        content.innerHTML = `<p class="muted">Вы можете выйти из альянса, заполнив заявление.</p><button class="primary" style="background:var(--red);" onclick="openExitModal()">Подать заявление</button>`;
       }
     }
 
@@ -2670,84 +2391,45 @@
         window.toggleExitSig('yes');
         $('exitModal').classList.add('show');
     }
-    function closeExitModal() {
-        $('exitModal').classList.remove('show');
-    }
+    function closeExitModal() { $('exitModal').classList.remove('show'); }
     async function submitExitRequest() {
         if (!currentUser || !userProfile) return;
         const reason = $('exitReason').value.trim();
         if (!reason) return message('Укажите причину выхода', true);
-
         const isSigYes = document.querySelector('input[name="exitSigType"]:checked').value === 'yes';
-        if (isSigYes) {
-            if (exitSigPad.isEmpty()) return message('Пожалуйста, распишитесь в поле для подписи.', true);
-        } else {
+        if (isSigYes) { if (exitSigPad.isEmpty()) return message('Пожалуйста, распишитесь в поле для подписи.', true); }
+        else {
             const typedName = $('exitSigText').value.trim();
             const originalName = userProfile.company_name;
-            if (!typedName || typedName.toLowerCase() !== originalName.toLowerCase()) {
-                return message('Название авиакомпании не совпадает. Напишите точно так же, как в профиле.', true);
-            }
+            if (!typedName || typedName.toLowerCase() !== originalName.toLowerCase()) return message('Название авиакомпании не совпадает.', true);
         }
-        
-        $('btnSubmitExit').disabled = true;
-        $('btnSubmitExit').textContent = 'Отправка...';
+        $('btnSubmitExit').disabled = true; $('btnSubmitExit').textContent = 'Отправка...';
         showLoading('Отправка...');
-        
-        const { error } = await db.from('exit_requests').insert({
-            user_id: currentUser.id,
-            company_name: userProfile.company_name,
-            reason: reason,
-            status: 'pending'
-        });
-        
+        const { error } = await db.from('exit_requests').insert({ user_id: currentUser.id, company_name: userProfile.company_name, reason, status: 'pending' });
         hideLoading();
-        $('btnSubmitExit').disabled = false;
-        $('btnSubmitExit').textContent = 'Отправить заявление';
-        
+        $('btnSubmitExit').disabled = false; $('btnSubmitExit').textContent = 'Отправить заявление';
         if (error) return message(error.message, true);
-        
         message('Заявление на выход отправлено.');
         closeExitModal();
         await loadExitRequest();
     }
+    window.openExitModal = openExitModal;
+    window.closeExitModal = closeExitModal;
 
     window.showExitDocument = async () => {
         if (!currentUser || !userProfile) return;
         const { data: reqs } = await db.from('exit_requests').select('*').eq('user_id', currentUser.id).eq('status', 'approved').order('created_at', { ascending: false }).limit(1);
         if (!reqs || reqs.length === 0) return message('Одобренная заявка не найдена', true);
-        
         const req = reqs[0];
         const docLogo = getDocLogo();
         const siteUrl = window.location.origin;
         const qrBlock = `<div class="doc-qr"><div id="docQrContainer"></div><span>Сайт Альянса</span></div>`;
         const date = new Date(req.approved_at || req.created_at).toLocaleDateString('ru-RU');
         const num = `№ ${Math.floor(Math.random() * 10000)}-EXIT`;
-
-        const html = `
-            <img src="${docLogo}" class="doc-logo" alt="logo" onerror="this.style.display='none'">
-            <div class="header-doc"><span>АЛЬЯНС THEMAYSKIY</span><span>Дата: ${date} | Док: ${num}</span></div>
-            <h2>Выход из альянса: THEMAYSKIY</h2>
-            <p>Настоящим документом подтверждается, что авиакомпания <strong>${esc(req.company_name)}</strong> официально вышла из состава Альянса THEMAYSKIY.</p>
-            <p><strong>Причина:</strong> ${esc(req.reason)}</p>
-            <p>При выходе авиакомпания теряет звание, право на получение МайБитов, поддержку от Майских авиалиний и Альянса. Все дочерние компании и добавленные праздники аннулируются.</p>
-            <div class="signature">
-                <p>Глава Альянса</p>
-                <img src="${userProfile.signature_url || ''}" style="max-width:150px; display:block; margin-left:auto;">
-            </div>
-            <div class="stamp"><img src="${STAMP_URL}"></div>
-            ${qrBlock}
-        `;
-
+        const html = `<img src="${docLogo}" class="doc-logo" alt="logo" onerror="this.style.display='none'"><div class="header-doc"><span>АЛЬЯНС THEMAYSKIY</span><span>Дата: ${date} | Док: ${num}</span></div><h2>Выход из альянса: THEMAYSKIY</h2><p>Настоящим документом подтверждается, что авиакомпания <strong>${esc(req.company_name)}</strong> официально вышла из состава Альянса THEMAYSKIY.</p><p><strong>Причина:</strong> ${esc(req.reason)}</p><p>При выходе авиакомпания теряет звание, право на получение МайБитов, поддержку от Майских авиалиний и Альянса.</p><div class="signature"><p>Глава Альянса</p><img src="${userProfile.signature_url || ''}" style="max-width:150px; display:block; margin-left:auto;"></div><div class="stamp"><img src="${STAMP_URL}"></div>${qrBlock}`;
         $('docContent').innerHTML = html;
         $('docModal').classList.add('show');
-
-        setTimeout(() => {
-            const qrEl = $('docQrContainer');
-            if (qrEl) {
-                qrEl.innerHTML = '';
-                new QRCode(qrEl, { text: siteUrl, width: 90, height: 90, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H });
-            }
-        }, 100);
+        setTimeout(() => { const qrEl = $('docQrContainer'); if (qrEl) { qrEl.innerHTML = ''; new QRCode(qrEl, { text: siteUrl, width: 90, height: 90, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H }); } }, 100);
     };
 
     async function updateRegistryButtons() {
@@ -2770,14 +2452,33 @@
       if (error) return message(error.message, true);
       message('Штраф оплачен!'); await loadDashboard(true);
     };
-    $('btnSubmitMaysk').addEventListener('click', async () => {
-      const company = $('mayskCompany').value.trim(), reason = $('mayskReason').value.trim();
-      if (!company || !reason) return message('Заполните все поля', true);
+
+    async function submitMaysk(kind) {
+      if (isProcessing) return;
+      const companyInput = $('mayskCompany').value.trim();
+      const reason = $('mayskReason').value.trim();
+      let companyName = companyInput;
+      if (kind === 'subsidiary') {
+        const sel = $('mayskSubSelect');
+        if (!sel || !sel.value) return message('У вас нет дочерних компаний', true);
+        companyName = sel.options[sel.selectedIndex].text;
+      }
+      if (!companyName || !reason) return message('Заполните все поля', true);
       showLoading('Отправка...');
-      const { error } = await db.from('maysk_requests').insert({ user_id: currentUser.id, company_name: company, reason, status: 'pending' });
+      const { error } = await db.from('maysk_requests').insert({ user_id: currentUser.id, company_name: companyName, reason, status: 'pending' });
       hideLoading();
       if (error) return message(error.message, true);
       message('Заявка в Майск отправлена!'); await loadDashboard(true);
+    }
+    $('btnSubmitMayskSelf').addEventListener('click', () => submitMaysk('self'));
+    $('btnSubmitMayskSub').addEventListener('click', () => {
+      const sel = $('mayskSubSelect');
+      if (!sel || !sel.value || sel.options[sel.selectedIndex].text === 'Нет дочек') {
+        // Try opening the sub selector
+        $('mayskSubField').classList.remove('hidden');
+        return message('Выберите дочернюю компанию в списке', true);
+      }
+      submitMaysk('subsidiary');
     });
 
     async function loadAdminData() {
@@ -2818,9 +2519,8 @@
       updateSectionBadge('adminExitSection', exits?.length || 0);
       $('adminExitList').innerHTML = exits?.length ? exits.map(e => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(e.company_name)}</h4><p class="muted">Причина: ${esc(e.reason)}</p></div><div class="admin-actions"><button class="primary" style="background:var(--red);" onclick="approveExit('${esc(e.id)}', '${esc(e.user_id)}')">Одобрить выход</button></div></div>`).join('') : 'Нет заявок.';
 
-      const { data: cards } = await db.from('profiles').select('id,company_name,card_number,avatar_url').eq('card_status', 'pending');
-      updateSectionBadge('adminCardsSection', cards?.length || 0);
-      $('adminCardsList').innerHTML = cards?.length ? cards.map(c => `<div class="admin-card"><div class="avatar">${c.avatar_url ? `<img src="${esc(c.avatar_url)}">` : '✦'}</div><div class="admin-card-info"><h4>${esc(c.company_name)}</h4><p class="muted">Карта: <strong>${esc(c.card_number)}</strong></p></div><div class="admin-actions"><button class="primary" onclick="approveCard('${esc(c.id)}')">Одобрить</button><button class="secondary" onclick="rejectCard('${esc(c.id)}')">Отклонить</button></div></div>`).join('') : 'Нет заявок.';
+      // NEW CARDS
+      await renderAdminCards();
 
       const { data: regs } = await db.from('registry_applications').select('*').eq('status', 'pending');
       updateSectionBadge('adminRegistrySection', regs?.length || 0);
@@ -2871,7 +2571,6 @@
       $('adminBalanceTarget').innerHTML = options || '<option value="">—</option>';
       if ($('freezeTarget')) $('freezeTarget').innerHTML = options || '<option value="">—</option>';
 
-      // NEW: заявки на праздники
       if (typeof renderHolidayRequestsForAdmin === 'function') await renderHolidayRequestsForAdmin();
     }
 
@@ -2881,52 +2580,22 @@
         showLoading('Оформление выхода...');
         try {
             await db.from('exit_requests').update({ status: 'approved', approved_at: new Date().toISOString() }).eq('id', requestId);
-            
-            await db.from('profiles').update({ 
-                joined_at: null, 
-                rank: 'Участник', 
-                registry_status: null, 
-                birthday_date: null, 
-                signature_url: null,
-                signature_map: {}
-            }).eq('id', userId);
-
+            await db.from('profiles').update({ joined_at: null, rank: 'Участник', registry_status: null, birthday_date: null, signature_url: null, signature_map: {} }).eq('id', userId);
             await db.from('maysk_requests').delete().eq('user_id', userId);
             await db.from('registry_applications').delete().eq('user_id', userId);
             await db.from('hidden_holidays').delete().eq('holiday_key', 'birthday_' + userId);
-
             const { data: subs } = await db.from('subsidiaries').select('id').or(`parent_id.eq.${userId},user_id.eq.${userId}`);
             if (subs && subs.length > 0) {
                 const subIds = subs.map(s => s.id);
                 await db.from('registry_applications').delete().in('subsidiary_id', subIds);
                 await db.from('subsidiaries').delete().in('id', subIds);
             }
-
             hideLoading();
             await logAdminAction('Одобрен выход из альянса', null, userId);
             message('Выход одобрен. Все данные аннулированы.');
             await loadAdminData();
             await updateAdminBadge();
-        } catch(err) {
-            hideLoading();
-            message('Ошибка при одобрении выхода: ' + err.message, true);
-        }
-    };
-
-    window.approveCard = async (userId) => {
-      if (!confirm('Одобрить карту?')) return;
-      showLoading('...');
-      await db.from('profiles').update({ card_status: 'approved' }).eq('id', userId);
-      hideLoading(); await logAdminAction('Одобрение карты', userId);
-      message('Карта одобрена!'); await loadAdminData(); await updateAdminBadge();
-    };
-
-    window.rejectCard = async (userId) => {
-      if (!confirm('Отклонить карту?')) return;
-      showLoading('...');
-      await db.from('profiles').update({ card_status: 'rejected', card_rejected_at: new Date().toISOString() }).eq('id', userId);
-      hideLoading(); await logAdminAction('Отклонение карты', userId);
-      message('Карта отклонена!'); await loadAdminData(); await updateAdminBadge();
+        } catch(err) { hideLoading(); message('Ошибка: ' + err.message, true); }
     };
 
     window.deletePost = async (postId) => {
@@ -2937,56 +2606,30 @@
       try {
         const { data, error } = await db.from('posts').delete().eq('id', postId).select();
         hideLoading();
-        if (error) {
-          console.error('Delete post error:', error);
-          return message('Ошибка удаления: ' + error.message, true);
-        }
-        if (!data || data.length === 0) {
-          return message('Пост не был удалён. Проверьте RLS-политики (DELETE) для таблицы posts в Supabase.', true);
-        }
+        if (error) return message('Ошибка: ' + error.message, true);
+        if (!data || data.length === 0) return message('Пост не был удалён. Проверьте RLS.', true);
         await logAdminAction('Удаление поста', null, postId);
-        message('Пост удалён');
-        await loadAdminData();
-      } catch (e) {
-        hideLoading();
-        console.error(e);
-        message('Ошибка: ' + (e.message || e), true);
-      }
+        message('Пост удалён'); await loadAdminData();
+      } catch (e) { hideLoading(); message('Ошибка: ' + (e.message || e), true); }
     };
 
     window.expelMember = async (userId, name) => {
       if (isProcessing) return;
-      if (!confirm(`Изгнать "${name}" из альянса?\n\nАккаунт НЕ удаляется, но теряет членство, реестр, полеты и дочерние компании.`)) return;
+      if (!confirm(`Изгнать "${name}" из альянса?\n\nАккаунт НЕ удаляется, но теряет членство.`)) return;
       showLoading('Изгнание...');
-      
       try {
-        await db.from('profiles').update({ 
-            joined_at: null, 
-            rank: 'Участник', 
-            registry_status: null, 
-            expelled_at: new Date().toISOString() 
-        }).eq('id', userId);
-
+        await db.from('profiles').update({ joined_at: null, rank: 'Участник', registry_status: null, expelled_at: new Date().toISOString() }).eq('id', userId);
         await db.from('maysk_requests').delete().eq('user_id', userId);
         await db.from('registry_applications').delete().eq('user_id', userId);
-
         const { data: subs } = await db.from('subsidiaries').select('id').or(`parent_id.eq.${userId},user_id.eq.${userId}`);
         if (subs && subs.length > 0) {
             const subIds = subs.map(s => s.id);
             await db.from('registry_applications').delete().in('subsidiary_id', subIds);
             await db.from('subsidiaries').delete().in('id', subIds);
         }
-
-        hideLoading(); 
-        await logAdminAction('Изгнание из альянса', name);
-        message(`"${name}" изгнана. Все права и дочерние компании аннулированы.`); 
-        await loadAdminData(); 
-        await updateAdminBadge();
-
-      } catch (err) {
-        hideLoading();
-        message('Ошибка при изгнании: ' + err.message, true);
-      }
+        hideLoading(); await logAdminAction('Изгнание из альянса', name);
+        message(`"${name}" изгнана.`); await loadAdminData(); await updateAdminBadge();
+      } catch (err) { hideLoading(); message('Ошибка: ' + err.message, true); }
     };
 
     window.releaseAircraft = async orderId => {
@@ -3047,41 +2690,24 @@
       if (isProcessing) return;
       if (!confirm('Принять компанию в альянс?')) return;
       showLoading('Принятие...');
-      
       try {
         const approvedAt = new Date().toISOString();
-        
         let r = await db.from('applications').update({ status: 'approved', approved_at: approvedAt }).eq('id', id);
         if (r.error) throw new Error('Ошибка заявки: ' + r.error.message);
-        
         r = await db.from('profiles').update({ joined_at: approvedAt }).eq('id', userId);
         if (r.error) throw new Error('Ошибка профиля: ' + r.error.message);
-        
         const { data: prof, error: pErr } = await db.from('profiles').select('balance, company_name').eq('id', userId).single();
         if (pErr) throw new Error('Ошибка чтения баланса: ' + pErr.message);
-        
         if (prof) {
           const newBalance = Number(prof.balance || 0) + 1000000;
           const { error: bErr } = await db.from('profiles').update({ balance: newBalance }).eq('id', userId);
-          if (bErr) {
-            console.error('Ошибка при начислении МайБит:', bErr);
-            message('Принято, но ошибка начисления МайБит: ' + bErr.message, true);
-          } else {
-            await db.from('transactions').insert({ sender_name: 'Альянс (Принятие)', receiver_name: prof.company_name, amount: 1000000, type: 'balance' });
-          }
+          if (bErr) { message('Принято, но ошибка начисления: ' + bErr.message, true); }
+          else { await db.from('transactions').insert({ sender_name: 'Альянс (Принятие)', receiver_name: prof.company_name, amount: 1000000, type: 'balance' }); }
         }
-
-        hideLoading(); 
-        await logAdminAction('Принятие в альянс', null, userId);
-        message('Принято! +1 000 000 МайБит начислено.'); 
-        await loadAdminData(); 
-        await updateAdminBadge();
-        
-      } catch (err) {
-        hideLoading();
-        console.error(err);
-        message(err.message, true);
-      }
+        hideLoading(); await logAdminAction('Принятие в альянс', null, userId);
+        message('Принято! +1 000 000 МайБит начислено.');
+        await loadAdminData(); await updateAdminBadge();
+      } catch (err) { hideLoading(); message(err.message, true); }
     };
 
     window.rejectApp = async id => { if (!confirm('Отклонить заявку?')) return; showLoading('...'); await db.from('applications').update({ status: 'rejected' }).eq('id', id); hideLoading(); await logAdminAction('Отклонение заявки', null, id); await loadAdminData(); await updateAdminBadge(); };
@@ -3104,7 +2730,7 @@
       if (isProcessing) return;
       const user_id = $('adminFineTarget').value, amount = Number($('adminFineAmount').value), reason = $('adminFineReason').value.trim() || 'Штраф';
       if (!user_id || !Number.isFinite(amount) || amount <= 0) return message('Выберите компанию и сумму', true);
-      if (!confirm(`Выписать штраф на ${amount} МайБит?\n\nПричина: ${reason}`)) return;
+      if (!confirm(`Выписать штраф на ${amount} МайБит?`)) return;
       showLoading('Выписываем...');
       const { error } = await db.from('fines').insert({ user_id, amount, reason, status: 'unpaid' });
       hideLoading();
@@ -3132,7 +2758,7 @@
       if (isProcessing) return;
       const target = $('transferTarget').value, amount = Number($('transferAmount').value);
       if (!target || !Number.isSafeInteger(amount) || amount <= 0) return message('Выберите компанию и сумму', true);
-      if (!confirm(`Перевести ${amount} МайБит? Сумма спишется с вашего баланса.`)) return;
+      if (!confirm(`Перевести ${amount} МайБит?`)) return;
       showLoading('Перевод...');
       const { error } = await db.rpc('transfer_maybits', { sender_id: currentUser.id, receiver_id: target, amount });
       if (error) { hideLoading(); return message(error.message, true); }
@@ -3173,17 +2799,11 @@
       showLoading('Вход...');
       const { error } = await db.auth.signInWithPassword({ email, password: pass });
       hideLoading();
-      
       if (error) {
-        if (error.message.includes('Email not confirmed')) {
-          return message('Ошибка: Почта не подтверждена. Проверьте почту или запросите сброс пароля.', true);
-        }
-        if (error.message.includes('Invalid login credentials')) {
-          return message('Ошибка: Неверный email или пароль.', true);
-        }
+        if (error.message.includes('Email not confirmed')) return message('Ошибка: Почта не подтверждена.', true);
+        if (error.message.includes('Invalid login credentials')) return message('Ошибка: Неверный email или пароль.', true);
         return message('Ошибка входа: ' + error.message, true);
       }
-
       const { data: aal } = await db.auth.mfa.getAuthenticatorAssuranceLevel();
       if (aal?.nextLevel === 'aal2' && aal?.currentLevel === 'aal1') {
         const { data: factors } = await db.auth.mfa.listFactors();
@@ -3204,22 +2824,31 @@
       const company = esc(userProfile?.company_name || '...');
       const code = displayCompanyCode(userProfile, currentUser?.id);
       const docLogo = getDocLogo();
-      
-      const sigUrl = await getSignatureForDoc(type);
-      const sigImg = `<img src="${sigUrl}" style="max-width:150px; display:block; margin-left:auto;">`;
 
-      const siteUrl = window.location.origin;
-      const qrBlock = `<div class="doc-qr"><div id="docQrContainer"></div><span>Сайт Альянса</span></div>`;
-
-      const logoTop = `<img src="${docLogo}" class="doc-logo" alt="logo" onerror="this.style.display='none'">`;
-      let html = '';
+      // === Проверки доступа к документу ===
+      if (!userProfile?.joined_at && currentUser.id !== ADMIN_UID) {
+        return message('Документ станет доступен только после одобрения вашей заявки главой альянса', true);
+      }
+      if (type === 'subsidiaries') {
+        const { data: subsChk } = await db.from('subsidiaries').select('id').eq('parent_id', currentUser.id).eq('status', 'approved').limit(1);
+        if (!subsChk?.length) return message('У вас нет одобренных дочерних компаний', true);
+      }
+      if (type === 'registry') {
+        if (userProfile.registry_status !== 'approved') return message('Вы ещё не в реестре Майских компаний', true);
+      }
       if (type === 'maysk') {
         const { data } = await db.from('maysk_requests').select('status').eq('user_id', currentUser.id).eq('status', 'approved').limit(1);
         if (!data?.length) return message('Разрешение появится после одобрения', true);
       }
-      
+
+      const sigUrl = await getSignatureForDoc(type);
+      const sigImg = `<img src="${sigUrl}" style="max-width:150px; display:block; margin-left:auto;">`;
+      const siteUrl = window.location.origin;
+      const qrBlock = `<div class="doc-qr"><div id="docQrContainer"></div><span>Сайт Альянса</span></div>`;
+      const logoTop = `<img src="${docLogo}" class="doc-logo" alt="logo" onerror="this.style.display='none'">`;
       const stampImg = `<div class="stamp"><img src="${STAMP_URL}"></div>`;
 
+      let html = '';
       if (type === 'alliance') {
         html = `${logoTop}<div class="header-doc"><span>АЛЬЯНС THEMAYSKIY</span><span>Дата: ${date} | Док: ${num}</span></div><h2>Свидетельство о вступлении</h2><p>Настоящим официальным документом удостоверяется, что авиакомпания <strong>${company}</strong> (Код: ${code}) является участником <strong>THEMAYSKIY</strong>.</p><p>Авиакомпания обязуется соблюдать устав альянса и вносить вклад в развитие экосистемы.</p><div class="signature"><p>Глава Альянса</p>${sigImg}</div>${stampImg}${qrBlock}`;
       } else if (type === 'subsidiaries') {
@@ -3236,14 +2865,7 @@
       }
       $('docContent').innerHTML = html;
       $('docModal').classList.add('show');
-
-      setTimeout(() => {
-        const qrEl = $('docQrContainer');
-        if (qrEl) {
-          qrEl.innerHTML = '';
-          new QRCode(qrEl, { text: siteUrl, width: 90, height: 90, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H });
-        }
-      }, 100);
+      setTimeout(() => { const qrEl = $('docQrContainer'); if (qrEl) { qrEl.innerHTML = ''; new QRCode(qrEl, { text: siteUrl, width: 90, height: 90, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.H }); } }, 100);
     };
     window.closeDocument = () => $('docModal').classList.remove('show');
 
@@ -3257,18 +2879,14 @@
         const ext = file.name.split('.').pop().toLowerCase();
         const path = `${currentUser.id}-${Date.now()}.${ext}`;
         const { error: uploadError } = await db.storage.from('avatars').upload(path, file, { upsert: true });
-        if (uploadError) { hideLoading(); return message('Ошибка загрузки: ' + uploadError.message, true); }
-        
+        if (uploadError) { hideLoading(); return message('Ошибка: ' + uploadError.message, true); }
         const { data: urlData } = db.storage.from('avatars').getPublicUrl(path);
         const freshUrl = `${urlData.publicUrl}?t=${Date.now()}`;
-        
         const { error: updateError } = await db.from('profiles').upsert({ id: currentUser.id, avatar_url: freshUrl });
         if (updateError) { hideLoading(); return message('Ошибка: ' + updateError.message, true); }
-        
         if (userProfile) userProfile.avatar_url = freshUrl;
         $('avatar').innerHTML = `<img src="${freshUrl}" onerror="this.parentElement.innerHTML='✦'">`;
-        
-        hideLoading(); message('✅ Аватар обновлён!'); 
+        hideLoading(); message('✅ Аватар обновлён!');
         await loadDashboard(true);
       } catch (err) { hideLoading(); message('Ошибка: ' + err.message, true); }
     });
@@ -3323,39 +2941,28 @@
       if (isProcessing) return;
       const { data: { user } } = await db.auth.getUser();
       if (!user) return message('Войдите в аккаунт', true);
-
       const isSigYes = document.querySelector('input[name="appSigType"]:checked').value === 'yes';
-      if (isSigYes) {
-          if (appSigPad.isEmpty()) return message('Пожалуйста, распишитесь в поле для подписи.', true);
-      } else {
+      if (isSigYes) { if (appSigPad.isEmpty()) return message('Пожалуйста, распишитесь в поле для подписи.', true); }
+      else {
           const typedName = $('appSigText').value.trim();
           const originalName = $('applicationCompany').value.trim();
-          if (!typedName || typedName.toLowerCase() !== originalName.toLowerCase()) {
-              return message('Название авиакомпании не совпадает. Напишите точно так же, как в первом поле.', true);
-          }
+          if (!typedName || typedName.toLowerCase() !== originalName.toLowerCase()) return message('Название авиакомпании не совпадает.', true);
       }
-      
-      $('applicationSubmit').disabled = true;
-      $('applicationSubmit').textContent = 'Отправка...';
+      $('applicationSubmit').disabled = true; $('applicationSubmit').textContent = 'Отправка...';
       showLoading('Отправка...');
-      
       const company_name = $('applicationCompany').value.trim();
       const bloodPref = $('applicationBlood').value === 'true';
       const { error } = await db.from('applications').insert({ user_id: user.id, company_name, callsign: $('applicationCallsign').value, ready: $('applicationReady').value, contact_email: $('applicationEmail').value, status: 'pending' });
-      
-      if (error) { 
-          hideLoading(); 
+      if (error) {
+          hideLoading();
           $('applicationSubmit').disabled = false;
           $('applicationSubmit').textContent = 'Подать документ';
-          return message(error.message, true); 
+          return message(error.message, true);
       }
-      
       await db.from('profiles').upsert({ id: user.id, company_name, blood_effects: bloodPref });
       localStorage.setItem('blood_effects', bloodPref ? 'true' : 'false');
       fetch('https://formspree.io/f/xeaalzlg', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: company_name, email: $('applicationEmail').value, type: 'Заявка в альянс' }) }).catch(() => {});
-      
-      hideLoading(); 
-      message('Документ отправлен. Ожидайте одобрения.'); 
+      hideLoading(); message('Документ отправлен. Ожидайте одобрения.');
       await loadDashboard(true);
       showPage('dashboardPage');
     });
@@ -3383,7 +2990,7 @@
       appSigPad = setupCanvas($('appSigCanvas'));
       exitSigPad = setupCanvas($('exitSigCanvas'));
 
-      // NEW: обработчики новых кнопок
+      // Обработчики новых кнопок
       $('btnFreezeCard')?.addEventListener('click', freezeCard);
       $('btnUnfreezeCard')?.addEventListener('click', unfreezeCard);
       $('btnRequestHoliday')?.addEventListener('click', requestHoliday);
@@ -3394,7 +3001,6 @@
         showPage('authPage');
         $('resetPasswordModal').classList.add('show');
       }
-
       const { data: { session } } = await db.auth.getSession();
       if (session) {
         const { data: aal } = await db.auth.mfa.getAuthenticatorAssuranceLevel();
@@ -3402,16 +3008,9 @@
           showPage('authPage');
           const { data: factors } = await db.auth.mfa.listFactors();
           const factor = factors?.totp?.find(f => f.status === 'verified');
-          if (factor) {
-            window.tempFactorId = factor.id;
-            setMfaMode(true);
-          }
-        } else if (!isRecovery) {
-          await loadDashboard();
-        }
-      } else if (!isRecovery) {
-        showPage('authPage');
-      }
+          if (factor) { window.tempFactorId = factor.id; setMfaMode(true); }
+        } else if (!isRecovery) { await loadDashboard(); }
+      } else if (!isRecovery) { showPage('authPage'); }
       updateBrand(); updateAssistantAvatar();
       setInterval(() => {
         if (currentUser && !isProcessing && !document.hidden) {
