@@ -107,7 +107,7 @@
     .admin-card-info{flex:1;min-width:150px}
     .admin-card h4{margin:0 0 3px;font-size:14px;cursor:pointer;display:flex;align-items:center;flex-wrap:wrap}
     .admin-card h4:hover{color:var(--red);text-decoration:underline}
-    .admin-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px;align-items:center}
+    .admin-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:10px}
     
     .transaction-item{border-bottom:1px dashed var(--line);padding:10px 0;font-size:13px;display:flex;justify-content:space-between;align-items:center}
     .transaction-item:last-child{border-bottom:0}
@@ -346,7 +346,6 @@
     body.mobile-mode .doc-paper p { font-size: 14px !important; line-height: 1.6 !important; margin-bottom: 15px !important; }
     body.mobile-mode .doc-paper h2 { font-size: 18px !important; margin-bottom: 20px !important; }
     body.mobile-mode .doc-paper .header-doc { font-size: 11px !important; margin-bottom: 20px !important; }
-    body.mobile-mode .bank-card { max-width: 100% !important; }
 
     @media print {
       body.printing-doc > *:not(#docModal) { display: none !important; }
@@ -410,17 +409,10 @@
     
     @media(max-width:768px){.dashboard-grid,.folders-container{grid-template-columns:1fr}.aircraft-grid{grid-template-columns:1fr}.doc-paper{padding:30px 20px;min-height:auto}.doc-paper .header-doc{flex-direction:column;gap:10px;text-align:center}.doc-paper .stamp{position:static;margin:30px auto;transform:rotate(-10deg)}.doc-paper .signature{margin-top:40px}.admin-card{flex-direction:column;align-items:flex-start}.admin-actions{width:100%}.admin-actions button{flex:1}.calc-row{grid-template-columns:1fr}.brand img{height:70px;max-width:300px}.qr-container svg{width:200px;height:200px}.assistant-btn{width:68px;height:68px;bottom:15px;right:15px}.assistant-chat{padding:16px;height:70vh}.sheet{border-radius:20px}.members-grid{grid-template-columns:1fr 1fr}.print-profile{padding:30px}}
 
-    /* ===== Social buttons — official, white text/icons ===== */
-    .social-links{display:flex;gap:12px;justify-content:center;margin:20px 0;flex-wrap:wrap}
-    .social-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 26px;border-radius:10px;text-decoration:none;font-weight:600;font-size:14px;letter-spacing:.3px;transition:all .25s ease;border:none;min-width:160px;box-shadow:0 4px 12px rgba(0,0,0,.18);color:#ffffff !important;background-color:#0077FF;background-color:var(--btn-bg, #0077FF)}
-    .social-btn span, .social-btn svg{color:#ffffff !important;fill:#ffffff !important;stroke:none}
-    .social-btn svg{width:18px;height:18px;flex-shrink:0;display:block}
-    .social-btn.vk{background:#0077FF !important}
-    .social-btn.vk:hover{background:#005fcc !important;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,119,255,.4)}
-    .social-btn.tg{background:#0088cc !important}
-    .social-btn.tg:hover{background:#006da3 !important;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,136,204,.4)}
+    /* ===== NEW CSS ===== */
+    .social-btn{color:#fff !important;}
+    .social-btn svg{fill:#fff !important;}
 
-    /* ===== Bank cards ===== */
     .card-display{display:flex;flex-direction:column;gap:16px}
     .bank-card{position:relative;width:100%;max-width:400px;aspect-ratio:1.586/1;border-radius:20px;padding:24px 26px;color:#fff;overflow:hidden;box-shadow:0 14px 36px rgba(0,0,0,.22);display:flex;flex-direction:column;justify-content:space-between}
     .bank-card.maycard{background:linear-gradient(135deg,#c0392b 0%,#7a1a12 55%,#4a0e08 100%)}
@@ -437,7 +429,6 @@
     .bank-card .card-frozen-overlay a{color:#fff;text-decoration:underline;font-weight:600}
     .bank-card .card-frozen-icon{font-size:30px;line-height:1}
 
-    /* ===== Holiday requests ===== */
     .holiday-request-card{border:1px solid var(--line);background:var(--paper);padding:14px 16px;margin-bottom:10px;border-radius:14px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
     .holiday-request-card .holiday-icon{font-size:26px;flex-shrink:0}
     .holiday-request-card .holiday-info{flex:1;min-width:150px}
@@ -445,10 +436,8 @@
     .holiday-request-card p{margin:0 0 3px;font-size:12px}
     .holiday-request-card .holiday-actions{display:flex;gap:6px;flex-wrap:wrap}
 
-    /* ===== Admin freeze ===== */
     .freeze-select{padding:7px 10px;border-radius:8px;border:1px solid var(--line);background:var(--soft);color:var(--ink);font-size:12px}
 
-    /* ===== Discount block ===== */
     .discount-block{margin-top:15px;padding:15px;background:var(--soft);border-radius:12px;border:1px solid var(--line)}
     .discount-block h4{margin:0 0 10px;font-size:14px}
   </style>
@@ -949,14 +938,14 @@
 
     <footer class="footer">
       <p>© THEMAYskiy 2025-<span id="footerYear"></span></p>
-      <div class="social-links">
-        <a href="https://vk.ru/mayskiyrunway" target="_blank" rel="noopener" class="social-btn vk">
-          <svg viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M12.785 16.241s.288-.032.436-.193c.136-.148.132-.427.132-.427s-.02-1.304.576-1.496c.588-.19 1.341 1.26 2.14 1.818.604.422 1.062.33 1.062.33l2.137-.03s1.117-.07.587-.955c-.043-.072-.306-.664-1.578-1.884-1.33-1.27-1.152-1.065.45-3.259.976-1.331 1.366-2.142 1.244-2.489-.116-.33-.854-.235-.854-.235l-2.406.015s-.178-.024-.31.056c-.128.078-.21.26-.21.26s-.38 1.026-.888 1.899c-1.07 1.847-1.498 1.945-1.674 1.83-.407-.267-.305-1.075-.305-1.649 0-1.793.267-2.54-.52-2.733-.26-.063-.451-.104-1.115-.11-.852-.01-1.573.003-1.982.206-.272.135-.482.437-.354.454.158.022.516.098.706.361.246.341.237 1.107.237 1.107s.142 2.11-.331 2.372c-.324.18-.77-.188-1.725-1.869-.49-.865-.861-1.82-.861-1.82s-.143-.358-.398-.551c-.31-.234-.743-.308-.743-.308l-2.286.015s-.343.01-.469.162c-.112.135-.009.414-.009.414s1.79 4.257 3.817 6.402c1.858 1.966 3.967 1.837 3.967 1.837h.956z"/></svg>
-          <span>ВКонтакте</span>
+      <div style="display: flex; gap: 12px; justify-content: center; margin: 15px 0; flex-wrap: wrap;">
+        <a href="https://vk.ru/mayskiyrunway" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; background: #0077FF; color: #fff !important; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px; transition: transform 0.2s, opacity 0.2s; box-shadow: 0 4px 12px rgba(0,119,255,0.3);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="fill:#ffffff !important"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 16.542c-.227.427-.966.802-1.55.846-.583.044-1.144.136-2.547-.643-1.737-.962-2.91-2.708-3.16-3.065-.25-.357-.708-.867-.708-1.743 0-.876.447-1.31.708-1.565.26-.255 1.042-.964 1.042-1.757 0-.793-.643-1.345-.866-1.545-.222-.2-.527-.238-.688-.238-.16 0-.32.01-.46.075-.14.066-.692.34-1.062 1.063-.37.723-.343 1.492-.343 1.492s-.08 1.296-.08 1.782c0 .486.093.953.134 1.102.04.148.14.36.17.41.03.05.062.1.122.1.06 0 .224-.096.38-.23.156-.133.27-.23.5-.23.23 0 .45.15.6.3.15.15.25.38.25.62 0 .24-.1.47-.25.62-.15.15-.37.3-.6.3-.23 0-.45-.15-.6-.3-.15-.15-.32-.23-.38-.23-.06 0-.092.05-.122.1-.03.05-.13.262-.17.41-.04.148-.134.615-.134 1.102 0 .486.08 1.782.08 1.782s-.027.77.343 1.492c.37.723.922.997 1.062 1.063.14.065.3.075.46.075.16 0 .466-.038.688-.238.223-.2.866-.752.866-1.545 0-.793-.782-1.502-1.042-1.757z"/></svg>
+          <span style="color:#fff !important">ВКонтакте</span>
         </a>
-        <a href="https://t.me/AliansMY_bot" target="_blank" rel="noopener" class="social-btn tg">
-          <svg viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M21.543 3.185c-.254-.213-1.083-.426-1.772-.156L1.853 10.317c-.833.32-.813.785-.14.982l4.68 1.464 1.847 5.665c.222.612.554.81.966.613.415-.198 2.038-1.848 2.038-1.848l4.09 3.022c.75.413 1.288.198 1.475-.696l2.68-12.65c.155-.726-.083-1.019-.306-1.204z"/></svg>
-          <span>Telegram</span>
+        <a href="https://t.me/AliansMY_bot" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; background: #0088cc; color: #fff !important; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px; transition: transform 0.2s, opacity 0.2s; box-shadow: 0 4px 12px rgba(0,136,204,0.3);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#ffffff" style="fill:#ffffff !important"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.56 15.36c-.24 1.18-1.47 2.26-2.6 2.39-1.15.13-2.3-.41-3.4-.95-1.73-.85-3.3-1.97-4.6-3.4-.75-.82-1.33-1.8-1.37-2.9-.04-1.1.56-2.18 1.52-2.77.4-.24.86-.36 1.32-.33.36.02.68.18.94.44.33.33.48.8.72 1.2.2.33.52.55.78.83.22.24.35.55.33.88-.02.28-.18.52-.4.68-.25.18-.56.22-.85.28-.2.04-.4.12-.55.26-.16.15-.22.37-.18.58.06.32.28.58.5.8.43.42.93.76 1.48.98.17.07.36.11.55.05.25-.08.45-.27.6-.48.13-.18.2-.4.35-.55.22-.22.55-.25.83-.15.3.1.53.35.7.62.34.53.67 1.07.98 1.63.15.26.27.55.2.86z"/></svg>
+          <span style="color:#fff !important">Telegram</span>
         </a>
       </div>
       <p><a onclick="showSupport()">Нашли проблему? нужна помощь? жмите!</a></p>
@@ -1190,9 +1179,6 @@
     let appSigPad = null, exitSigPad = null;
     const MEMBERS_PER_PAGE = 20;
     let currentDiscountPercent = 0;
-    let currentPage = 'authPage';
-    let isRegistering = false;
-    let mfaVerified = false;
 
     const HOLIDAYS = [
       { month: 10, day: 5, name: 'День рождения Майских авиалиний', bonus: 10000000, type: 'main', icon: '🎂' },
@@ -1255,457 +1241,210 @@
 
     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-    // ====== Utilities ======
-    function showLoading(text) { const o = $('loadingOverlay'); const t = $('loadingText'); if (t) t.textContent = text || 'Подождите...'; if (o) o.classList.remove('hidden'); }
-    function hideLoading() { const o = $('loadingOverlay'); if (o) o.classList.add('hidden'); }
-    function message(text, isError) {
-      const n = $('notice'); if (!n) { alert(text); return; }
-      n.textContent = text; n.className = 'notice show' + (isError ? ' error' : '');
-      clearTimeout(window.__noticeTimer);
-      window.__noticeTimer = setTimeout(() => { n.classList.remove('show'); }, 5000);
-    }
-    window.showLoading = showLoading; window.hideLoading = hideLoading; window.message = message;
-
-    function showPage(page) {
-      currentPage = page;
-      ['authPage','applicationPage','aboutPage','dashboardPage','adminPage'].forEach(id => {
-        const el = $(id); if (!el) return;
-        el.classList.toggle('hidden', id !== page);
-      });
-      if (page === 'dashboardPage') { loadDashboard(); setTimeout(() => { displayUserCards(); loadMyCustomHolidays(); }, 300); }
-      if (page === 'adminPage') { loadAdminPage(); setTimeout(() => { loadAdminHolidayRequests(); loadAdminCardsFreezeList(); }, 300); }
-      if (page === 'applicationPage') { initAppSigIfNeeded(); }
-    }
-    window.showPage = showPage;
-
-    function updateTopbar() {
-      const loggedIn = !!currentUser;
-      const showLogin = !loggedIn;
-      const showAdmin = isAdmin;
-      ['topLogin','topRegister'].forEach(id => $(id) && $(id).classList.toggle('hidden', !showLogin));
-      ['topCabinet','topLogout','topExit'].forEach(id => $(id) && $(id).classList.toggle('hidden', !loggedIn));
-      if ($('topAdmin')) $('topAdmin').classList.toggle('hidden', !showAdmin);
-      if ($('topCabinet')) $('topCabinet').onclick = () => showPage('dashboardPage');
-      if ($('topAdmin')) $('topAdmin').onclick = () => showPage('adminPage');
-      if ($('topLogin')) $('topLogin').onclick = () => { if ($('authHeading')) $('authHeading').textContent = 'Вход в аккаунт'; isRegistering = false; if ($('registerCompanyField')) $('registerCompanyField').classList.add('hidden'); if ($('authSubmit')) $('authSubmit').textContent = 'Войти'; showPage('authPage'); };
-      if ($('topRegister')) $('topRegister').onclick = () => { if ($('authHeading')) $('authHeading').textContent = 'Регистрация'; isRegistering = true; if ($('registerCompanyField')) $('registerCompanyField').classList.remove('hidden'); if ($('authSubmit')) $('authSubmit').textContent = 'Зарегистрироваться'; showPage('authPage'); };
-    }
-    window.updateTopbar = updateTopbar;
-
-    // ====== Auth ======
-    async function initAuth() {
-      try {
-        const { data } = await db.auth.getSession();
-        if (data && data.session && data.session.user) {
-          currentUser = data.session.user;
-          await loadUserProfile();
-        }
-      } catch(e) { console.warn('Auth init:', e); }
-      updateTopbar();
-      if (!currentUser) showPage('authPage');
-      else if (isAdmin) showPage('adminPage');
-      else showPage('dashboardPage');
-    }
-
-    async function loadUserProfile() {
-      if (!currentUser) return;
-      try {
-        const { data, error } = await db.from('profiles').select('*').eq('id', currentUser.id).maybeSingle();
-        if (error) throw error;
-        if (data) {
-          userProfile = data;
-          isAdmin = ADMIN_UIDS.includes(currentUser.id);
-        } else {
-          userProfile = { id: currentUser.id, email: currentUser.email, company_name: '', balance: 0, rank: 'Участник' };
-          await db.from('profiles').insert(userProfile);
-        }
-      } catch(e) { console.warn('Profile load:', e); }
-    }
-
-    async function handleAuthSubmit(e) {
-      e.preventDefault();
-      const email = $('email')?.value.trim();
-      const pass = $('password')?.value;
-      if (!email || !pass) return message('Заполните все поля', true);
-      showLoading(isRegistering ? 'Регистрация...' : 'Вход...');
-      try {
-        if (isRegistering) {
-          const company = $('registerCompany')?.value.trim();
-          if (!company) { hideLoading(); return message('Введите название авиакомпании', true); }
-          const { data, error } = await db.auth.signUp({ email, password: pass });
-          if (error) throw error;
-          if (data.user) {
-            await db.from('profiles').upsert({ id: data.user.id, email, company_name: company, balance: 0, rank: 'Участник', join_date: new Date().toISOString() });
-            await db.from('applications').insert({ user_id: data.user.id, company_name: company, contact_email: email, status: 'pending' });
-          }
-          hideLoading();
-          message('✅ Аккаунт создан. Заполните документ о компании.');
-          setTimeout(() => showPage('applicationPage'), 800);
-        } else {
-          const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
-          if (error) throw error;
-          currentUser = data.user;
-          await loadUserProfile();
-          hideLoading();
-          updateTopbar();
-          if (userProfile && userProfile.application_status === 'approved') showPage('dashboardPage');
-          else showPage('applicationPage');
-        }
-      } catch(err) { hideLoading(); message('Ошибка: ' + (err.message || 'неизвестно'), true); }
-    }
-    if (typeof document !== 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if ($('authForm')) $('authForm').addEventListener('submit', handleAuthSubmit);
-        if ($('switchAuth')) $('switchAuth').onclick = () => {
-          isRegistering = !isRegistering;
-          if ($('authHeading')) $('authHeading').textContent = isRegistering ? 'Регистрация' : 'Вход в аккаунт';
-          if ($('registerCompanyField')) $('registerCompanyField').classList.toggle('hidden', !isRegistering);
-          if ($('authSubmit')) $('authSubmit').textContent = isRegistering ? 'Зарегистрироваться' : 'Войти';
-        };
-        if ($('topLogout')) $('topLogout').onclick = async () => { await db.auth.signOut(); currentUser = null; userProfile = null; isAdmin = false; updateTopbar(); showPage('authPage'); message('Вы вышли'); };
-      });
-    }
-
-    // ====== Modals ======
-    function openThemeModal(){ $('themeModal')?.classList.add('show'); }
-    function closeThemeModal(){ $('themeModal')?.classList.remove('show'); }
-    function openResetModal(){ $('resetModal')?.classList.add('show'); }
-    function closeResetModal(){ $('resetModal')?.classList.remove('show'); }
-    function openResetPasswordModal(){ $('resetPasswordModal')?.classList.add('show'); }
-    function closeResetPasswordModal(){ $('resetPasswordModal')?.classList.remove('show'); }
-    function openBuyAircraftModal(ac){ selectedAircraft = ac; if($('buyModelName'))$('buyModelName').textContent = ac.model; if($('buyModelPrice'))$('buyModelPrice').textContent = ac.price.toLocaleString('ru-RU'); if($('buyQuantity'))$('buyQuantity').value = 1; currentDiscountPercent = 0; const dr=$('discountResult'); if(dr)dr.innerHTML=''; const dc=$('discountCardNumber'); if(dc)dc.value=''; updateBuyTotalDisplay(); $('buyAircraftModal')?.classList.add('show'); }
-    function closeBuyAircraftModal(){ $('buyAircraftModal')?.classList.remove('show'); selectedAircraft = null; currentDiscountPercent = 0; }
-    function openExitModal(){ if (!currentUser) return message('Войдите в аккаунт', true); if ($('exitCompany')) $('exitCompany').value = userProfile?.company_name || ''; initExitSigIfNeeded(); $('exitModal')?.classList.add('show'); }
-    function closeExitModal(){ $('exitModal')?.classList.remove('show'); }
-    function openAssistant(){ if (typeof initAssistant === 'function') initAssistant(); $('assistantModal')?.classList.add('show'); }
-    function closeAssistant(){ $('assistantModal')?.classList.remove('show'); }
-    function closeMemberProfile(){ $('memberProfileModal')?.classList.remove('show'); }
-    function closeDocument(){ $('docModal')?.classList.remove('show'); }
-    function printDocument(){ document.body.classList.add('printing-doc'); setTimeout(() => { window.print(); setTimeout(() => document.body.classList.remove('printing-doc'), 800); }, 200); }
-    window.openThemeModal = openThemeModal; window.closeThemeModal = closeThemeModal;
-    window.openResetModal = openResetModal; window.closeResetModal = closeResetModal;
-    window.openResetPasswordModal = openResetPasswordModal; window.closeResetPasswordModal = closeResetPasswordModal;
-    window.openBuyAircraftModal = openBuyAircraftModal; window.closeBuyAircraftModal = closeBuyAircraftModal;
-    window.openExitModal = openExitModal; window.closeExitModal = closeExitModal;
-    window.openAssistant = openAssistant; window.closeAssistant = closeAssistant;
-    window.closeMemberProfile = closeMemberProfile; window.closeDocument = closeDocument;
-    window.printDocument = printDocument;
-
-    // ====== Signature pads ======
-    function initAppSigIfNeeded() { if (!appSigPad && $('appSigCanvas')) appSigPad = setupCanvas($('appSigCanvas')); }
-    function initExitSigIfNeeded() { if (!exitSigPad && $('exitSigCanvas')) exitSigPad = setupCanvas($('exitSigCanvas')); }
-
     function setupCanvas(canvas) {
         const ctx = canvas.getContext('2d');
         let drawing = false;
         let lastX = 0, lastY = 0;
+
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return { x: (clientX - rect.left) * (canvas.width / rect.width), y: (clientY - rect.top) * (canvas.height / rect.height) };
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clientX - rect.left) * (canvas.width / rect.width),
+                y: (clientY - rect.top) * (canvas.height / rect.height)
+            };
         }
-        function start(e) { e.preventDefault(); drawing = true; const pos = getPos(e); lastX = pos.x; lastY = pos.y; }
-        function move(e) {
-            e.preventDefault(); if (!drawing) return;
+
+        function start(e) {
+            e.preventDefault();
+            drawing = true;
             const pos = getPos(e);
-            ctx.beginPath(); ctx.strokeStyle = '#260704'; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-            ctx.moveTo(lastX, lastY); ctx.lineTo(pos.x, pos.y); ctx.stroke();
             lastX = pos.x; lastY = pos.y;
         }
-        function stop(e) { e.preventDefault(); drawing = false; }
+
+        function move(e) {
+            e.preventDefault();
+            if (!drawing) return;
+            const pos = getPos(e);
+            ctx.beginPath();
+            ctx.strokeStyle = '#260704';
+            ctx.lineWidth = 2.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+            lastX = pos.x; lastY = pos.y;
+        }
+
+        function stop(e) {
+            e.preventDefault();
+            drawing = false;
+        }
+
         canvas.addEventListener('mousedown', start);
         canvas.addEventListener('mousemove', move);
         canvas.addEventListener('mouseup', stop);
         canvas.addEventListener('mouseout', stop);
+        
         canvas.addEventListener('touchstart', start, {passive: false});
         canvas.addEventListener('touchmove', move, {passive: false});
         canvas.addEventListener('touchend', stop, {passive: false});
+
         return {
             clear: () => ctx.clearRect(0, 0, canvas.width, canvas.height),
-            isEmpty: () => { const b = document.createElement('canvas'); b.width = canvas.width; b.height = canvas.height; return canvas.toDataURL() === b.toDataURL(); }
+            isEmpty: () => {
+                const blank = document.createElement('canvas');
+                blank.width = canvas.width;
+                blank.height = canvas.height;
+                return canvas.toDataURL() === blank.toDataURL();
+            }
         };
     }
 
     window.toggleAppSig = function(type) {
         if (type === 'yes') {
-            $('appSigDrawArea')?.classList.remove('hidden');
-            $('appSigTypeArea')?.classList.add('hidden');
+            $('appSigDrawArea').classList.remove('hidden');
+            $('appSigTypeArea').classList.add('hidden');
             if (appSigPad) appSigPad.clear();
         } else {
-            $('appSigDrawArea')?.classList.add('hidden');
-            $('appSigTypeArea')?.classList.remove('hidden');
-            if ($('appSigText')) $('appSigText').value = '';
+            $('appSigDrawArea').classList.add('hidden');
+            $('appSigTypeArea').classList.remove('hidden');
+            $('appSigText').value = '';
         }
     };
+
     window.toggleExitSig = function(type) {
         if (type === 'yes') {
-            $('exitSigDrawArea')?.classList.remove('hidden');
-            $('exitSigTypeArea')?.classList.add('hidden');
+            $('exitSigDrawArea').classList.remove('hidden');
+            $('exitSigTypeArea').classList.add('hidden');
             if (exitSigPad) exitSigPad.clear();
         } else {
-            $('exitSigDrawArea')?.classList.add('hidden');
-            $('exitSigTypeArea')?.classList.remove('hidden');
-            if ($('exitSigText')) $('exitSigText').value = '';
+            $('exitSigDrawArea').classList.add('hidden');
+            $('exitSigTypeArea').classList.remove('hidden');
+            $('exitSigText').value = '';
         }
     };
-    window.clearAppSig = function() { if (appSigPad) appSigPad.clear(); };
-    window.clearExitSig = function() { if (exitSigPad) exitSigPad.clear(); };
+
+    window.clearAppSig = function() {
+        if (appSigPad) appSigPad.clear();
+    };
+
+    window.clearExitSig = function() {
+        if (exitSigPad) exitSigPad.clear();
+    };
 
     async function getSignatureForDoc(docType) {
       if (!userProfile) return SIGNATURES[0];
       let sigMap = userProfile.signature_map || {};
-      if (typeof sigMap === 'string') { try { sigMap = JSON.parse(sigMap); } catch(e) { sigMap = {}; } }
+      if (typeof sigMap === 'string') {
+          try { sigMap = JSON.parse(sigMap); } catch(e) { sigMap = {}; }
+      }
       if (sigMap[docType]) return sigMap[docType];
-      const used = Object.values(sigMap);
-      const avail = SIGNATURES.filter(s => !used.includes(s));
-      const newSig = avail.length > 0 ? avail[0] : SIGNATURES[Math.floor(Math.random() * SIGNATURES.length)];
+      
+      const usedSigs = Object.values(sigMap);
+      const availableSigs = SIGNATURES.filter(s => !usedSigs.includes(s));
+      const newSig = availableSigs.length > 0 ? availableSigs[0] : SIGNATURES[Math.floor(Math.random() * SIGNATURES.length)];
+      
       sigMap[docType] = newSig;
-      try { await db.from('profiles').update({ signature_map: sigMap }).eq('id', currentUser.id); userProfile.signature_map = sigMap; } catch(e) {}
+      await db.from('profiles').update({ signature_map: sigMap }).eq('id', currentUser.id);
+      userProfile.signature_map = sigMap;
       return newSig;
     }
-    window.getSignatureForDoc = getSignatureForDoc;
 
-    function getDocLogo() { return localStorage.getItem('custom_doc_logo') || LOGO_LIGHT; }
-    window.getDocLogo = getDocLogo;
+    function getDocLogo() {
+      return localStorage.getItem('custom_doc_logo') || LOGO_LIGHT;
+    }
     async function uploadDocLogo(event) {
-      const file = event.target.files?.[0]; if (!file) return;
+      const file = event.target.files?.[0];
+      if (!file) return;
       if (!currentUser) return message('Войдите в аккаунт', true);
       if (file.size > 2 * 1024 * 1024) return message('Файл слишком большой (макс 2 МБ)', true);
       showLoading('Загрузка логотипа...');
       try {
         const ext = file.name.split('.').pop().toLowerCase();
         const path = `doc-logo-${currentUser.id}-${Date.now()}.${ext}`;
-        const { error: upErr } = await db.storage.from('avatars').upload(path, file, { upsert: true });
-        if (upErr) { hideLoading(); return message('Ошибка: ' + upErr.message, true); }
+        const { error: uploadError } = await db.storage.from('avatars').upload(path, file, { upsert: true });
+        if (uploadError) { hideLoading(); return message('Ошибка: ' + uploadError.message, true); }
         const { data: urlData } = db.storage.from('avatars').getPublicUrl(path);
         localStorage.setItem('custom_doc_logo', urlData.publicUrl);
-        hideLoading(); message('✅ Логотип загружен!'); closeThemeModal(); event.target.value = '';
+        hideLoading();
+        message('✅ Логотип загружен!');
+        closeThemeModal();
+        event.target.value = '';
       } catch (err) { hideLoading(); message('Ошибка: ' + err.message, true); }
     }
     window.uploadDocLogo = uploadDocLogo;
-    window.resetDocLogo = function() { localStorage.removeItem('custom_doc_logo'); message('Логотип сброшен на стандартный'); closeThemeModal(); };
+    window.resetDocLogo = function() {
+      localStorage.removeItem('custom_doc_logo');
+      message('Логотип сброшен на стандартный');
+      closeThemeModal();
+    };
 
-    // ====== Theme / device ======
-    function setTheme(theme) {
-      const t = theme === 'system' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme;
-      document.body.setAttribute('data-theme', t);
-      localStorage.setItem('theme', theme);
-      applyLogos();
+    function updateSectionBadge(sectionId, count) {
+      const el = document.getElementById(sectionId);
+      if (!el) return;
+      const summary = el.querySelector('summary');
+      if (!summary) return;
+      const currentText = summary.innerHTML.replace('<span class="notif-dot"></span>', '');
+      if (count > 0) summary.innerHTML = currentText + ' <span class="notif-dot"></span>';
+      else summary.innerHTML = currentText;
     }
-    window.setTheme = setTheme;
 
-    function applyLogos() {
-      const theme = document.body.getAttribute('data-theme');
-      const blood = localStorage.getItem('blood_effects') === 'true' && isBloodDay();
-      const brand = $('brandLogo'); const about = $('aboutLogo');
-      if (brand) brand.src = blood ? LOGO_BLOOD : (theme === 'light' ? LOGO_LIGHT : LOGO_DARK);
-      if (about) about.src = blood ? LOGO_BLOOD : LOGO_LIGHT;
-      if ($('assistantAvatar')) $('assistantAvatar').src = blood ? ASSISTANT_BLOOD : ASSISTANT_NORMAL;
-    }
-    window.applyLogos = applyLogos;
-
-    function isBloodDay() { const d = new Date(); return d.getMonth() === 8 && d.getDate() === 19; }
-
-    function setDeviceMode(mode, save) {
-      if (mode === 'mobile') document.body.classList.add('mobile-mode');
-      else document.body.classList.remove('mobile-mode');
-      if (save) localStorage.setItem('device_mode', mode);
-      $('deviceModal')?.classList.remove('show');
+    function setDeviceMode(mode, fromSettings = false) {
+      localStorage.setItem('device_mode', mode);
+      document.body.classList.toggle('mobile-mode', mode === 'mobile');
+      const dm = $('deviceModal'); if (dm) dm.classList.remove('show');
+      if (fromSettings) { closeThemeModal(); message(mode === 'mobile' ? '📱 Мобильный режим включён' : '💻 ПК-режим включён'); }
     }
     window.setDeviceMode = setDeviceMode;
 
-    function toggleBlood() {
-      const t = $('bloodToggle');
-      localStorage.setItem('blood_effects', t && t.checked ? 'true' : 'false');
-      applyLogos();
+    /* ============ NEW FEATURES ============ */
+    function getDaysInAlliance() {
+      if (!userProfile) return 0;
+      const jd = userProfile.join_date || userProfile.joined_at || userProfile.created_at;
+      if (!jd) return 0;
+      return Math.floor((Date.now() - new Date(jd).getTime()) / 86400000);
     }
-    window.toggleBlood = toggleBlood;
+    window.getDaysInAlliance = getDaysInAlliance;
 
-    // ====== Reset password ======
-    async function sendReset() {
-      const email = $('resetEmail')?.value.trim();
-      if (!email) return message('Введите почту', true);
-      try {
-        const { error } = await db.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin });
-        if (error) throw error;
-        message('✅ Письмо отправлено. Проверьте почту.');
-        closeResetModal();
-      } catch(e) { message('Ошибка: ' + e.message, true); }
-    }
-    window.sendReset = sendReset;
-
-    async function saveNewPassword() {
-      const p1 = $('newPassword')?.value; const p2 = $('newPasswordConfirm')?.value;
-      if (!p1 || p1.length < 6) return message('Пароль менее 6 символов', true);
-      if (p1 !== p2) return message('Пароли не совпадают', true);
-      try {
-        const { error } = await db.auth.updateUser({ password: p1 });
-        if (error) throw error;
-        message('✅ Пароль сохранён');
-        closeResetPasswordModal();
-      } catch(e) { message('Ошибка: ' + e.message, true); }
-    }
-    window.saveNewPassword = saveNewPassword;
-
-    // ====== Support ======
-    window.showSupport = function() { window.location.href = 'mailto:mayskiyrunway@gmail.com'; };
-
-    // ====== Dashboard ======
-    async function loadDashboard() {
-      if (!currentUser) return;
-      if ($('headerEmail')) $('headerEmail').textContent = currentUser.email || '';
-      if ($('headerCompany')) $('headerCompany').textContent = userProfile?.company_name || 'Авиакомпания';
-      if ($('rankDisplay')) $('rankDisplay').textContent = userProfile?.rank || 'Участник';
-      if ($('profileName')) $('profileName').value = userProfile?.company_name || '';
-      if ($('profileDescription')) $('profileDescription').value = userProfile?.description || '';
-      if ($('profileHistory')) $('profileHistory').value = userProfile?.history || '';
-      if ($('balanceAmount')) $('balanceAmount').textContent = (userProfile?.balance || 0).toLocaleString('ru-RU');
-      if ($('statRank')) $('statRank').textContent = userProfile?.rank || 'Участник';
-      if ($('statTime')) $('statTime').textContent = `В альянсе: ${getDaysInAlliance()} дн.`;
-      if ($('statDate')) $('statDate').textContent = 'Дата вступления: ' + (userProfile?.join_date ? new Date(userProfile.join_date).toLocaleDateString('ru-RU') : '—');
-      if ($('avatar') && userProfile?.avatar_url) $('avatar').innerHTML = `<img src="${esc(userProfile.avatar_url)}" alt="">`;
-      else if ($('avatar')) $('avatar').textContent = (userProfile?.company_name || 'A').charAt(0).toUpperCase();
-      loadNews(); loadMembers(); loadHolidays(); loadCardStatus(); loadFines(); loadExitRequestList(); loadLoan(); loadTransfers(); loadSubsidiaries(); loadRegistryStatus(); loadAircraftMarketplace(); loadMyFleet(); loadMayskStatus(); loadMFAStatus();
-      if ($('userBirthday') && userProfile?.birthday) $('userBirthday').value = userProfile.birthday;
-      displayUserCards();
-    }
-    window.loadDashboard = loadDashboard;
-
-    async function loadNews() {
-      const el = $('newsList'); if (!el) return;
-      try {
-        const { data } = await db.from('news').select('*').order('created_at', { ascending: false }).limit(15);
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Новостей пока нет.</p>'; return; }
-        el.innerHTML = data.map(p => `<div class="post-card"><div class="post-header"><span>${new Date(p.created_at).toLocaleString('ru-RU')}</span></div><div class="post-content">${esc(p.content)}</div></div>`).join('');
-      } catch(e) { el.innerHTML = '<p class="muted">Не удалось загрузить новости.</p>'; }
-    }
-
-    async function loadMembers() {
-      const el = $('membersList'); if (!el) return;
-      try {
-        const { data } = await db.from('profiles').select('*').order('company_name');
-        allMembersCache = data || [];
-        membersFiltered = allMembersCache.slice();
-        membersCurrentPage = 0;
-        renderMembersPage();
-      } catch(e) { el.innerHTML = '<p class="muted">Ошибка загрузки участников.</p>'; }
-    }
-
-    function filterMembers() {
-      const q = ($('membersSearch')?.value || '').toLowerCase();
-      membersFiltered = !q ? allMembersCache.slice() : allMembersCache.filter(u => (u.company_name || '').toLowerCase().includes(q) || (u.company_code || '').toLowerCase().includes(q));
-      membersCurrentPage = 0;
-      renderMembersPage();
-    }
-    window.filterMembers = filterMembers;
-
-    function renderMembersPage() {
-      const el = $('membersList'); if (!el) return;
-      const start = membersCurrentPage * MEMBERS_PER_PAGE;
-      const page = membersFiltered.slice(start, start + MEMBERS_PER_PAGE);
-      if (!page.length) { el.innerHTML = '<p class="muted">Никого не найдено.</p>'; $('membersPagination')?.classList.add('hidden'); return; }
-      el.innerHTML = page.map(u => {
-        const initial = (u.company_name || 'A').charAt(0).toUpperCase();
-        const isAdm = ADMIN_UIDS.includes(u.id);
-        const avatar = u.avatar_url ? `<img src="${esc(u.avatar_url)}" alt="">` : initial;
-        return `<div class="member-card" onclick="showMemberProfile('${u.id}')">
-          <div class="avatar">${avatar}</div>
-          <h4>${esc(u.company_name || 'Без названия')}${isAdm ? '<span class="red-check" title="Официальный аккаунт">✓</span>' : ''}</h4>
-          <p class="muted">${esc(u.company_code || '')}</p>
-          <p class="muted" style="font-size:11px">${esc(u.rank || 'Участник')}</p>
+    window.displayUserCards = function() {
+      const container = $('myCardsContent'); if (!container) return;
+      if (!userProfile) { container.innerHTML = '<p class="muted">Войдите в аккаунт.</p>'; return; }
+      const fu = userProfile.card_frozen_until ? new Date(userProfile.card_frozen_until) : null;
+      const isFrozen = fu && fu > new Date();
+      const mayCard = !!(userProfile.card_number || userProfile.card_status === 'approved');
+      const balo = !!userProfile.balocard_number;
+      const daysIn = getDaysInAlliance();
+      const appeal = `<p>Для апелляции напишите нам:<br><a href="https://vk.ru/mayskiyrunway" target="_blank" rel="noopener">ВКонтакте</a> · <a href="https://t.me/AliansMY_bot" target="_blank" rel="noopener">Telegram</a> · <a href="mailto:mayskiyrunway@gmail.com">Email</a></p>`;
+      let html = '<div class="card-display">';
+      if (mayCard) {
+        html += `<div class="bank-card maycard ${isFrozen ? 'frozen' : ''}">
+          <img class="card-logo" src="${LOGO_DARK}" alt="Alliance logo">
+          <div class="card-type">MAYCard · Payment</div>
+          <div class="card-number">${esc(userProfile.card_number || '•••• •••• •••• ••••')}</div>
+          <div class="card-footer"><div>${esc(userProfile.company_name || '')}<strong>${esc(userProfile.card_holder || userProfile.company_name || '')}</strong></div><div>THEMAYSKIY</div></div>
+          ${isFrozen ? `<div class="card-frozen-overlay"><div class="card-frozen-icon">🧊</div><h4>Карта заморожена</h4>${appeal}<p style="font-size:10px;opacity:.75">Заморожена до: ${fu.toLocaleDateString('ru-RU')}</p></div>` : ''}
         </div>`;
-      }).join('');
-      const total = Math.max(1, Math.ceil(membersFiltered.length / MEMBERS_PER_PAGE));
-      if ($('membersPagination')) $('membersPagination').classList.toggle('hidden', total <= 1);
-      if ($('membersPageInfo')) $('membersPageInfo').textContent = `${membersCurrentPage + 1} / ${total}`;
-      if ($('membersPrev')) $('membersPrev').disabled = membersCurrentPage === 0;
-      if ($('membersNext')) $('membersNext').disabled = membersCurrentPage >= total - 1;
-    }
-    function changeMembersPage(d) { membersCurrentPage = Math.max(0, membersCurrentPage + d); renderMembersPage(); }
-    window.changeMembersPage = changeMembersPage;
-
-    window.showMemberProfile = async function(userId) {
-      try {
-        const { data } = await db.from('profiles').select('*').eq('id', userId).maybeSingle();
-        if (!data) return;
-        const el = $('memberProfileContent'); if (!el) return;
-        const avatar = data.avatar_url ? `<img src="${esc(data.avatar_url)}" alt="" style="width:80px;height:80px;border-radius:50%;object-fit:cover;border:2px solid var(--line)">` : `<div style="width:80px;height:80px;border-radius:50%;background:var(--soft);display:grid;place-items:center;font-size:30px;font-weight:700;border:2px solid var(--line)">${(data.company_name||'A').charAt(0)}</div>`;
-        el.innerHTML = `
-          <div style="text-align:center;margin-bottom:20px">${avatar}
-            <h3 style="margin:12px 0 4px">${esc(data.company_name || 'Авиакомпания')}</h3>
-            <p class="muted" style="margin:0">${esc(data.company_code || '')}</p>
-            <span class="rank-badge" style="margin-top:8px">${esc(data.rank || 'Участник')}</span>
-          </div>
-          <div style="background:var(--soft);padding:15px;border-radius:12px">
-            ${data.description ? `<p style="margin:0 0 10px"><b>Описание:</b> ${esc(data.description)}</p>` : ''}
-            ${data.history ? `<p style="margin:0 0 10px"><b>История:</b> ${esc(data.history)}</p>` : ''}
-            <p style="margin:0;font-size:12px" class="muted">Баланс: ${(data.balance || 0).toLocaleString('ru-RU')} МайБит</p>
-          </div>
-        `;
-        $('memberProfileModal')?.classList.add('show');
-      } catch(e) { message('Не удалось загрузить профиль', true); }
+      } else {
+        html += `<div class="muted">MAYCard — платёжная карта. Доступна сразу после одобрения.</div>`;
+      }
+      if (balo) {
+        html += `<div class="bank-card balocard ${isFrozen ? 'frozen' : ''}">
+          <img class="card-logo" src="${LOGO_DARK}" alt="Alliance logo">
+          <div class="card-type">Balocard · Discount</div>
+          <div class="card-number">${esc(userProfile.balocard_number)}</div>
+          <div class="card-footer"><div>${esc(userProfile.company_name || '')}<strong>BALOVSK</strong></div><div>THEMAYSKIY</div></div>
+          ${isFrozen ? `<div class="card-frozen-overlay"><div class="card-frozen-icon">🧊</div><h4>Карта заморожена</h4>${appeal}<p style="font-size:10px;opacity:.75">Заморожена до: ${fu.toLocaleDateString('ru-RU')}</p></div>` : ''}
+        </div>`;
+      } else {
+        html += `<div class="muted">Balocard — скидочная карта Balovsk. ${daysIn >= 5 ? 'Доступна в разделе «Карта авиакомпании».' : `Нужно ещё ${5 - daysIn} дн. в альянсе (мин. 5).`}</div>`;
+      }
+      html += '</div>';
+      container.innerHTML = html;
     };
 
-    // ====== Holidays ======
-    async function loadApprovedHolidays() {
-      try {
-        const { data } = await db.from('holiday_requests').select('*').eq('status', 'approved');
-        if (data && data.length) {
-          const existing = new Set(HOLIDAYS.map(h => h.name + '|' + h.month + '|' + h.day));
-          data.forEach(h => {
-            const d = new Date(h.holiday_date); if (isNaN(d.getTime())) return;
-            const key = h.holiday_name + '|' + (d.getMonth()+1) + '|' + d.getDate();
-            if (existing.has(key)) return;
-            HOLIDAYS.push({ month: d.getMonth()+1, day: d.getDate(), name: h.holiday_name, type: 'custom', icon: '🎉', description: h.description || '', custom: true });
-          });
-        }
-      } catch(e) {}
-    }
-    setTimeout(loadApprovedHolidays, 500);
-
-    function loadHolidays() {
-      const el = $('holidaysList'); if (!el) return;
-      const today = new Date();
-      const list = HOLIDAYS.slice().sort((a, b) => {
-        const now = today.getMonth() * 31 + today.getDate();
-        const am = a.month * 31 + a.day, bm = b.month * 31 + b.day;
-        return ((am - now + 400) % 400) - ((bm - now + 400) % 400);
-      });
-      el.innerHTML = list.map(h => {
-        const isToday = h.month === today.getMonth()+1 && h.day === today.getDate();
-        const cls = isToday ? 'today' : '';
-        const dateStr = `${h.day}.${String(h.month).padStart(2,'0')}`;
-        return `<div class="holiday-card ${cls}">
-          <div class="holiday-icon">${h.icon}</div>
-          <div class="holiday-info">
-            <h4>${esc(h.name)}</h4>
-            <p class="muted">${dateStr}${isToday ? ' · 🎉 Сегодня!' : ''}</p>
-            ${h.bonus ? `<p style="font-size:11px;color:var(--green)"><b>Бонус: ${h.bonus.toLocaleString('ru-RU')} МайБит</b></p>` : ''}
-            ${h.discount ? `<p style="font-size:11px;color:var(--green)"><b>Скидка ${h.discount}% на Баловск</b></p>` : ''}
-            ${h.description ? `<p class="muted" style="font-size:11px">${esc(h.description)}</p>` : ''}
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    // Save/remove birthday
-    if (typeof document !== 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if ($('btnSaveBirthday')) $('btnSaveBirthday').onclick = async () => {
-          if (!currentUser) return message('Войдите', true);
-          const b = $('userBirthday')?.value;
-          if (!b) return message('Выберите дату', true);
-          try { await db.from('profiles').update({ birthday: b }).eq('id', currentUser.id); if (userProfile) userProfile.birthday = b; message('✅ Сохранено'); } catch(e) { message('Ошибка: ' + e.message, true); }
-        };
-        if ($('btnRemoveBirthday')) $('btnRemoveBirthday').onclick = async () => {
-          if (!currentUser) return;
-          try { await db.from('profiles').update({ birthday: null }).eq('id', currentUser.id); if (userProfile) userProfile.birthday = null; if ($('userBirthday')) $('userBirthday').value = ''; message('День рождения удалён'); } catch(e) { message('Ошибка', true); }
-        };
-      });
-    }
-
-    // ====== Custom holiday ======
     window.submitCustomHoliday = async function() {
       if (!currentUser || !userProfile) return message('Войдите в аккаунт', true);
       const name = ($('customHolidayName')?.value || '').trim();
@@ -1713,7 +1452,14 @@
       const desc = ($('customHolidayDesc')?.value || '').trim();
       if (!name) return message('Введите название', true);
       if (!date) return message('Выберите дату', true);
-      const { error } = await db.from('holiday_requests').insert({ user_id: currentUser.id, company_name: userProfile.company_name || '', holiday_name: name, holiday_date: date, description: desc, status: 'pending' });
+      const { error } = await db.from('holiday_requests').insert({
+        user_id: currentUser.id,
+        company_name: userProfile.company_name || '',
+        holiday_name: name,
+        holiday_date: date,
+        description: desc,
+        status: 'pending'
+      });
       if (error) return message('Ошибка: ' + error.message, true);
       message('✅ Заявка отправлена на рассмотрение');
       if ($('customHolidayName')) $('customHolidayName').value = '';
@@ -1723,40 +1469,37 @@
     };
 
     window.loadMyCustomHolidays = async function() {
-      const container = $('myCustomHolidays'); if (!container || !currentUser) return;
+      const c = $('myCustomHolidays'); if (!c || !currentUser) return;
       try {
         const { data } = await db.from('holiday_requests').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(10);
-        if (!data || !data.length) { container.innerHTML = ''; return; }
-        container.innerHTML = '<h4 style="font-size:13px;margin:0 0 8px 0">Ваши заявки:</h4>' + data.map(h => {
+        if (!data || !data.length) { c.innerHTML = ''; return; }
+        c.innerHTML = '<h4 style="font-size:13px;margin:0 0 8px 0">Ваши заявки:</h4>' + data.map(h => {
           const st = h.status === 'pending' ? '⏳ На рассмотрении' : h.status === 'approved' ? '✅ Одобрено' : '❌ Отклонено';
           return `<div class="holiday-request-card"><div class="holiday-icon">🎉</div><div class="holiday-info"><h4>${esc(h.holiday_name)}</h4><p class="muted">${new Date(h.holiday_date).toLocaleDateString('ru-RU')}</p><p style="font-size:11px;font-weight:600;margin:0">${st}</p></div></div>`;
         }).join('');
       } catch(e) {}
     };
 
-    // ====== Admin holiday review ======
     window.loadAdminHolidayRequests = async function() {
-      const container = $('adminHolidaysList'); if (!container || !isAdmin) return;
-      container.innerHTML = 'Загрузка...';
+      const c = $('adminHolidaysList'); if (!c || !isAdmin) return;
+      c.innerHTML = 'Загрузка...';
       try {
         const { data, error } = await db.from('holiday_requests').select('*').eq('status', 'pending').order('created_at', { ascending: false });
-        if (error) { container.innerHTML = '<p class="muted">Ошибка: ' + esc(error.message) + '</p>'; return; }
-        if (!data || !data.length) { container.innerHTML = '<p class="muted">Нет новых заявок на праздники.</p>'; return; }
-        container.innerHTML = data.map(h => `
-          <div class="holiday-request-card">
-            <div class="holiday-icon">🎉</div>
-            <div class="holiday-info">
-              <h4>${esc(h.holiday_name)}</h4>
-              <p class="muted">${new Date(h.holiday_date).toLocaleDateString('ru-RU')} · от <b>${esc(h.company_name || 'аноним')}</b></p>
-              ${h.description ? `<p class="muted" style="font-size:11px">${esc(h.description)}</p>` : ''}
-            </div>
-            <div class="holiday-actions">
-              <button class="secondary" onclick="adminApproveHoliday('${h.id}')" style="color:var(--green);border-color:var(--green);font-size:11px">✅ Одобрить</button>
-              <button class="secondary" onclick="adminRejectHoliday('${h.id}')" style="color:var(--red);border-color:var(--red);font-size:11px">❌ Отклонить</button>
-            </div>
+        if (error) { c.innerHTML = '<p class="muted">Ошибка: ' + esc(error.message) + '</p>'; return; }
+        if (!data || !data.length) { c.innerHTML = '<p class="muted">Нет новых заявок.</p>'; return; }
+        c.innerHTML = data.map(h => `<div class="holiday-request-card">
+          <div class="holiday-icon">🎉</div>
+          <div class="holiday-info">
+            <h4>${esc(h.holiday_name)}</h4>
+            <p class="muted">${new Date(h.holiday_date).toLocaleDateString('ru-RU')} · от <b>${esc(h.company_name || 'аноним')}</b></p>
+            ${h.description ? `<p class="muted" style="font-size:11px">${esc(h.description)}</p>` : ''}
           </div>
-        `).join('');
-      } catch(e) { container.innerHTML = '<p class="muted">Не удалось загрузить.</p>'; }
+          <div class="holiday-actions">
+            <button class="secondary" onclick="adminApproveHoliday('${h.id}')" style="color:var(--green);border-color:var(--green);font-size:11px">✅ Одобрить</button>
+            <button class="secondary" onclick="adminRejectHoliday('${h.id}')" style="color:var(--red);border-color:var(--red);font-size:11px">❌ Отклонить</button>
+          </div>
+        </div>`).join('');
+      } catch(e) { c.innerHTML = '<p class="muted">Ошибка загрузки.</p>'; }
     };
 
     window.adminApproveHoliday = async function(id) {
@@ -1775,16 +1518,32 @@
       loadAdminHolidayRequests();
     };
 
-    // ====== Card freeze admin ======
+    async function loadApprovedHolidays() {
+      try {
+        const { data } = await db.from('holiday_requests').select('*').eq('status', 'approved');
+        if (data && data.length) {
+          const existing = new Set(HOLIDAYS.map(h => h.name + '|' + h.month + '|' + h.day));
+          data.forEach(h => {
+            const d = new Date(h.holiday_date);
+            if (isNaN(d.getTime())) return;
+            const key = h.holiday_name + '|' + (d.getMonth()+1) + '|' + d.getDate();
+            if (existing.has(key)) return;
+            HOLIDAYS.push({ month: d.getMonth()+1, day: d.getDate(), name: h.holiday_name, type: 'custom', icon: '🎉', description: h.description || '', custom: true });
+          });
+        }
+      } catch(e) {}
+    }
+    document.addEventListener('DOMContentLoaded', () => { setTimeout(loadApprovedHolidays, 600); });
+
     window.loadAdminCardsFreezeList = async function() {
-      const container = $('adminCardsFreezeList'); if (!container || !isAdmin) return;
-      container.innerHTML = 'Загрузка...';
+      const c = $('adminCardsFreezeList'); if (!c || !isAdmin) return;
+      c.innerHTML = 'Загрузка...';
       try {
         const { data, error } = await db.from('profiles').select('*');
-        if (error) { container.innerHTML = '<p class="muted">Ошибка: ' + esc(error.message) + '</p>'; return; }
-        const withCards = (data || []).filter(u => u.card_number || u.balocard_number || u.card_status === 'approved');
-        if (!withCards.length) { container.innerHTML = '<p class="muted">Пока нет карт у участников.</p>'; return; }
-        container.innerHTML = withCards.map(u => {
+        if (error) { c.innerHTML = '<p class="muted">Ошибка: ' + esc(error.message) + '</p>'; return; }
+        const wc = (data || []).filter(u => u.card_number || u.balocard_number || u.card_status === 'approved');
+        if (!wc.length) { c.innerHTML = '<p class="muted">Пока нет карт у участников.</p>'; return; }
+        c.innerHTML = wc.map(u => {
           const frozen = u.card_frozen_until && new Date(u.card_frozen_until) > new Date();
           const dayOpts = Array.from({length:19}, (_, i) => i + 7).map(d => `<option value="${d}">${d} дн.</option>`).join('');
           const cardInfo = [u.card_number ? `MAYCard: ${esc(u.card_number)}` : '', u.balocard_number ? `Balocard: ${esc(u.balocard_number)}` : ''].filter(Boolean).join(' · ') || 'Карта без номера';
@@ -1802,12 +1561,12 @@
             </div>
           </div>`;
         }).join('');
-      } catch(e) { container.innerHTML = '<p class="muted">Ошибка загрузки карт.</p>'; }
+      } catch(e) { c.innerHTML = '<p class="muted">Ошибка загрузки карт.</p>'; }
     };
 
     window.adminFreezeCard = async function(userId, days) {
       if (!isAdmin) return;
-      if (!Number.isFinite(days) || days < 7 || days > 25) return message('Срок заморозки: от 7 до 25 дней', true);
+      if (!Number.isFinite(days) || days < 7 || days > 25) return message('Срок: от 7 до 25 дней', true);
       const until = new Date(); until.setDate(until.getDate() + days);
       const { error } = await db.from('profiles').update({ card_frozen_until: until.toISOString() }).eq('id', userId);
       if (error) return message('Ошибка: ' + error.message, true);
@@ -1822,52 +1581,6 @@
       loadAdminCardsFreezeList();
     };
 
-    // ====== Visual cards ======
-    window.displayUserCards = function() {
-      const container = $('myCardsContent'); if (!container) return;
-      if (!userProfile) { container.innerHTML = '<p class="muted">Войдите в аккаунт.</p>'; return; }
-      const frozenUntil = userProfile.card_frozen_until ? new Date(userProfile.card_frozen_until) : null;
-      const isFrozen = frozenUntil && frozenUntil > new Date();
-      const mayCardActive = !!(userProfile.card_number || userProfile.card_status === 'approved');
-      const baloActive = !!userProfile.balocard_number;
-      const daysIn = getDaysInAlliance();
-      const appeal = `<p>Для апелляции напишите нам:<br><a href="https://vk.ru/mayskiyrunway" target="_blank" rel="noopener">ВКонтакте</a> · <a href="https://t.me/AliansMY_bot" target="_blank" rel="noopener">Telegram</a> · <a href="mailto:mayskiyrunway@gmail.com">Email</a></p>`;
-      let html = '<div class="card-display">';
-      if (mayCardActive) {
-        html += `<div class="bank-card maycard ${isFrozen ? 'frozen' : ''}">
-          <img class="card-logo" src="${LOGO_DARK}" alt="Alliance logo">
-          <div class="card-type">MAYCard · Payment</div>
-          <div class="card-number">${esc(userProfile.card_number || '•••• •••• •••• ••••')}</div>
-          <div class="card-footer"><div>${esc(userProfile.company_name || '')}<strong>${esc(userProfile.card_holder || userProfile.company_name || '')}</strong></div><div>THEMAYSKIY</div></div>
-          ${isFrozen ? `<div class="card-frozen-overlay"><div class="card-frozen-icon">🧊</div><h4>Карта заморожена</h4>${appeal}<p style="font-size:10px;opacity:.75">Заморожена до: ${frozenUntil.toLocaleDateString('ru-RU')}</p></div>` : ''}
-        </div>`;
-      } else {
-        html += `<div class="muted">MAYCard — платёжная карта. Доступна сразу после одобрения вашей компании в альянсе.</div>`;
-      }
-      if (baloActive) {
-        html += `<div class="bank-card balocard ${isFrozen ? 'frozen' : ''}">
-          <img class="card-logo" src="${LOGO_DARK}" alt="Alliance logo">
-          <div class="card-type">Balocard · Discount</div>
-          <div class="card-number">${esc(userProfile.balocard_number)}</div>
-          <div class="card-footer"><div>${esc(userProfile.company_name || '')}<strong>BALOVSK</strong></div><div>THEMAYSKIY</div></div>
-          ${isFrozen ? `<div class="card-frozen-overlay"><div class="card-frozen-icon">🧊</div><h4>Карта заморожена</h4>${appeal}<p style="font-size:10px;opacity:.75">Заморожена до: ${frozenUntil.toLocaleDateString('ru-RU')}</p></div>` : ''}
-        </div>`;
-      } else {
-        html += `<div class="muted">Balocard — скидочная карта Balovsk. ${daysIn >= 5 ? 'Доступна к заказу в разделе «Карта авиакомпании».' : `Нужно ещё ${5 - daysIn} дн. в альянсе (минимум 5).`}</div>`;
-      }
-      html += '</div>';
-      container.innerHTML = html;
-    };
-
-    function getDaysInAlliance() {
-      if (!userProfile) return 0;
-      const jd = userProfile.join_date || userProfile.joined_at || userProfile.created_at;
-      if (!jd) return 0;
-      return Math.floor((Date.now() - new Date(jd).getTime()) / (1000 * 60 * 60 * 24));
-    }
-    window.getDaysInAlliance = getDaysInAlliance;
-
-    // ====== Discounts ======
     window.applyBalocardDiscount = function() {
       const input = $('discountCardNumber'); const result = $('discountResult');
       if (!input || !result) return;
@@ -1875,13 +1588,13 @@
       if (!val) { result.innerHTML = '<span style="color:var(--red)">Введите номер Balocard</span>'; currentDiscountPercent = 0; updateBuyTotalDisplay(); return; }
       if (!userProfile) { result.innerHTML = '<span style="color:var(--red)">Войдите в аккаунт</span>'; currentDiscountPercent = 0; updateBuyTotalDisplay(); return; }
       const userBalo = userProfile.balocard_number;
-      if (!userBalo) { result.innerHTML = '<span style="color:var(--red)">У вас нет Balocard. Закажите в разделе «Карта авиакомпании».</span>'; currentDiscountPercent = 0; updateBuyTotalDisplay(); return; }
+      if (!userBalo) { result.innerHTML = '<span style="color:var(--red)">У вас нет Balocard.</span>'; currentDiscountPercent = 0; updateBuyTotalDisplay(); return; }
       const norm = s => String(s).replace(/[^a-z0-9]/gi, '').toLowerCase();
       if (norm(val) !== norm(userBalo)) { result.innerHTML = '<span style="color:var(--red)">Неверный номер Balocard</span>'; currentDiscountPercent = 0; updateBuyTotalDisplay(); return; }
       const days = getDaysInAlliance();
       if (days < 5) { result.innerHTML = `<span style="color:var(--red)">Скидка от 5 дней в альянсе (у вас ${days})</span>`; currentDiscountPercent = 0; updateBuyTotalDisplay(); return; }
       const frozen = userProfile.card_frozen_until && new Date(userProfile.card_frozen_until) > new Date();
-      if (frozen) { result.innerHTML = '<span style="color:var(--red)">Ваша карта заморожена. Скидка недоступна.</span>'; currentDiscountPercent = 0; updateBuyTotalDisplay(); return; }
+      if (frozen) { result.innerHTML = '<span style="color:var(--red)">Ваша карта заморожена.</span>'; currentDiscountPercent = 0; updateBuyTotalDisplay(); return; }
       currentDiscountPercent = 0.10;
       result.innerHTML = '<span style="color:var(--green);font-weight:bold">✅ Скидка 10% применена!</span>';
       updateBuyTotalDisplay();
@@ -1900,691 +1613,60 @@
       }
     };
 
-    // ====== Card status / order ======
-    async function loadCardStatus() {
-      const el = $('cardStatusContent'); if (!el || !currentUser) return;
-      try {
-        const { data } = await db.from('card_requests').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(5);
-        const mayCard = userProfile?.card_number ? `<p class="muted"><b>MAYCard:</b> ${esc(userProfile.card_number)}</p>` : '';
-        const balo = userProfile?.balocard_number ? `<p class="muted"><b>Balocard:</b> ${esc(userProfile.balocard_number)}</p>` : '';
-        const daysIn = getDaysInAlliance();
-        let requestForm = '';
-        if (!userProfile?.card_number) {
-          requestForm += `<button class="secondary" onclick="requestCard('maycard')" style="margin-top:8px">Заказать MAYCard</button>`;
-        }
-        if (!userProfile?.balocard_number) {
-          if (daysIn >= 5) requestForm += `<button class="secondary" onclick="requestCard('balocard')" style="margin-top:8px">Заказать Balocard</button>`;
-          else requestForm += `<p class="muted" style="margin-top:8px;font-size:12px">Balocard доступна с 5 дней в альянсе (у вас ${daysIn}).</p>`;
-        }
-        const reqs = (data || []).map(r => `<p class="muted" style="font-size:12px">${r.card_type === 'maycard' ? 'MAYCard' : 'Balocard'} — ${r.status === 'pending' ? '⏳ На рассмотрении' : r.status === 'approved' ? '✅ Одобрено' : '❌ Отклонено'}</p>`).join('');
-        el.innerHTML = mayCard + balo + requestForm + (reqs ? '<hr style="border:0;border-top:1px dashed var(--line);margin:10px 0">' + reqs : '');
-      } catch(e) { el.innerHTML = '<p class="muted">Не удалось загрузить статус карт.</p>'; }
-    }
-    window.loadCardStatus = loadCardStatus;
-
-    window.requestCard = async function(type) {
-      if (!currentUser) return message('Войдите', true);
-      if (type === 'balocard' && getDaysInAlliance() < 5) return message('Balocard: минимум 5 дней в альянсе', true);
-      const { error } = await db.from('card_requests').insert({ user_id: currentUser.id, card_type: type, status: 'pending', company_name: userProfile?.company_name || '' });
-      if (error) return message('Ошибка: ' + error.message, true);
-      message('✅ Заявка на карту отправлена');
-      loadCardStatus();
-    };
-
-    // ====== Fines ======
-    async function loadFines() {
-      const el = $('finesList'); if (!el || !currentUser) return;
-      try {
-        const { data } = await db.from('fines').select('*').eq('user_id', currentUser.id).eq('paid', false);
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Штрафов нет. 🎉</p>'; return; }
-        el.innerHTML = data.map(f => `<div class="fine-banner"><div class="fine-header">Штраф</div><div class="fine-amount">${(f.amount || 0).toLocaleString('ru-RU')} МайБит</div><div class="fine-reason">${esc(f.reason || '')}</div><button class="btn-pay" onclick="payFine('${f.id}')">Оплатить</button></div>`).join('');
-      } catch(e) { el.innerHTML = '<p class="muted">Не удалось загрузить штрафы.</p>'; }
-    }
-    window.loadFines = loadFines;
-
-    window.payFine = async function(id) {
-      if (!currentUser || !userProfile) return;
-      try {
-        const { data: f } = await db.from('fines').select('*').eq('id', id).maybeSingle();
-        if (!f) return;
-        if ((userProfile.balance || 0) < f.amount) return message('Недостаточно МайБитов. Возьмите кредит.', true);
-        await db.from('fines').update({ paid: true }).eq('id', id);
-        await db.from('profiles').update({ balance: (userProfile.balance || 0) - f.amount }).eq('id', currentUser.id);
-        userProfile.balance = (userProfile.balance || 0) - f.amount;
-        message('✅ Штраф оплачен');
-        if ($('balanceAmount')) $('balanceAmount').textContent = userProfile.balance.toLocaleString('ru-RU');
-        loadFines();
-      } catch(e) { message('Ошибка: ' + e.message, true); }
-    };
-
-    // ====== Exit requests ======
-    async function loadExitRequestList() {
-      const el = $('exitRequestList'); if (!el || !currentUser) return;
-      try {
-        const { data } = await db.from('exit_requests').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(3);
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Заявок на выход нет.</p>'; return; }
-        el.innerHTML = data.map(r => `<p class="muted">${new Date(r.created_at).toLocaleDateString('ru-RU')} — ${r.status === 'pending' ? '⏳ На рассмотрении' : r.status === 'approved' ? '✅ Одобрено' : '❌ Отклонено'}</p>`).join('');
-      } catch(e) {}
-    }
-    window.loadExitRequestList = loadExitRequestList;
-
-    window.submitExitRequest = async function() {
-      if (!currentUser || !userProfile) return message('Войдите', true);
-      const reason = ($('exitReason')?.value || '').trim();
-      if (!reason) return message('Укажите причину', true);
-      const sigType = document.querySelector('input[name="exitSigType"]:checked')?.value;
-      if (sigType === 'yes' && exitSigPad && exitSigPad.isEmpty()) return message('Поставьте подпись', true);
-      if (sigType === 'no' && !($('exitSigText')?.value || '').trim()) return message('Введите название компании', true);
-      try {
-        await db.from('exit_requests').insert({ user_id: currentUser.id, company_name: userProfile.company_name || '', reason, status: 'pending' });
-        message('✅ Заявление отправлено');
-        closeExitModal();
-        loadExitRequestList();
-      } catch(e) { message('Ошибка: ' + e.message, true); }
-    };
-
-    // ====== Loan ======
-    async function loadLoan() {
-      if (!currentUser) return;
-      try {
-        const { data } = await db.from('loans').select('*').eq('user_id', currentUser.id).eq('paid', false).maybeSingle();
-        if (data) {
-          $('activeLoanBox')?.classList.remove('hidden');
-          $('newLoanBox')?.classList.add('hidden');
-          if ($('loanInfo')) $('loanInfo').innerHTML = `Сумма: ${(data.amount || 0).toLocaleString('ru-RU')} · К возврату: ${(data.total_due || data.amount || 0).toLocaleString('ru-RU')} · Взято: ${new Date(data.created_at).toLocaleDateString('ru-RU')}`;
-        } else {
-          $('activeLoanBox')?.classList.add('hidden');
-          $('newLoanBox')?.classList.remove('hidden');
-        }
-      } catch(e) {}
-    }
-    window.loadLoan = loadLoan;
-
-    if (typeof document !== 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if ($('btnTakeLoan')) $('btnTakeLoan').onclick = async () => {
-          if (!currentUser || !userProfile) return message('Войдите', true);
-          const amount = parseInt($('loanAmount')?.value || '0', 10);
-          if (!amount || amount < 1) return message('Введите сумму', true);
-          const total_due = Math.round(amount * 1.02);
-          try {
-            await db.from('loans').insert({ user_id: currentUser.id, amount, total_due, paid: false });
-            await db.from('profiles').update({ balance: (userProfile.balance || 0) + amount }).eq('id', currentUser.id);
-            userProfile.balance = (userProfile.balance || 0) + amount;
-            message('✅ Кредит выдан');
-            loadLoan(); loadDashboard();
-          } catch(e) { message('Ошибка: ' + e.message, true); }
-        };
-        if ($('btnPayLoan')) $('btnPayLoan').onclick = async () => {
-          if (!currentUser || !userProfile) return;
-          try {
-            const { data } = await db.from('loans').select('*').eq('user_id', currentUser.id).eq('paid', false).maybeSingle();
-            if (!data) return;
-            if ((userProfile.balance || 0) < data.total_due) return message('Недостаточно средств', true);
-            await db.from('loans').update({ paid: true }).eq('id', data.id);
-            await db.from('profiles').update({ balance: userProfile.balance - data.total_due }).eq('id', currentUser.id);
-            userProfile.balance -= data.total_due;
-            message('✅ Кредит погашен');
-            loadLoan(); loadDashboard();
-          } catch(e) { message('Ошибка: ' + e.message, true); }
-        };
-      });
-    }
-
-    // ====== Transfers ======
-    async function loadTransfers() {
-      const sel = $('transferTarget'); if (!sel) return;
-      try {
-        const { data } = await db.from('profiles').select('id,company_name').neq('id', currentUser?.id || '');
-        sel.innerHTML = '<option value="">— Выберите —</option>' + (data || []).map(u => `<option value="${u.id}">${esc(u.company_name)}</option>`).join('');
-      } catch(e) {}
-    }
-    window.loadTransfers = loadTransfers;
-
-    if (typeof document !== 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if ($('btnTransfer')) $('btnTransfer').onclick = async () => {
-          if (!currentUser || !userProfile) return message('Войдите', true);
-          const target = $('transferTarget')?.value;
-          const amount = parseInt($('transferAmount')?.value || '0', 10);
-          if (!target) return message('Выберите получателя', true);
-          if (!amount || amount < 1) return message('Введите сумму', true);
-          if ((userProfile.balance || 0) < amount) return message('Недостаточно средств', true);
-          try {
-            const { data: rec } = await db.from('profiles').select('balance').eq('id', target).maybeSingle();
-            await db.from('profiles').update({ balance: (userProfile.balance || 0) - amount }).eq('id', currentUser.id);
-            await db.from('profiles').update({ balance: (rec?.balance || 0) + amount }).eq('id', target);
-            await db.from('transactions').insert({ from_user: currentUser.id, to_user: target, amount, type: 'transfer' });
-            userProfile.balance -= amount;
-            message('✅ Перевод выполнен');
-            if ($('balanceAmount')) $('balanceAmount').textContent = userProfile.balance.toLocaleString('ru-RU');
-            if ($('transferAmount')) $('transferAmount').value = '';
-          } catch(e) { message('Ошибка: ' + e.message, true); }
-        };
-      });
-    }
-
-    // ====== Profile save ======
-    if (typeof document !== 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if ($('saveProfile')) $('saveProfile').onclick = async () => {
-          if (!currentUser) return message('Войдите', true);
-          try {
-            const updates = { company_name: $('profileName')?.value.trim() || '', description: $('profileDescription')?.value || '', history: $('profileHistory')?.value || '' };
-            await db.from('profiles').update(updates).eq('id', currentUser.id);
-            if (userProfile) Object.assign(userProfile, updates);
-            message('✅ Сохранено');
-            if ($('headerCompany')) $('headerCompany').textContent = updates.company_name;
-          } catch(e) { message('Ошибка: ' + e.message, true); }
-        };
-        if ($('avatarUpload')) $('avatarUpload').onchange = async (ev) => {
-          const file = ev.target.files?.[0]; if (!file || !currentUser) return;
-          showLoading('Загрузка...');
-          try {
-            const path = `avatar-${currentUser.id}-${Date.now()}.${file.name.split('.').pop()}`;
-            const { error: upErr } = await db.storage.from('avatars').upload(path, file, { upsert: true });
-            if (upErr) throw upErr;
-            const { data: urlData } = db.storage.from('avatars').getPublicUrl(path);
-            await db.from('profiles').update({ avatar_url: urlData.publicUrl }).eq('id', currentUser.id);
-            if (userProfile) userProfile.avatar_url = urlData.publicUrl;
-            if ($('avatar')) $('avatar').innerHTML = `<img src="${urlData.publicUrl}" alt="">`;
-            hideLoading(); message('✅ Фото обновлено');
-          } catch(e) { hideLoading(); message('Ошибка: ' + e.message, true); }
-        };
-      });
-    }
-
-    // ====== Subsidiaries ======
-    async function loadSubsidiaries() {
-      const el = $('subsidiariesList'); if (!el || !currentUser) return;
-      try {
-        const { data } = await db.from('subsidiaries').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false });
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Дочерних компаний нет.</p>'; return; }
-        el.innerHTML = data.map(s => `<p class="muted" style="font-size:13px">${esc(s.name)} — ${s.status === 'approved' ? '✅' : s.status === 'pending' ? '⏳' : '❌'}</p>`).join('');
-        const sel = $('subsRegSelect'); if (sel) sel.innerHTML = data.filter(s => s.status === 'approved').map(s => `<option value="${s.id}">${esc(s.name)}</option>`).join('');
-      } catch(e) {}
-    }
-    window.loadSubsidiaries = loadSubsidiaries;
-
-    if (typeof document !== 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if ($('btnOpenSubsidiaryForm')) $('btnOpenSubsidiaryForm').onclick = () => $('subsidiaryFormContainer')?.classList.toggle('hidden');
-        if ($('btnSubmitSubsidiary')) $('btnSubmitSubsidiary').onclick = async () => {
-          if (!currentUser) return;
-          const name = ($('subName')?.value || '').trim();
-          if (!name) return message('Введите название', true);
-          await db.from('subsidiaries').insert({ user_id: currentUser.id, name, status: 'pending' });
-          if ($('subName')) $('subName').value = '';
-          $('subsidiaryFormContainer')?.classList.add('hidden');
-          message('✅ Заявка отправлена');
-          loadSubsidiaries();
-        };
-        if ($('btnOpenRegistryForm')) $('btnOpenRegistryForm').onclick = () => $('registryFormContainer')?.classList.toggle('hidden');
-        if ($('btnOpenSubsidiaryRegistryForm')) $('btnOpenSubsidiaryRegistryForm').onclick = () => $('subsidiaryRegistryFormContainer')?.classList.toggle('hidden');
-        if ($('btnSubmitRegistry')) $('btnSubmitRegistry').onclick = async () => {
-          if (!currentUser) return;
-          const name = ($('regName')?.value || '').trim();
-          const reason = ($('regReason')?.value || '').trim();
-          const ready = $('regReady')?.value;
-          if (!name || !reason) return message('Заполните все поля', true);
-          await db.from('registry_requests').insert({ user_id: currentUser.id, company_name: name, reason, ready, status: 'pending', kind: 'main' });
-          message('✅ Заявление отправлено');
-          $('registryFormContainer')?.classList.add('hidden');
-          loadRegistryStatus();
-        };
-        if ($('btnSubmitSubsidiaryRegistry')) $('btnSubmitSubsidiaryRegistry').onclick = async () => {
-          if (!currentUser) return;
-          const subId = $('subsRegSelect')?.value;
-          const reason = ($('subsRegReason')?.value || '').trim();
-          if (!subId || !reason) return message('Заполните поля', true);
-          await db.from('registry_requests').insert({ user_id: currentUser.id, subsidiary_id: subId, reason, status: 'pending', kind: 'subsidiary' });
-          message('✅ Заявление отправлено');
-          $('subsidiaryRegistryFormContainer')?.classList.add('hidden');
-          loadRegistryStatus();
-        };
-      });
-    }
-
-    async function loadRegistryStatus() {
-      const el = $('registryStatus'); if (!el || !currentUser) return;
-      try {
-        const { data } = await db.from('registry_requests').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(5);
-        if (!data || !data.length) { el.innerHTML = ''; return; }
-        el.innerHTML = data.map(r => `<p class="muted" style="font-size:12px">${r.kind === 'subsidiary' ? 'Дочка' : 'Основная'} — ${r.status === 'pending' ? '⏳' : r.status === 'approved' ? '✅' : '❌'}</p>`).join('');
-      } catch(e) {}
-    }
-    window.loadRegistryStatus = loadRegistryStatus;
-
-    // ====== Aircraft marketplace ======
-    function loadAircraftMarketplace() {
-      const el = $('aircraftMarketplace'); if (!el) return;
-      el.innerHTML = AIRCRAFT_DATA.map((a, i) => `<div class="aircraft-card"><div><h4>${esc(a.model)}</h4>${a.note ? `<p class="muted" style="font-size:11px">${esc(a.note)}</p>` : ''}<div class="price">${a.price.toLocaleString('ru-RU')} МайБит</div></div><button class="primary" onclick="openBuyAircraftModal(AIRCRAFT_DATA[${i}])">Купить</button></div>`).join('');
-    }
-    window.loadAircraftMarketplace = loadAircraftMarketplace;
-
-    async function loadMyFleet() {
-      const el = $('myFleetList'); if (!el || !currentUser) return;
-      try {
-        const { data } = await db.from('aircraft_orders').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false });
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Флот пуст.</p>'; return; }
-        el.innerHTML = data.map(o => `<p class="muted" style="font-size:13px">${esc(o.model)} × ${o.quantity || 1} — ${o.status === 'approved' ? '✅' : o.status === 'pending' ? '⏳' : '❌'}</p>`).join('');
-      } catch(e) {}
-    }
-    window.loadMyFleet = loadMyFleet;
-
-    window.confirmBuyAircraft = async function() {
-      if (!currentUser || !userProfile || !selectedAircraft) return message('Ошибка', true);
-      const qty = parseInt($('buyQuantity')?.value || '1', 10) || 1;
-      const email = ($('buyEmail')?.value || '').trim();
-      const card = ($('buyCard')?.value || '').trim();
-      const consent = $('buyConsent')?.checked;
-      if (!email) return message('Укажите почту', true);
-      if (!card) return message('Укажите карту', true);
-      if (!consent) return message('Требуется согласие', true);
-      const total = Math.round(selectedAircraft.price * qty * (1 - currentDiscountPercent));
-      if ((userProfile.balance || 0) < total) return message('Недостаточно средств', true);
-      try {
-        await db.from('aircraft_orders').insert({ user_id: currentUser.id, model: selectedAircraft.model, quantity: qty, total, status: 'pending', contact_email: email, card_number: card, discount: currentDiscountPercent });
-        await db.from('profiles').update({ balance: userProfile.balance - total }).eq('id', currentUser.id);
-        userProfile.balance -= total;
-        message('✅ Заказ оформлен');
-        closeBuyAircraftModal();
-        loadMyFleet(); loadDashboard();
-      } catch(e) { message('Ошибка: ' + e.message, true); }
-    };
-
-    // ====== Maysk ======
-    async function loadMayskStatus() {
-      const el = $('mayskStatus'); if (!el || !currentUser) return;
-      try {
-        const { data } = await db.from('maysk_requests').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(3);
-        if (!data || !data.length) { el.innerHTML = ''; return; }
-        el.innerHTML = data.map(r => `<p class="muted" style="font-size:12px">${new Date(r.created_at).toLocaleDateString('ru-RU')} — ${r.status === 'pending' ? '⏳' : r.status === 'approved' ? '✅' : '❌'}</p>`).join('');
-      } catch(e) {}
-    }
-    window.loadMayskStatus = loadMayskStatus;
-
-    if (typeof document !== 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if ($('btnSubmitMaysk')) $('btnSubmitMaysk').onclick = async () => {
-          if (!currentUser) return;
-          const company = ($('mayskCompany')?.value || '').trim();
-          const reason = ($('mayskReason')?.value || '').trim();
-          if (!company || !reason) return message('Заполните поля', true);
-          await db.from('maysk_requests').insert({ user_id: currentUser.id, company_name: company, reason, status: 'pending' });
-          message('✅ Заявка отправлена');
-          loadMayskStatus();
-        };
-      });
-    }
-
-    // ====== MFA ======
-    async function loadMFAStatus() {
-      if ($('mfaStatus')) $('mfaStatus').textContent = 'MFA: не настроено (заглушка)';
-    }
-    window.loadMFAStatus = loadMFAStatus;
-
-    // ====== Change password ======
-    if (typeof document !== 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if ($('btnChangePassword')) $('btnChangePassword').onclick = async () => {
-          const cur = $('currPass')?.value; const np = $('newPass')?.value; const np2 = $('newPassConfirm')?.value;
-          if (!cur || !np) return message('Заполните поля', true);
-          if (np.length < 6) return message('Пароль менее 6', true);
-          if (np !== np2) return message('Не совпадают', true);
-          try {
-            const { error: signInErr } = await db.auth.signInWithPassword({ email: currentUser.email, password: cur });
-            if (signInErr) return message('Неверный текущий пароль', true);
-            const { error } = await db.auth.updateUser({ password: np });
-            if (error) throw error;
-            message('✅ Пароль изменён');
-            if ($('currPass')) $('currPass').value = '';
-            if ($('newPass')) $('newPass').value = '';
-            if ($('newPassConfirm')) $('newPassConfirm').value = '';
-          } catch(e) { message('Ошибка: ' + e.message, true); }
-        };
-      });
-    }
-
-    // ====== Documents ======
-    async function showDocument(docType) {
-      if (!currentUser) return message('Войдите', true);
-      const sig = await getSignatureForDoc(docType);
-      const logo = getDocLogo();
-      const company = userProfile?.company_name || 'Авиакомпания';
-      const code = userProfile?.company_code || 'MY00000';
-      const titles = { alliance: 'Свидетельство о вступлении в Альянс THEMAYSKIY', subsidiaries: 'Документ о дочерних компаниях', registry: 'Свидетельство о внесении в реестр «Майские компании»', maysk: 'Разрешение на полёты в Майск' };
-      const html = `<div class="header-doc"><span>Альянс THEMAYSKIY</span><span>Код: ${esc(code)}</span></div>
-        <img src="${esc(logo)}" class="doc-logo center" alt="Logo">
-        <h2>${esc(titles[docType] || 'Документ')}</h2>
-        <p>Настоящим удостоверяется, что авиакомпания <b>${esc(company)}</b> является официальным участником Альянса THEMAYSKIY.</p>
-        <p>Документ выдан ${new Date().toLocaleDateString('ru-RU')} и подтверждает все права и обязанности участника Альянса.</p>
-        <p style="text-indent:0;text-align:right;margin-top:60px"><img src="${esc(sig)}" style="max-width:200px" alt="Signature"></p>
-        <div class="signature">Уполномоченное лицо Альянса</div>
-        <div class="stamp"><img src="${esc(STAMP_URL)}" alt="Stamp"></div>
-        <div class="doc-qr" id="docQr"></div>`;
-      if ($('docContent')) $('docContent').innerHTML = html;
-      $('docModal')?.classList.add('show');
-      setTimeout(() => {
-        const qr = $('docQr');
-        if (qr) { qr.innerHTML = ''; try { new QRCode(qr, { text: `THEMAYSKIY|${code}|${docType}`, width: 90, height: 90 }); } catch(e) {} const s = document.createElement('span'); s.textContent = 'Проверить документ'; qr.appendChild(s); }
-      }, 100);
-    }
-    window.showDocument = showDocument;
-
-    // ====== Print profile ======
-    window.printProfile = function() {
-      if (!userProfile) return;
-      const el = $('printProfileContent'); if (!el) return;
-      el.innerHTML = `<div class="print-profile">
-        <img class="print-logo-top" src="${esc(getDocLogo())}" alt="Logo">
-        <div class="print-header">
-          <div class="print-avatar">${userProfile.avatar_url ? `<img src="${esc(userProfile.avatar_url)}">` : (userProfile.company_name || 'A').charAt(0)}</div>
-          <h1>${esc(userProfile.company_name || 'Авиакомпания')}</h1>
-          <div class="print-rank">${esc(userProfile.rank || 'Участник')}</div>
-        </div>
-        <div class="print-info">
-          <div class="print-info-item"><strong>Код компании</strong><span>${esc(userProfile.company_code || '')}</span></div>
-          <div class="print-info-item"><strong>Email</strong><span>${esc(userProfile.email || '')}</span></div>
-          <div class="print-info-item"><strong>Баланс</strong><span>${(userProfile.balance || 0).toLocaleString('ru-RU')} МайБит</span></div>
-          <div class="print-info-item"><strong>Дата вступления</strong><span>${userProfile.join_date ? new Date(userProfile.join_date).toLocaleDateString('ru-RU') : '—'}</span></div>
-        </div>
-        ${userProfile.description ? `<p><b>Описание:</b> ${esc(userProfile.description)}</p>` : ''}
-        ${userProfile.history ? `<p><b>История:</b> ${esc(userProfile.history)}</p>` : ''}
-        <div class="print-footer"><img src="${esc(LOGO_LIGHT)}" alt=""><p>Альянс THEMAYSKIY · Официальный документ</p></div>
-        <div class="print-stamp"><img src="${esc(STAMP_URL)}" alt="Stamp"></div>
-      </div>`;
-      document.body.classList.add('printing-profile');
-      setTimeout(() => { window.print(); setTimeout(() => document.body.classList.remove('printing-profile'), 800); }, 200);
-    };
-
-    // ====== Assistant ======
-    function initAssistant() {
-      if (chatInitialized) return;
-      chatInitialized = true;
-      const qs = $('chatQuestions'); if (!qs) return;
-      qs.innerHTML = ASSISTANT_QA.map((item, i) => `<button class="chat-q-btn" onclick="askAssistant(${i})">${esc(item.q)}</button>`).join('');
-    }
-    window.askAssistant = function(i) {
-      const qa = ASSISTANT_QA[i]; if (!qa) return;
-      const msgs = $('chatMessages'); if (!msgs) return;
-      const u = document.createElement('div'); u.className = 'user-msg'; u.textContent = qa.q; msgs.appendChild(u);
-      const b = document.createElement('div'); b.className = 'bot-msg'; b.textContent = qa.a; msgs.appendChild(b);
-      msgs.scrollTop = msgs.scrollHeight;
-      if (qa.highlight) {
-        const el = document.querySelector(qa.highlight);
-        if (el) { el.classList.add('highlight-pulse'); setTimeout(() => el.classList.remove('highlight-pulse'), 3000); }
-      }
-    };
-
-    // ====== Admin ======
-    async function loadAdminPage() {
-      if (!isAdmin) return;
-      loadAdminPosts();
-      loadAdminMembers();
-      loadAdminTransactions();
-      loadAdminApps();
-      loadAdminExitList();
-      loadAdminCardsList();
-      loadAdminRegistryList();
-      loadAdminSubsList();
-      loadAdminAircraftOrders();
-      loadAdminMayskList();
-      loadAdminLoansList();
-      loadAdminHolidayRequests();
-      loadAdminCardsFreezeList();
-      loadAdminTargets();
-    }
-    window.loadAdminPage = loadAdminPage;
-
-    async function loadAdminPosts() {
-      const el = $('adminPostsList'); if (!el) return;
-      try {
-        const { data } = await db.from('news').select('*').order('created_at', { ascending: false });
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Постов нет.</p>'; return; }
-        el.innerHTML = data.map(p => `<div class="post-card"><button class="post-delete-btn" onclick="deletePost('${p.id}')">×</button><div class="post-header"><span>${new Date(p.created_at).toLocaleString('ru-RU')}</span></div><div class="post-content">${esc(p.content)}</div></div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminPosts = loadAdminPosts;
-
-    window.deletePost = async function(id) {
-      if (!isAdmin) return;
-      await db.from('news').delete().eq('id', id);
-      loadAdminPosts();
-    };
-
-    if (typeof document !== 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if ($('btnAdminPost')) $('btnAdminPost').onclick = async () => {
-          if (!isAdmin) return;
-          const c = ($('adminPostContent')?.value || '').trim();
-          if (!c) return message('Введите текст', true);
-          await db.from('news').insert({ content: c, author_id: currentUser.id });
-          if ($('adminPostContent')) $('adminPostContent').value = '';
-          message('✅ Опубликовано');
-          loadAdminPosts();
-        };
-      });
-    }
-
-    async function loadAdminMembers() {
-      const el = $('adminAllMembersList'); if (!el) return;
-      try {
-        const { data } = await db.from('profiles').select('*').order('company_name');
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Нет участников.</p>'; return; }
-        el.innerHTML = data.map(u => `<div class="admin-card">
-          <div class="avatar">${u.avatar_url ? `<img src="${esc(u.avatar_url)}">` : (u.company_name || 'A').charAt(0)}</div>
-          <div class="admin-card-info">
-            <h4>${esc(u.company_name || 'Без названия')}${ADMIN_UIDS.includes(u.id) ? '<span class="red-check">✓</span>' : ''}</h4>
-            <p class="muted" style="font-size:11px">${esc(u.email || '')} · Баланс: ${(u.balance || 0).toLocaleString('ru-RU')}</p>
-          </div>
-        </div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminMembers = loadAdminMembers;
-
-    async function loadAdminTransactions() {
-      const el = $('adminTransactionsList'); if (!el) return;
-      try {
-        const { data } = await db.from('transactions').select('*').order('created_at', { ascending: false }).limit(30);
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Операций нет.</p>'; return; }
-        el.innerHTML = data.map(t => `<div class="transaction-item"><span>${new Date(t.created_at).toLocaleString('ru-RU')}</span><span class="${t.type === 'transfer' ? 'neg' : 'pos'}">${t.type} · ${(t.amount || 0).toLocaleString('ru-RU')}</span></div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminTransactions = loadAdminTransactions;
-
-    async function loadAdminApps() {
-      const el = $('adminAppsList'); if (!el) return;
-      try {
-        const { data } = await db.from('applications').select('*').eq('status', 'pending');
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Нет заявок.</p>'; return; }
-        el.innerHTML = data.map(a => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(a.company_name || '')}</h4><p class="muted" style="font-size:11px">${esc(a.contact_email || '')}</p></div><div class="admin-actions"><button class="secondary" onclick="approveApp('${a.id}','${a.user_id}')" style="color:var(--green)">✅</button><button class="secondary" onclick="rejectApp('${a.id}')" style="color:var(--red)">❌</button></div></div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminApps = loadAdminApps;
-
-    window.approveApp = async function(id, userId) {
-      if (!isAdmin) return;
-      await db.from('applications').update({ status: 'approved' }).eq('id', id);
-      await db.from('profiles').update({ application_status: 'approved', join_date: new Date().toISOString(), card_status: 'approved' }).eq('id', userId);
-      message('✅ Одобрено');
-      loadAdminApps();
-    };
-    window.rejectApp = async function(id) {
-      if (!isAdmin) return;
-      await db.from('applications').update({ status: 'rejected' }).eq('id', id);
-      loadAdminApps();
-    };
-
-    async function loadAdminExitList() {
-      const el = $('adminExitList'); if (!el) return;
-      try {
-        const { data } = await db.from('exit_requests').select('*').eq('status', 'pending');
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Нет заявок.</p>'; return; }
-        el.innerHTML = data.map(r => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(r.company_name || '')}</h4><p class="muted" style="font-size:11px">${esc(r.reason || '')}</p></div><div class="admin-actions"><button class="secondary" onclick="approveExit('${r.id}','${r.user_id}')" style="color:var(--green)">✅</button><button class="secondary" onclick="rejectExit('${r.id}')" style="color:var(--red)">❌</button></div></div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminExitList = loadAdminExitList;
-
-    window.approveExit = async function(id, userId) {
-      if (!isAdmin) return;
-      await db.from('exit_requests').update({ status: 'approved' }).eq('id', id);
-      await db.from('profiles').update({ application_status: 'left', card_status: null, card_number: null, balocard_number: null }).eq('id', userId);
-      message('✅ Выход одобрен');
-      loadAdminExitList();
-    };
-    window.rejectExit = async function(id) {
-      if (!isAdmin) return;
-      await db.from('exit_requests').update({ status: 'rejected' }).eq('id', id);
-      loadAdminExitList();
-    };
-
-    async function loadAdminCardsList() {
-      const el = $('adminCardsList'); if (!el) return;
-      try {
-        const { data } = await db.from('card_requests').select('*').eq('status', 'pending');
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Нет заявок.</p>'; return; }
-        el.innerHTML = data.map(r => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(r.company_name || '')}</h4><p class="muted" style="font-size:11px">${r.card_type === 'maycard' ? 'MAYCard' : 'Balocard'}</p></div><div class="admin-actions"><button class="secondary" onclick="approveCard('${r.id}','${r.user_id}','${r.card_type}')" style="color:var(--green)">✅</button><button class="secondary" onclick="rejectCard('${r.id}')" style="color:var(--red)">❌</button></div></div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminCardsList = loadAdminCardsList;
-
-    window.approveCard = async function(id, userId, type) {
-      if (!isAdmin) return;
-      const prefix = type === 'balocard' ? 'BLB' : 'MAY';
-      const num = `${prefix} ${Math.floor(1000 + Math.random() * 9000)} ${Math.floor(1000 + Math.random() * 9000)} ${Math.floor(1000 + Math.random() * 9000)}`;
-      await db.from('card_requests').update({ status: 'approved' }).eq('id', id);
-      const upd = type === 'balocard' ? { balocard_number: num } : { card_number: num, card_status: 'approved' };
-      await db.from('profiles').update(upd).eq('id', userId);
-      message('✅ Карта выдана');
-      loadAdminCardsList();
-    };
-    window.rejectCard = async function(id) {
-      if (!isAdmin) return;
-      await db.from('card_requests').update({ status: 'rejected' }).eq('id', id);
-      loadAdminCardsList();
-    };
-
-    async function loadAdminRegistryList() {
-      const el = $('adminRegistryList'); if (!el) return;
-      try {
-        const { data } = await db.from('registry_requests').select('*').eq('status', 'pending');
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Нет заявок.</p>'; return; }
-        el.innerHTML = data.map(r => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(r.company_name || '—')}</h4><p class="muted" style="font-size:11px">${esc(r.reason || '')}</p></div><div class="admin-actions"><button class="secondary" onclick="approveRegistry('${r.id}','${r.user_id}')" style="color:var(--green)">✅</button><button class="secondary" onclick="rejectRegistry('${r.id}')" style="color:var(--red)">❌</button></div></div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminRegistryList = loadAdminRegistryList;
-
-    window.approveRegistry = async function(id, userId) {
-      if (!isAdmin) return;
-      const code = 'MY' + String(Math.floor(10000 + Math.random() * 89999));
-      await db.from('registry_requests').update({ status: 'approved' }).eq('id', id);
-      await db.from('profiles').update({ company_code: code }).eq('id', userId);
-      message('✅ Внесён в реестр · ' + code);
-      loadAdminRegistryList();
-    };
-    window.rejectRegistry = async function(id) {
-      if (!isAdmin) return;
-      await db.from('registry_requests').update({ status: 'rejected' }).eq('id', id);
-      loadAdminRegistryList();
-    };
-
-    async function loadAdminSubsList() {
-      const el = $('adminSubsList'); if (!el) return;
-      try {
-        const { data } = await db.from('subsidiaries').select('*').eq('status', 'pending');
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Нет заявок.</p>'; return; }
-        el.innerHTML = data.map(r => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(r.name || '')}</h4></div><div class="admin-actions"><button class="secondary" onclick="approveSub('${r.id}')" style="color:var(--green)">✅</button><button class="secondary" onclick="rejectSub('${r.id}')" style="color:var(--red)">❌</button></div></div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminSubsList = loadAdminSubsList;
-
-    window.approveSub = async function(id) { if (!isAdmin) return; await db.from('subsidiaries').update({ status: 'approved' }).eq('id', id); loadAdminSubsList(); };
-    window.rejectSub = async function(id) { if (!isAdmin) return; await db.from('subsidiaries').update({ status: 'rejected' }).eq('id', id); loadAdminSubsList(); };
-
-    async function loadAdminAircraftOrders() {
-      const el = $('adminAircraftOrders'); if (!el) return;
-      try {
-        const { data } = await db.from('aircraft_orders').select('*').eq('status', 'pending');
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Нет заказов.</p>'; return; }
-        el.innerHTML = data.map(o => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(o.model)} × ${o.quantity || 1}</h4><p class="muted" style="font-size:11px">Итого: ${(o.total || 0).toLocaleString('ru-RU')} МайБит</p></div><div class="admin-actions"><button class="secondary" onclick="approveOrder('${o.id}')" style="color:var(--green)">✅</button><button class="secondary" onclick="rejectOrder('${o.id}')" style="color:var(--red)">❌</button></div></div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminAircraftOrders = loadAdminAircraftOrders;
-
-    window.approveOrder = async function(id) { if (!isAdmin) return; await db.from('aircraft_orders').update({ status: 'approved' }).eq('id', id); loadAdminAircraftOrders(); };
-    window.rejectOrder = async function(id) { if (!isAdmin) return; await db.from('aircraft_orders').update({ status: 'rejected' }).eq('id', id); loadAdminAircraftOrders(); };
-
-    async function loadAdminMayskList() {
-      const el = $('adminMayskList'); if (!el) return;
-      try {
-        const { data } = await db.from('maysk_requests').select('*').eq('status', 'pending');
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Нет заявок.</p>'; return; }
-        el.innerHTML = data.map(r => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(r.company_name || '')}</h4><p class="muted" style="font-size:11px">${esc(r.reason || '')}</p></div><div class="admin-actions"><button class="secondary" onclick="approveMaysk('${r.id}')" style="color:var(--green)">✅</button><button class="secondary" onclick="rejectMaysk('${r.id}')" style="color:var(--red)">❌</button></div></div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminMayskList = loadAdminMayskList;
-
-    window.approveMaysk = async function(id) { if (!isAdmin) return; await db.from('maysk_requests').update({ status: 'approved' }).eq('id', id); loadAdminMayskList(); };
-    window.rejectMaysk = async function(id) { if (!isAdmin) return; await db.from('maysk_requests').update({ status: 'rejected' }).eq('id', id); loadAdminMayskList(); };
-
-    async function loadAdminLoansList() {
-      const el = $('adminLoansList'); if (!el) return;
-      try {
-        const { data } = await db.from('loans').select('*').eq('paid', false);
-        if (!data || !data.length) { el.innerHTML = '<p class="muted">Активных кредитов нет.</p>'; return; }
-        el.innerHTML = data.map(l => `<div class="admin-card"><div class="admin-card-info"><h4>${(l.amount || 0).toLocaleString('ru-RU')} МайБит</h4><p class="muted" style="font-size:11px">К возврату: ${(l.total_due || 0).toLocaleString('ru-RU')}</p></div></div>`).join('');
-      } catch(e) {}
-    }
-    window.loadAdminLoansList = loadAdminLoansList;
-
-    async function loadAdminTargets() {
-      try {
-        const { data } = await db.from('profiles').select('id,company_name');
-        ['adminFineTarget','adminBalanceTarget'].forEach(id => {
-          const sel = $(id); if (!sel) return;
-          sel.innerHTML = (data || []).map(u => `<option value="${u.id}">${esc(u.company_name)}</option>`).join('');
-        });
-      } catch(e) {}
-    }
-    window.loadAdminTargets = loadAdminTargets;
-
-    if (typeof document !== 'undefined') {
-      document.addEventListener('DOMContentLoaded', () => {
-        if ($('btnAdminFine')) $('btnAdminFine').onclick = async () => {
-          if (!isAdmin) return;
-          const target = $('adminFineTarget')?.value;
-          const amount = parseInt($('adminFineAmount')?.value || '0', 10);
-          const reason = ($('adminFineReason')?.value || '').trim();
-          if (!target || !amount || !reason) return message('Заполните поля', true);
-          await db.from('fines').insert({ user_id: target, amount, reason, paid: false });
-          message('✅ Штраф выписан');
-          $('adminFineAmount').value = ''; $('adminFineReason').value = '';
-        };
-        if ($('btnAdminBalance')) $('btnAdminBalance').onclick = async () => {
-          if (!isAdmin) return;
-          const target = $('adminBalanceTarget')?.value;
-          const amount = parseInt($('adminBalanceAmount')?.value || '0', 10);
-          if (!target || !amount) return message('Заполните поля', true);
-          const { data } = await db.from('profiles').select('balance').eq('id', target).maybeSingle();
-          await db.from('profiles').update({ balance: (data?.balance || 0) + amount }).eq('id', target);
-          message('✅ Начислено');
-          $('adminBalanceAmount').value = '';
-        };
-      });
-    }
-
-    // ====== Init ======
     document.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme) setTheme(savedTheme);
-      const savedDevice = localStorage.getItem('device_mode');
-      if (!savedDevice) $('deviceModal')?.classList.add('show');
-      else if (savedDevice === 'mobile') document.body.classList.add('mobile-mode');
-      if (localStorage.getItem('blood_effects') === 'true' && $('bloodToggle')) $('bloodToggle').checked = true;
-      applyLogos();
-      initAuth();
+      const q = $('buyQuantity'); if (q) q.addEventListener('input', updateBuyTotalDisplay);
     });
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (typeof window.openBuyAircraftModal === 'function' && !window.__buyWrapped) {
+          const orig = window.openBuyAircraftModal;
+          window.openBuyAircraftModal = function(...a) {
+            currentDiscountPercent = 0;
+            const r = $('discountResult'); if (r) r.innerHTML = '';
+            const inp = $('discountCardNumber'); if (inp) inp.value = '';
+            const res = orig.apply(this, a);
+            setTimeout(updateBuyTotalDisplay, 50);
+            return res;
+          };
+          window.__buyWrapped = true;
+        }
+        if (typeof window.confirmBuyAircraft === 'function' && !window.__discountWrapped) {
+          const orig = window.confirmBuyAircraft;
+          window.confirmBuyAircraft = async function() {
+            const d = currentDiscountPercent || 0;
+            if (d > 0 && selectedAircraft) {
+              const op = selectedAircraft.price;
+              selectedAircraft.price = Math.round(op * (1 - d));
+              try { await orig(); } finally {
+                selectedAircraft.price = op;
+                currentDiscountPercent = 0;
+                const r = $('discountResult'); if (r) r.innerHTML = '';
+                const inp = $('discountCardNumber'); if (inp) inp.value = '';
+                updateBuyTotalDisplay();
+              }
+            } else { await orig(); }
+          };
+          window.__discountWrapped = true;
+        }
+      }, 800);
+    });
+
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        if (typeof window.showPage === 'function' && !window.__showWrapped) {
+          const orig = window.showPage;
+          window.showPage = function(p) {
+            const res = orig(p);
+            if (p === 'dashboardPage') { setTimeout(() => { displayUserCards(); loadMyCustomHolidays(); }, 400); }
+            if (p === 'adminPage') { setTimeout(() => { loadAdminHolidayRequests(); loadAdminCardsFreezeList(); }, 400); }
+            return res;
+          };
+          window.__showWrapped = true;
+        }
+      }, 500);
+    });
+    /* ============ END NEW FEATURES ============ */
   </script>
 </body>
 </html>
