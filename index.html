@@ -329,9 +329,9 @@
     body.mobile-mode .modal-content { padding: 20px !important; border-radius: 18px !important; }
     body.mobile-mode .doc-paper { padding: 30px 20px !important; min-height: auto !important; }
     body.mobile-mode .doc-paper .header-doc { flex-direction: column !important; gap: 10px !important; text-align: center !important; }
-    body.mobile-mode .doc-paper .stamp { position: static !important; margin: 30px auto !important; transform: rotate(-10deg) !important; }
+    body.mobile-mode .doc-paper .stamp { position: static !important; margin: 20px auto !important; transform: rotate(-10deg) !important; width: 120px !important; height: 120px !important; }
     body.mobile-mode .doc-qr { position: static !important; margin: 20px auto 0 !important; }
-    body.mobile-mode .doc-paper .signature { padding-right: 0 !important; text-align: center !important; }
+    body.mobile-mode .doc-paper .signature { padding-right: 0 !important; text-align: center !important; margin-top: 30px !important; }
     body.mobile-mode .account-head { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; }
     body.mobile-mode .account-head > div:last-child { width: 100% !important; text-align: center !important; }
     body.mobile-mode .account-head > div:last-child label { display: inline-block !important; }
@@ -342,6 +342,13 @@
     body.mobile-mode .company-orders-box { padding: 12px !important; }
     body.mobile-mode .balance { font-size: 26px !important; }
     
+    body.mobile-mode #docModal { align-items: flex-start !important; padding: 60px 10px 20px !important; }
+    body.mobile-mode .doc-paper { border-radius: 12px !important; padding: 20px 15px !important; }
+    body.mobile-mode #docModal .close-modal { position: fixed !important; top: 10px !important; right: 10px !important; background: #a7352a !important; color: #fff !important; z-index: 2000 !important; box-shadow: 0 4px 12px rgba(0,0,0,.3) !important; border: 2px solid #fff !important; width: 44px !important; height: 44px !important; font-size: 24px !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+    body.mobile-mode .doc-paper p { font-size: 14px !important; line-height: 1.6 !important; margin-bottom: 15px !important; }
+    body.mobile-mode .doc-paper h2 { font-size: 18px !important; margin-bottom: 20px !important; }
+    body.mobile-mode .doc-paper .header-doc { font-size: 11px !important; margin-bottom: 20px !important; }
+
     @media print {
       body.printing-doc > *:not(#docModal) { display: none !important; }
       body.printing-doc #docModal {
@@ -874,6 +881,16 @@
 
     <footer class="footer">
       <p>© THEMAYskiy 2025-<span id="footerYear"></span></p>
+      <div style="display: flex; gap: 12px; justify-content: center; margin: 15px 0; flex-wrap: wrap;">
+        <a href="https://vk.ru/mayskiyrunway" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; background: #0077FF; color: #fff; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px; transition: transform 0.2s, opacity 0.2s; box-shadow: 0 4px 12px rgba(0,119,255,0.3);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 16.542c-.227.427-.966.802-1.55.846-.583.044-1.144.136-2.547-.643-1.737-.962-2.91-2.708-3.16-3.065-.25-.357-.708-.867-.708-1.743 0-.876.447-1.31.708-1.565.26-.255 1.042-.964 1.042-1.757 0-.793-.643-1.345-.866-1.545-.222-.2-.527-.238-.688-.238-.16 0-.32.01-.46.075-.14.066-.692.34-1.062 1.063-.37.723-.343 1.492-.343 1.492s-.08 1.296-.08 1.782c0 .486.093.953.134 1.102.04.148.14.36.17.41.03.05.062.1.122.1.06 0 .224-.096.38-.23.156-.133.27-.23.5-.23.23 0 .45.15.6.3.15.15.25.38.25.62 0 .24-.1.47-.25.62-.15.15-.37.3-.6.3-.23 0-.45-.15-.6-.3-.15-.15-.32-.23-.38-.23-.06 0-.092.05-.122.1-.03.05-.13.262-.17.41-.04.148-.134.615-.134 1.102 0 .486.08 1.782.08 1.782s-.027.77.343 1.492c.37.723.922.997 1.062 1.063.14.065.3.075.46.075.16 0 .466-.038.688-.238.223-.2.866-.752.866-1.545 0-.793-.782-1.502-1.042-1.757z"/></svg>
+          ВКонтакте
+        </a>
+        <a href="https://t.me/AliansMY_bot" target="_blank" rel="noopener" style="display: inline-flex; align-items: center; gap: 8px; background: #0088cc; color: #fff; padding: 10px 20px; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 14px; transition: transform 0.2s, opacity 0.2s; box-shadow: 0 4px 12px rgba(0,136,204,0.3);">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.56 15.36c-.24 1.18-1.47 2.26-2.6 2.39-1.15.13-2.3-.41-3.4-.95-1.73-.85-3.3-1.97-4.6-3.4-.75-.82-1.33-1.8-1.37-2.9-.04-1.1.56-2.18 1.52-2.77.4-.24.86-.36 1.32-.33.36.02.68.18.94.44.33.33.48.8.72 1.2.2.33.52.55.78.83.22.24.35.55.33.88-.02.28-.18.52-.4.68-.25.18-.56.22-.85.28-.2.04-.4.12-.55.26-.16.15-.22.37-.18.58.06.32.28.58.5.8.43.42.93.76 1.48.98.17.07.36.11.55.05.25-.08.45-.27.6-.48.13-.18.2-.4.35-.55.22-.22.55-.25.83-.15.3.1.53.35.7.62.34.53.67 1.07.98 1.63.15.26.27.55.2.86z"/></svg>
+          Telegram
+        </a>
+      </div>
       <p><a onclick="showSupport()">Нашли проблему? нужна помощь? жмите!</a></p>
       <p>Почта: <a href="mailto:mayskiyrunway@gmail.com">mayskiyrunway@gmail.com</a></p>
     </footer>
@@ -1941,9 +1958,9 @@
         else prefix = name.slice(0, 3).toUpperCase();
 
         const p1 = Math.floor(1000 + Math.random() * 9000);
-        const p2 = Math.floor(100 + Math.random() * 900);
-        const p3 = Math.floor(100 + Math.random() * 900);
-        const newCard = `${prefix} БББ ${p1} ${p2} ${p3}`;
+        const p2 = Math.floor(1000 + Math.random() * 9000);
+        const p3 = Math.floor(1000 + Math.random() * 9000);
+        const newCard = `${prefix} ${p1} ${p2} ${p3}`;
 
         const { error } = await db.from('profiles').update({ card_status: 'pending', card_number: newCard }).eq('id', currentUser.id);
         if (error) throw error;
@@ -2168,7 +2185,6 @@
           if (joinedAt) { const days = Math.floor((Date.now() - joinedAt.getTime()) / 86400000); $('statTime').textContent = `В альянсе: ${days.toLocaleString('ru-RU')} ${pluralDays(days)}`; $('statDate').textContent = `Дата вступления: ${joinedAt.toLocaleDateString('ru-RU')}`; }
           else { $('statTime').textContent = 'В альянсе: не состоит'; $('statDate').textContent = 'Дата вступления: —'; }
           await loadLoans();
-          await loadCardStatus();
           await loadExitRequest();
           
           const joined = profile?.joined_at != null;
@@ -2178,6 +2194,8 @@
           if ($('userBirthday') && profile?.birthday_date && !$('userBirthday').value) $('userBirthday').value = profile.birthday_date;
           if (profile?.birthday_date) $('btnRemoveBirthday').classList.remove('hidden'); else $('btnRemoveBirthday').classList.add('hidden');
         }
+
+        await loadCardStatus();
 
         const joined = profile?.joined_at != null;
         const check = user.id === ADMIN_UID ? adminBadge() : (joined ? '<span class="black-check" title="Участник альянса">✓</span>' : '');
