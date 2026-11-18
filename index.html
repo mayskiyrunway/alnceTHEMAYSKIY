@@ -383,7 +383,6 @@
     .social-tg{background:#0088cc;box-shadow:0 4px 14px rgba(0,136,204,.4)}
     .social-tg:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 8px 22px rgba(0,136,204,.55)}
 
-    /* ===== КАРТЫ ===== */
     .cards-wrap{display:flex;flex-direction:column;gap:18px}
     .bank-card{width:100%;max-width:380px;aspect-ratio:1.586/1;border-radius:20px;padding:20px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.28);display:flex;flex-direction:column;justify-content:space-between;margin:0 auto;font-family:Inter,sans-serif;transition:transform .4s var(--ios-spring),box-shadow .3s var(--ios-ease)}
     .bank-card:hover{transform:translateY(-4px) scale(1.015);box-shadow:0 16px 42px rgba(0,0,0,.35)}
@@ -935,6 +934,7 @@
       </div>
       <p><a onclick="showSupport()">Нашли проблему? нужна помощь? Есть идея? жмите!</a></p>
       <p>Почта: <a href="mailto:mayskiyrunway@gmail.com">mayskiyrunway@gmail.com</a></p>
+      <p style="opacity:.5;font-size:10px;margin-top:6px;letter-spacing:.5px">MayVersion 1.1.2</p>
     </footer>
   </main>
 
@@ -1098,6 +1098,7 @@
 
   <script>
     'use strict';
+    // ===== MayVersion 1.1.2 — стабильный релиз =====
 
     document.addEventListener("DOMContentLoaded", function() {
       if (typeof vkBridge !== 'undefined') {
@@ -1121,7 +1122,6 @@
     const LOGO_DARK = 'https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F146_20261103132639.png';
     const LOGO_LIGHT = 'https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F146_20261103132642.png';
     const LOGO_BLOOD = 'https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F146_20261103132645.png';
-    
     const ASSISTANT_NORMAL = 'https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F151_20261103131909.png';
     const ASSISTANT_BLOOD = 'https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F151_20261103131912.png';
 
@@ -1226,15 +1226,11 @@
         const ctx = canvas.getContext('2d');
         let drawing = false;
         let lastX = 0, lastY = 0;
-
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
             let clientX = e.touches ? e.touches[0].clientX : e.clientX;
             let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            return {
-                x: (clientX - rect.left) * (canvas.width / rect.width),
-                y: (clientY - rect.top) * (canvas.height / rect.height)
-            };
+            return { x: (clientX - rect.left) * (canvas.width / rect.width), y: (clientY - rect.top) * (canvas.height / rect.height) };
         }
         function start(e) { e.preventDefault(); drawing = true; const pos = getPos(e); lastX = pos.x; lastY = pos.y; }
         function move(e) {
@@ -1317,43 +1313,15 @@
     }
     window.setDeviceMode = setDeviceMode;
 
-    function isBloodWeek() {
-      const now = new Date(); const year = now.getFullYear();
-      const bloodStart = new Date(year, 8, 12); const bloodEnd = new Date(year, 8, 26, 23, 59, 59);
-      return now >= bloodStart && now <= bloodEnd;
-    }
+    function isBloodWeek() { const now = new Date(); const year = now.getFullYear(); const bloodStart = new Date(year, 8, 12); const bloodEnd = new Date(year, 8, 26, 23, 59, 59); return now >= bloodStart && now <= bloodEnd; }
     function isSept19() { const n = new Date(); return n.getMonth() === 8 && n.getDate() === 19; }
-    function bloodDisabled() {
-      if (userProfile && userProfile.blood_effects === false) return true;
-      if (localStorage.getItem('blood_effects') === 'false') return true;
-      return false;
-    }
+    function bloodDisabled() { if (userProfile && userProfile.blood_effects === false) return true; if (localStorage.getItem('blood_effects') === 'false') return true; return false; }
     function bloodDemoRemaining() { return Math.max(0, parseInt(localStorage.getItem('blood_demo_until') || '0') - Date.now()); }
     function isBloodActive() { if (bloodDemoRemaining() > 0) return true; if (bloodDisabled()) return false; if (isBloodWeek()) return true; return false; }
-    function startBloodDemoInternal() {
-      localStorage.setItem('blood_demo_until', (Date.now() + 10 * 60 * 1000).toString());
-      updateBrand(); updateAssistantAvatar();
-      setTimeout(() => { updateBrand(); updateAssistantAvatar(); }, 10 * 60 * 1000);
-    }
-    function checkAutoBlood19Sept() {
-      if (!isSept19() || bloodDisabled()) return;
-      const today = new Date().toDateString();
-      if (localStorage.getItem('blood_19sept_shown') === today) return;
-      localStorage.setItem('blood_19sept_shown', today);
-      startBloodDemoInternal();
-    }
-    function updateBrand() {
-      const img = $('brandLogo'); if (!img) return;
-      let src;
-      if (isBloodActive()) src = LOGO_BLOOD;
-      else if (document.body.getAttribute('data-theme') === 'light') src = LOGO_LIGHT;
-      else src = LOGO_DARK;
-      img.src = src;
-    }
-    function updateAssistantAvatar() {
-      const img = $('assistantAvatar'); if (!img) return;
-      img.src = isBloodActive() ? ASSISTANT_BLOOD : ASSISTANT_NORMAL;
-    }
+    function startBloodDemoInternal() { localStorage.setItem('blood_demo_until', (Date.now() + 10 * 60 * 1000).toString()); updateBrand(); updateAssistantAvatar(); setTimeout(() => { updateBrand(); updateAssistantAvatar(); }, 10 * 60 * 1000); }
+    function checkAutoBlood19Sept() { if (!isSept19() || bloodDisabled()) return; const today = new Date().toDateString(); if (localStorage.getItem('blood_19sept_shown') === today) return; localStorage.setItem('blood_19sept_shown', today); startBloodDemoInternal(); }
+    function updateBrand() { const img = $('brandLogo'); if (!img) return; let src; if (isBloodActive()) src = LOGO_BLOOD; else if (document.body.getAttribute('data-theme') === 'light') src = LOGO_LIGHT; else src = LOGO_DARK; img.src = src; }
+    function updateAssistantAvatar() { const img = $('assistantAvatar'); if (!img) return; img.src = isBloodActive() ? ASSISTANT_BLOOD : ASSISTANT_NORMAL; }
     async function toggleBlood() {
       if (!currentUser) { $('bloodToggle').checked = !$('bloodToggle').checked; return message('Войдите в аккаунт', true); }
       const enabled = $('bloodToggle').checked;
@@ -1372,30 +1340,13 @@
       if (profile?.registry_status === 'approved') return 'MY' + clean;
       return clean || '—';
     }
-    function pluralDays(n) {
-      const a = Math.abs(n);
-      if (a % 10 === 1 && a % 100 !== 11) return 'день';
-      if ([2,3,4].includes(a % 10) && ![12,13,14].includes(a % 100)) return 'дня';
-      return 'дней';
-    }
+    function pluralDays(n) { const a = Math.abs(n); if (a % 10 === 1 && a % 100 !== 11) return 'день'; if ([2,3,4].includes(a % 10) && ![12,13,14].includes(a % 100)) return 'дня'; return 'дней'; }
     function showLoading(t = 'Подождите...') { isProcessing = true; $('loadingText').textContent = t; $('loadingOverlay').classList.remove('hidden'); }
     function hideLoading() { isProcessing = false; $('loadingOverlay').classList.add('hidden'); }
-    function updateAboutLogo() {
-      const aboutLogo = $('aboutLogo'); if (!aboutLogo) return;
-      const theme = document.body.getAttribute('data-theme');
-      if (theme === 'dark') aboutLogo.src = LOGO_DARK; else aboutLogo.src = LOGO_LIGHT;
-    }
-    function applyTheme(theme) {
-      if (theme === 'system') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      document.body.setAttribute('data-theme', theme);
-      updateBrand(); updateAssistantAvatar(); updateAboutLogo();
-    }
+    function updateAboutLogo() { const aboutLogo = $('aboutLogo'); if (!aboutLogo) return; const theme = document.body.getAttribute('data-theme'); if (theme === 'dark') aboutLogo.src = LOGO_DARK; else aboutLogo.src = LOGO_LIGHT; }
+    function applyTheme(theme) { if (theme === 'system') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.body.setAttribute('data-theme', theme); updateBrand(); updateAssistantAvatar(); updateAboutLogo(); }
     function setTheme(theme) { localStorage.setItem('theme', theme); applyTheme(theme); closeThemeModal(); }
-    function openThemeModal() {
-      $('themeModal').classList.add('show');
-      if ($('bloodToggle') && userProfile) $('bloodToggle').checked = userProfile.blood_effects !== false;
-      if ($('bloodToggle') && !userProfile) $('bloodToggle').checked = localStorage.getItem('blood_effects') !== 'false';
-    }
+    function openThemeModal() { $('themeModal').classList.add('show'); if ($('bloodToggle') && userProfile) $('bloodToggle').checked = userProfile.blood_effects !== false; if ($('bloodToggle') && !userProfile) $('bloodToggle').checked = localStorage.getItem('blood_effects') !== 'false'; }
     function closeThemeModal() { $('themeModal').classList.remove('show'); }
     applyTheme(localStorage.getItem('theme') || 'ally');
 
@@ -1516,7 +1467,6 @@
           db.from('subsidiaries').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
           db.from('exit_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending')
         ]);
-        // Count pending cards (maycard/balocard)
         let cardsCount = 0;
         try {
           const { data: cdProfiles } = await db.from('profiles').select('card_data');
@@ -1741,10 +1691,7 @@
       if ($('mfaSetupCode').value.length > 0) { stopQrTimer(); const t = $('qrTimer'); if (t) t.textContent = 'Автообновление остановлено'; }
     });
 
-    function getNextHoliday(month, day) {
-      const now = new Date(); const thisYear = new Date(now.getFullYear(), month - 1, day);
-      return thisYear < now ? new Date(now.getFullYear() + 1, month - 1, day) : thisYear;
-    }
+    function getNextHoliday(month, day) { const now = new Date(); const thisYear = new Date(now.getFullYear(), month - 1, day); return thisYear < now ? new Date(now.getFullYear() + 1, month - 1, day) : thisYear; }
     function formatCountdown(nextDate) {
       const diff = nextDate - Date.now();
       const days = Math.floor(diff / 86400000); const hours = Math.floor((diff % 86400000) / 3600000); const minutes = Math.floor((diff % 3600000) / 60000);
@@ -1825,9 +1772,7 @@
       await loadDashboard(true);
     });
 
-    /* ==========================================================
-       КАРТЫ (MAYCard / Balocard)
-       ========================================================== */
+    /* ===== КАРТЫ ===== */
     function getCardData() {
       if (!userProfile) return {};
       let cd = userProfile.card_data;
@@ -1837,7 +1782,6 @@
       cd.custom_holidays = Array.isArray(cd.custom_holidays) ? cd.custom_holidays : [];
       return cd;
     }
-
     function getCardPrefix(companyName) {
       const clean = (companyName || 'XX').trim().toUpperCase().replace(/[^А-ЯЁA-Z0-9 ]/g, '');
       const words = clean.split(/\s+/).filter(w => w.length > 0);
@@ -1845,42 +1789,20 @@
       if (words.length === 2) return (words[0].slice(0,2) + words[1][0]).padEnd(3, words[1][0] || 'X');
       return clean.slice(0, 3).padEnd(3, clean[0] || 'X');
     }
-
     function generateCardNumber(companyName) {
       const prefix = getCardPrefix(companyName);
       const rnd = (n) => Array.from({length: n}, () => Math.floor(Math.random() * 10)).join('');
       return `${prefix} ${rnd(4)} ${rnd(3)} ${rnd(3)}`;
     }
-
-    function isCardExpired(cd, type) {
-      const exp = cd?.[type + '_expires_at'];
-      if (!exp) return false;
-      return new Date(exp) < new Date();
-    }
-
-    function isCardFrozen(cd) {
-      const fz = cd?.frozen_until;
-      if (!fz) return false;
-      return new Date(fz) > new Date();
-    }
-
-    function daysUntilExpiry(cd, type) {
-      const exp = cd?.[type + '_expires_at'];
-      if (!exp) return null;
-      return Math.floor((new Date(exp).getTime() - Date.now()) / 86400000);
-    }
-
-    function daysInAlliance() {
-      if (!userProfile?.joined_at) return 0;
-      return Math.floor((Date.now() - new Date(userProfile.joined_at).getTime()) / 86400000);
-    }
-
+    function isCardExpired(cd, type) { const exp = cd?.[type + '_expires_at']; if (!exp) return false; return new Date(exp) < new Date(); }
+    function isCardFrozen(cd) { const fz = cd?.frozen_until; if (!fz) return false; return new Date(fz) > new Date(); }
+    function daysUntilExpiry(cd, type) { const exp = cd?.[type + '_expires_at']; if (!exp) return null; return Math.floor((new Date(exp).getTime() - Date.now()) / 86400000); }
+    function daysInAlliance() { if (!userProfile?.joined_at) return 0; return Math.floor((Date.now() - new Date(userProfile.joined_at).getTime()) / 86400000); }
     function frozenOverlayHTML(cd) {
       let until = '—';
       try { until = new Date(cd.frozen_until).toLocaleDateString('ru-RU'); } catch(e) {}
       return `<div class="frozen-overlay"><div class="frozen-icon">❄️</div><div class="frozen-title">Карта заморожена</div><div class="frozen-msg">Заморожена до ${esc(until)}.<br>Для апелляции напишите нам:<br><a href="https://vk.ru/mayskiyrunway" target="_blank" rel="noopener">VK</a> · <a href="https://t.me/AliansMY_bot" target="_blank" rel="noopener">Telegram</a> · <a href="mailto:mayskiyrunway@gmail.com">Почта</a></div></div>`;
     }
-
     function renderCards() {
       const el = $('cardsDisplay');
       if (!el) return;
@@ -1888,55 +1810,21 @@
       const cd = getCardData();
       const frozen = isCardFrozen(cd);
       const holder = (userProfile.company_name || 'КОМПАНИЯ').toUpperCase().slice(0, 22);
-
       let html = '<div class="cards-wrap">';
       let hasAny = false;
-
       if (cd.maycard_status === 'approved' && cd.maycard_number) {
         hasAny = true;
         const expired = isCardExpired(cd, 'maycard');
-        const expStr = cd.maycard_expires_at ? (() => {
-          const d = new Date(cd.maycard_expires_at);
-          return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`;
-        })() : '••/••';
-        html += `
-          <div class="bank-card maycard ${(frozen || expired) ? 'frozen' : ''}">
-            <img class="card-logo" src="${LOGO_LIGHT}" alt="THEMAYSKIY" onerror="this.style.display='none'">
-            <div class="card-chip"></div>
-            <div class="card-brand">MAYCard<small>Payment card</small></div>
-            <div class="card-bottom">
-              <div class="card-number">${esc(cd.maycard_number)}</div>
-              <div class="card-holder-small">${esc(holder)}</div>
-              <div class="card-row"><div class="card-bank">МайБанк</div><div class="card-expiry">${esc(expStr)}</div></div>
-            </div>
-            ${frozen ? frozenOverlayHTML(cd) : (expired ? `<div class="frozen-overlay"><div class="frozen-icon">⏰</div><div class="frozen-title">Срок истёк</div><div class="frozen-msg">Перезакажите карту в разделе<br>«Карта авиакомпании»</div></div>` : '')}
-          </div>`;
+        const expStr = cd.maycard_expires_at ? (() => { const d = new Date(cd.maycard_expires_at); return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`; })() : '••/••';
+        html += `<div class="bank-card maycard ${(frozen || expired) ? 'frozen' : ''}"><img class="card-logo" src="${LOGO_LIGHT}" alt="THEMAYSKIY" onerror="this.style.display='none'"><div class="card-chip"></div><div class="card-brand">MAYCard<small>Payment card</small></div><div class="card-bottom"><div class="card-number">${esc(cd.maycard_number)}</div><div class="card-holder-small">${esc(holder)}</div><div class="card-row"><div class="card-bank">МайБанк</div><div class="card-expiry">${esc(expStr)}</div></div></div>${frozen ? frozenOverlayHTML(cd) : (expired ? `<div class="frozen-overlay"><div class="frozen-icon">⏰</div><div class="frozen-title">Срок истёк</div><div class="frozen-msg">Перезакажите карту в разделе<br>«Карта авиакомпании»</div></div>` : '')}</div>`;
       }
-
       if (cd.balocard_status === 'approved' && cd.balocard_number) {
         hasAny = true;
         const expired = isCardExpired(cd, 'balocard');
-        const expStr = cd.balocard_expires_at ? (() => {
-          const d = new Date(cd.balocard_expires_at);
-          return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`;
-        })() : '••/••';
-        html += `
-          <div class="bank-card balocard ${(frozen || expired) ? 'frozen' : ''}">
-            <img class="card-logo" src="${LOGO_DARK}" alt="THEMAYSKIY" onerror="this.style.display='none'">
-            <div class="card-chip"></div>
-            <div class="card-brand">Balocard<small>Discount card</small></div>
-            <div class="card-bottom">
-              <div class="card-number">${esc(cd.balocard_number)}</div>
-              <div class="card-holder-small">${esc(holder)}</div>
-              <div class="card-row"><div class="card-bank">МайБанк</div><div class="card-expiry">${esc(expStr)}</div></div>
-            </div>
-            ${frozen ? frozenOverlayHTML(cd) : (expired ? `<div class="frozen-overlay"><div class="frozen-icon">⏰</div><div class="frozen-title">Срок истёк</div><div class="frozen-msg">Перезакажите карту в разделе<br>«Карта авиакомпании»</div></div>` : '')}
-          </div>`;
+        const expStr = cd.balocard_expires_at ? (() => { const d = new Date(cd.balocard_expires_at); return `${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`; })() : '••/••';
+        html += `<div class="bank-card balocard ${(frozen || expired) ? 'frozen' : ''}"><img class="card-logo" src="${LOGO_DARK}" alt="THEMAYSKIY" onerror="this.style.display='none'"><div class="card-chip"></div><div class="card-brand">Balocard<small>Discount card</small></div><div class="card-bottom"><div class="card-number">${esc(cd.balocard_number)}</div><div class="card-holder-small">${esc(holder)}</div><div class="card-row"><div class="card-bank">МайБанк</div><div class="card-expiry">${esc(expStr)}</div></div></div>${frozen ? frozenOverlayHTML(cd) : (expired ? `<div class="frozen-overlay"><div class="frozen-icon">⏰</div><div class="frozen-title">Срок истёк</div><div class="frozen-msg">Перезакажите карту в разделе<br>«Карта авиакомпании»</div></div>` : '')}</div>`;
       }
-
-      if (!hasAny) {
-        html += '<p class="muted" style="text-align:center;padding:20px 0">У вас пока нет активных карт. Закажите их в разделе «Карта авиакомпании».</p>';
-      }
+      if (!hasAny) html += '<p class="muted" style="text-align:center;padding:20px 0">У вас пока нет активных карт. Закажите их в разделе «Карта авиакомпании».</p>';
       html += '</div>';
       el.innerHTML = html;
     }
@@ -1948,8 +1836,7 @@
       const cd = getCardData();
       const days = daysInAlliance();
       const hasJoined = !!userProfile.joined_at;
-
-      const statusBlock = (type, title, icon, color, requiredDays) => {
+      const statusBlock = (type, title, icon, requiredDays) => {
         const status = cd[type + '_status'] || 'none';
         const expired = isCardExpired(cd, type);
         const isFrozen = isCardFrozen(cd);
@@ -1968,20 +1855,15 @@
         } else if (expired) {
           inner = `<div class="expired-box">⏰ Срок действия истёк</div><button class="primary" type="button" onclick="requestNewCard('${type}')" style="width:100%;margin-top:8px">Перезаказать карту</button>`;
         } else {
-          // no card
-          if (type === 'maycard' && !hasJoined) {
-            inner = `<p class="muted" style="font-size:12px">Доступна после одобрения в альянс</p>`;
-          } else if (type === 'balocard' && days < requiredDays) {
-            inner = `<p class="muted" style="font-size:12px">Доступна после ${requiredDays} дней в альянсе (сейчас ${days} дн.)</p>`;
-          } else {
-            inner = `<button class="primary" type="button" onclick="requestNewCard('${type}')" style="width:100%">Заказать ${title}</button>`;
-          }
+          if (type === 'maycard' && !hasJoined) inner = `<p class="muted" style="font-size:12px">Доступна после одобрения в альянс</p>`;
+          else if (type === 'balocard' && days < requiredDays) inner = `<p class="muted" style="font-size:12px">Доступна после ${requiredDays} дней в альянсе (сейчас ${days} дн.)</p>`;
+          else inner = `<button class="primary" type="button" onclick="requestNewCard('${type}')" style="width:100%">Заказать ${title}</button>`;
         }
         return `<div class="card-status-block"><h4>${icon} ${esc(title)}</h4>${inner}</div>`;
       };
-
-      content.innerHTML = statusBlock('maycard', 'MAYCard (платёжная)', '💳', '#7a1a12', 0) + statusBlock('balocard', 'Balocard (скидочная)', '💠', '#3d7fb5', 5);
+      content.innerHTML = statusBlock('maycard', 'MAYCard (платёжная)', '💳', 0) + statusBlock('balocard', 'Balocard (скидочная)', '💠', 5);
     }
+    window.loadCardStatus = loadCardStatus;
 
     async function requestNewCard(type) {
       if (!currentUser || !userProfile) return message('Войдите в аккаунт', true);
@@ -1995,11 +1877,8 @@
       showLoading('Отправка заявки...');
       cd[type + '_status'] = 'pending';
       cd[type + '_requested_at'] = new Date().toISOString();
-      // Clear old card data on reorder
       if (isCardExpired(cd, type) || cd[type + '_status'] !== 'approved') {
-        cd[type + '_number'] = null;
-        cd[type + '_issued_at'] = null;
-        cd[type + '_expires_at'] = null;
+        cd[type + '_number'] = null; cd[type + '_issued_at'] = null; cd[type + '_expires_at'] = null;
       }
       const { error } = await db.from('profiles').update({ card_data: cd }).eq('id', currentUser.id);
       hideLoading();
@@ -2012,7 +1891,6 @@
     }
     window.requestNewCard = requestNewCard;
 
-    /* ---------- Админ: карты ---------- */
     async function renderAdminCards() {
       const el = $('adminCardsList');
       if (!el) return;
@@ -2026,11 +1904,8 @@
         if (cd.maycard_status === 'pending') items.push({ _id: p.id, _name: p.company_name, _avatar: p.avatar_url, _req: cd.maycard_requested_at, type: 'maycard', title: 'MAYCard' });
         if (cd.balocard_status === 'pending') items.push({ _id: p.id, _name: p.company_name, _avatar: p.avatar_url, _req: cd.balocard_requested_at, type: 'balocard', title: 'Balocard' });
       });
-      // Also legacy card_status='pending'
       const { data: legacy } = await db.from('profiles').select('id,company_name,avatar_url,card_number').eq('card_status', 'pending');
-      (legacy || []).forEach(p => {
-        items.push({ _id: p.id, _name: p.company_name, _avatar: p.avatar_url, _req: null, type: 'legacy', title: 'Старая карта', _legacyNum: p.card_number });
-      });
+      (legacy || []).forEach(p => { items.push({ _id: p.id, _name: p.company_name, _avatar: p.avatar_url, _req: null, type: 'legacy', title: 'Старая карта', _legacyNum: p.card_number }); });
       updateSectionBadge('adminCardsSection', items.length);
       if (!items.length) { el.innerHTML = '<p class="muted">Нет заявок на карты.</p>'; return; }
       el.innerHTML = items.map(it => {
@@ -2073,11 +1948,7 @@
         cd[type + '_issued_at'] = now.toISOString();
         cd[type + '_expires_at'] = expiresAt.toISOString();
         updates.card_data = cd;
-        // For MAYCard, also update legacy card_status for aircraft purchase compatibility
-        if (type === 'maycard') {
-          updates.card_status = 'approved';
-          updates.card_number = cd.maycard_number;
-        }
+        if (type === 'maycard') { updates.card_status = 'approved'; updates.card_number = cd.maycard_number; }
       }
       const { error } = await db.from('profiles').update(updates).eq('id', profileId);
       hideLoading();
@@ -2096,13 +1967,8 @@
       if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } }
       cd = cd || {};
       const updates = {};
-      if (type === 'legacy') {
-        updates.card_status = 'rejected';
-        updates.card_rejected_at = new Date().toISOString();
-      } else {
-        cd[type + '_status'] = 'rejected';
-        updates.card_data = cd;
-      }
+      if (type === 'legacy') { updates.card_status = 'rejected'; updates.card_rejected_at = new Date().toISOString(); }
+      else { cd[type + '_status'] = 'rejected'; updates.card_data = cd; }
       const { error } = await db.from('profiles').update(updates).eq('id', profileId);
       hideLoading();
       if (error) return message(error.message, true);
@@ -2124,7 +1990,6 @@
       return 0;
     }
 
-    /* ---------- Админ: заморозка ---------- */
     async function freezeCard() {
       const target = $('freezeTarget')?.value;
       const days = parseInt($('freezeDays')?.value, 10);
@@ -2168,7 +2033,6 @@
     window.freezeCard = freezeCard;
     window.unfreezeCard = unfreezeCard;
 
-    /* ---------- Праздники кастомные ---------- */
     async function requestHoliday() {
       if (!currentUser) return message('Войдите в аккаунт', true);
       const name = $('reqHolidayName')?.value?.trim();
@@ -2242,6 +2106,165 @@
     }
     window.resolveHolidayRequest = resolveHolidayRequest;
     window.renderHolidayRequestsForAdmin = renderHolidayRequestsForAdmin;
+
+    /* ==========================================================
+       КРЕДИТЫ (loanDebt / checkOverdueLoanFines / loadLoans)
+       ========================================================== */
+    function loanDebt(loan) {
+      const hours = Math.max(0, Math.ceil((Date.now() - new Date(loan.created_at).getTime()) / 3600000));
+      return Math.ceil(Number(loan.amount) * Math.pow(1.02, hours));
+    }
+
+    // MayVersion 1.1.2 — восстановленная функция
+    async function checkOverdueLoanFines() {
+      if (!currentUser) return;
+      try {
+        let q = db.from('loans').select('*')
+          .eq('status', 'active')
+          .eq('fine_applied', false)
+          .lt('due_date', new Date().toISOString());
+        if (!isAdmin) q = q.eq('user_id', currentUser.id);
+        const { data: overdueLoans, error } = await q;
+        if (error) { console.warn('checkOverdueLoanFines select:', error.message); return; }
+        for (const loan of (overdueLoans || [])) {
+          try {
+            await db.from('fines').insert({ user_id: loan.user_id, amount: 10, reason: 'Просрочка по кредиту МайБанка (более 7 дней)', status: 'unpaid' });
+            await db.from('loans').update({ fine_applied: true }).eq('id', loan.id);
+          } catch (e) { console.error('Fine insert error:', e); }
+        }
+      } catch (e) { console.error('checkOverdueLoanFines:', e); }
+    }
+    window.checkOverdueLoanFines = checkOverdueLoanFines;
+
+    async function loadLoans() {
+      const { data: loans, error } = await db.from('loans').select('*').eq('user_id', currentUser.id).eq('status', 'active').order('created_at', { ascending: false }).limit(1);
+      if (error) { $('loanInfo').textContent = error.message; return; }
+      const loan = loans?.[0];
+      if (!loan) { $('activeLoanBox').classList.add('hidden'); $('newLoanBox').classList.remove('hidden'); return; }
+      $('activeLoanBox').classList.remove('hidden'); $('newLoanBox').classList.add('hidden');
+      const debt = loanDebt(loan);
+      const created = new Date(loan.created_at);
+      const due = new Date(loan.due_date || created.getTime() + 7 * 86400000);
+      const overdue = Date.now() >= due.getTime();
+      $('loanInfo').innerHTML = `Сумма: ${Number(loan.amount).toLocaleString('ru-RU')} МайБит<br>Долг: <strong>${debt.toLocaleString('ru-RU')} МайБит</strong><br>Погасить до: ${due.toLocaleString('ru-RU')}<br>${overdue ? 'Срок истёк!' : 'Штраф 10 МайБит при просрочке.'}`;
+      $('btnPayLoan').onclick = async () => {
+        if (isProcessing) return;
+        showLoading('Погашение...');
+        const { data: profile, error: pe } = await db.from('profiles').select('balance').eq('id', currentUser.id).single();
+        if (pe) { hideLoading(); return message(pe.message, true); }
+        if (Number(profile.balance || 0) < debt) { hideLoading(); return message('Недостаточно МайБитов', true); }
+        const { error: ue } = await db.from('profiles').update({ balance: Number(profile.balance || 0) - debt }).eq('id', currentUser.id);
+        if (ue) { hideLoading(); return message(ue.message, true); }
+        const { error: le } = await db.from('loans').update({ status: 'paid', paid_at: new Date().toISOString() }).eq('id', loan.id);
+        if (le) { hideLoading(); return message(le.message, true); }
+        hideLoading(); message('Кредит погашен!'); await loadDashboard(true);
+      };
+    }
+    window.loadLoans = loadLoans;
+
+    $('btnTakeLoan').addEventListener('click', async () => {
+      if (isProcessing) return;
+      if (!currentUser) return message('Войдите в аккаунт', true);
+      const amount = Number($('loanAmount').value);
+      if (!Number.isSafeInteger(amount) || amount <= 0) return message('Введите положительную сумму', true);
+      showLoading('Оформление кредита...');
+      const created = new Date(); const due = new Date(created.getTime() + 7 * 86400000);
+      const { error } = await db.from('loans').insert({ user_id: currentUser.id, amount, status: 'active', created_at: created.toISOString(), due_date: due.toISOString(), fine_applied: false });
+      if (error) { hideLoading(); return message(error.message, true); }
+      const { data: prof, error: profileError } = await db.from('profiles').select('balance,company_name').eq('id', currentUser.id).single();
+      if (profileError) { hideLoading(); return message('Кредит создан, но баланс не загружен', true); }
+      await db.from('profiles').update({ balance: Number(prof.balance || 0) + amount }).eq('id', currentUser.id);
+      await db.from('transactions').insert({ sender_name: 'МайБанк', receiver_name: prof.company_name || 'Компания', amount, type: 'loan' });
+      hideLoading(); message(`Кредит оформлен. +${amount} МайБит начислено.`);
+      $('loanAmount').value = ''; await loadDashboard(true);
+    });
+
+    function addClassInput() {
+      const wrap = document.createElement('div');
+      wrap.className = 'custom-class-block';
+      wrap.innerHTML = `<div class="calc-row"><div class="field"><label>Название класса</label><input class="custom-class-name" maxlength="50" placeholder="Например, Премиум"></div><div class="field"><label>Доход за месяц</label><input class="custom-class-month" type="number" step="any" placeholder="0"></div></div><div class="field"><label>Доход за год</label><input class="custom-class-year" type="number" step="any" placeholder="0"></div>`;
+      $('classInputs').appendChild(wrap);
+    }
+    function addExpenseInput() {
+      const wrap = document.createElement('div');
+      wrap.className = 'calc-row';
+      wrap.innerHTML = `<div class="field"><label>Название расхода</label><input class="expense-name" maxlength="50" placeholder="Обслуживание"></div><div class="field"><label>За месяц</label><input class="expense-month" type="number" step="any" placeholder="0"></div><div class="field"><label>За год</label><input class="expense-year" type="number" step="any" placeholder="0"></div>`;
+      $('expenseInputs').appendChild(wrap);
+    }
+    $('btnAddClass').addEventListener('click', addClassInput);
+    $('btnAddExpense').addEventListener('click', addExpenseInput);
+    $('btnCalc').addEventListener('click', () => {
+      const num = id => Number($(id).value) || 0;
+      const revenueM = num('c_total_m'), revenueY = num('c_total_y');
+      let expensesM = 0, expensesY = 0;
+      document.querySelectorAll('.expense-month').forEach(x => expensesM += Number(x.value) || 0);
+      document.querySelectorAll('.expense-year').forEach(x => expensesY += Number(x.value) || 0);
+      const netM = revenueM - expensesM, netY = revenueY - expensesY;
+      $('calcResult').innerHTML = `Чистая прибыль за месяц: <span style="color:${netM >= 0 ? 'var(--green)' : 'var(--red)'}">${netM.toLocaleString('ru-RU')} МайБит</span><br>Чистая прибыль за год: <span style="color:${netY >= 0 ? 'var(--green)' : 'var(--red)'}">${netY.toLocaleString('ru-RU')} МайБит</span><div class="muted" style="margin-top:8px">Расчёт выполнен в браузере.</div>`;
+    });
+
+    function updateBuyTotal() {
+      if (!selectedAircraft) return;
+      const qty = Math.max(1, Number($('buyQuantity').value) || 1);
+      const discountPct = getDiscountPct();
+      const total = Math.round(selectedAircraft.price * qty * (1 - discountPct/100));
+      $('buyTotalPrice').textContent = total.toLocaleString('ru-RU') + ' МайБит';
+      const dp = $('discountPreview');
+      if (dp) {
+        const hasInput = ($('buyDiscountCard')?.value || '').trim();
+        if (discountPct > 0) { dp.textContent = `🎉 Скидка ${discountPct}% по Balocard применена`; dp.style.color = 'var(--green)'; }
+        else if (hasInput) { dp.textContent = '❌ Balocard не найдена или неактивна'; dp.style.color = 'var(--red)'; }
+        else { dp.textContent = ''; }
+      }
+    }
+    $('buyQuantity').addEventListener('input', updateBuyTotal);
+    $('buyDiscountCard')?.addEventListener('input', updateBuyTotal);
+    function renderMarketplace() {
+      $('aircraftMarketplace').innerHTML = AIRCRAFT_DATA.map((a, i) => `<div class="aircraft-card"><div><h4>${esc(a.model)}</h4>${a.note ? `<div class="muted">${esc(a.note)}</div>` : ''}<div class="price">${a.price.toLocaleString('ru-RU')} МайБит</div></div><button class="primary" onclick="openBuyAircraft(${i})">Заказать</button></div>`).join('');
+    }
+    window.renderMarketplace = renderMarketplace;
+    function openBuyAircraft(index) {
+      if (isProcessing) return;
+      selectedAircraft = AIRCRAFT_DATA[index];
+      if (!currentUser) return message('Сначала войдите в аккаунт', true);
+      $('buyModelName').textContent = selectedAircraft.model;
+      $('buyModelPrice').textContent = selectedAircraft.price.toLocaleString('ru-RU');
+      $('buyQuantity').value = 1; $('buyEmail').value = currentUser.email || '';
+      $('buyCard').value = ''; $('buyConsent').checked = false;
+      if ($('buyDiscountCard')) $('buyDiscountCard').value = '';
+      if ($('discountPreview')) { $('discountPreview').textContent = ''; $('discountPreview').style.color = 'var(--green)'; }
+      updateBuyTotal(); $('buyAircraftModal').classList.add('show');
+    }
+    window.openBuyAircraft = openBuyAircraft;
+    function closeBuyAircraftModal() { if (isProcessing) return; $('buyAircraftModal').classList.remove('show'); }
+    window.closeBuyAircraftModal = closeBuyAircraftModal;
+    async function confirmBuyAircraft() {
+      if (isProcessing) return;
+      if (!selectedAircraft || !currentUser) return message('Не выбран самолёт', true);
+      if (userProfile?.card_status !== 'approved') return message('У вас нет одобренной карты!', true);
+      const qty = Number($('buyQuantity').value);
+      const email = $('buyEmail').value.trim();
+      const consent = $('buyConsent').checked;
+      if (!Number.isInteger(qty) || qty < 1 || qty > 5) return message('Количество от 1 до 5', true);
+      if (!email || !$('buyEmail').validity.valid) return message('Введите корректную почту', true);
+      if ($('buyCard').value.trim().toUpperCase() !== (userProfile.card_number || '').toUpperCase()) return message('Неверный номер карты!', true);
+      if (!consent) return message('Необходимо согласие', true);
+      showLoading('Оформляем заказ...');
+      const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0,0,0,0);
+      const { data: existing, error: readErr } = await db.from('aircraft_orders').select('quantity').eq('user_id', currentUser.id).eq('model', selectedAircraft.model).gte('created_at', monthStart.toISOString());
+      if (readErr) { hideLoading(); return message(readErr.message, true); }
+      const sum = (existing || []).reduce((n, o) => n + Number(o.quantity || 0), 0);
+      if (sum + qty > 5) { hideLoading(); return message(`Лимит — 5 самолётов за месяц. Уже: ${sum}.`, true); }
+      const discountPct = getDiscountPct();
+      const finalPrice = Math.round(selectedAircraft.price * qty * (1 - discountPct/100));
+      const createdAt = new Date();
+      const readyAt = new Date(createdAt.getTime() + 7 * 86400000);
+      const { error } = await db.from('aircraft_orders').insert({ user_id: currentUser.id, model: selectedAircraft.model, price: finalPrice, quantity: qty, email, status: 'assembling', created_at: createdAt.toISOString(), ready_at: readyAt.toISOString() });
+      if (error) { hideLoading(); return message(error.message, true); }
+      fetch('https://formspree.io/f/xeaalzlg', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: `Заказ Баловск: ${selectedAircraft.model} x${qty}${discountPct > 0 ? ' (скидка Balocard 10%)' : ''}`, email, type: 'Покупка Баловск', price: finalPrice }) }).catch(() => {});
+      hideLoading(); message(discountPct > 0 ? `Заявка зарегистрирована! Применена скидка ${discountPct}%` : 'Заявка зарегистрирована!'); closeBuyAircraftModal(); await loadDashboard(true);
+    }
+    window.confirmBuyAircraft = confirmBuyAircraft;
 
     async function loadDashboard(silent = false) {
       try {
@@ -2336,7 +2359,6 @@
           $('myFleetList').innerHTML = fleetHtml;
           const { data: maysk } = await db.from('maysk_requests').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1);
           $('mayskStatus').innerHTML = maysk?.length ? `<div class="muted">Заявка: ${maysk[0].status === 'approved' ? 'Одобрена' : maysk[0].status === 'rejected' ? 'Отклонена' : 'На проверке'}</div>` : '';
-          // update sub select for Maysk
           const { data: subsApproved } = await db.from('subsidiaries').select('id,company_name').eq('parent_id', user.id).eq('status', 'approved');
           if ($('mayskSubSelect')) $('mayskSubSelect').innerHTML = subsApproved?.length ? subsApproved.map(s => `<option value="${esc(s.id)}">${esc(s.company_name)}</option>`).join('') : '<option value="">Нет дочек</option>';
           if ($('mayskCompany') && profile?.company_name) $('mayskCompany').value = profile.company_name;
@@ -2367,6 +2389,7 @@
         if (!silent) message('Ошибка: ' + (err.message || err), true);
       }
     }
+    window.loadDashboard = loadDashboard;
 
     async function loadExitRequest() {
       const content = $('exitRequestList');
@@ -2392,6 +2415,8 @@
         $('exitModal').classList.add('show');
     }
     function closeExitModal() { $('exitModal').classList.remove('show'); }
+    window.openExitModal = openExitModal;
+    window.closeExitModal = closeExitModal;
     async function submitExitRequest() {
         if (!currentUser || !userProfile) return;
         const reason = $('exitReason').value.trim();
@@ -2413,8 +2438,7 @@
         closeExitModal();
         await loadExitRequest();
     }
-    window.openExitModal = openExitModal;
-    window.closeExitModal = closeExitModal;
+    window.submitExitRequest = submitExitRequest;
 
     window.showExitDocument = async () => {
         if (!currentUser || !userProfile) return;
@@ -2470,11 +2494,11 @@
       if (error) return message(error.message, true);
       message('Заявка в Майск отправлена!'); await loadDashboard(true);
     }
+    window.submitMaysk = submitMaysk;
     $('btnSubmitMayskSelf').addEventListener('click', () => submitMaysk('self'));
     $('btnSubmitMayskSub').addEventListener('click', () => {
       const sel = $('mayskSubSelect');
-      if (!sel || !sel.value || sel.options[sel.selectedIndex].text === 'Нет дочек') {
-        // Try opening the sub selector
+      if (!sel || !sel.value || sel.options[sel.selectedIndex]?.text === 'Нет дочек') {
         $('mayskSubField').classList.remove('hidden');
         return message('Выберите дочернюю компанию в списке', true);
       }
@@ -2519,7 +2543,6 @@
       updateSectionBadge('adminExitSection', exits?.length || 0);
       $('adminExitList').innerHTML = exits?.length ? exits.map(e => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(e.company_name)}</h4><p class="muted">Причина: ${esc(e.reason)}</p></div><div class="admin-actions"><button class="primary" style="background:var(--red);" onclick="approveExit('${esc(e.id)}', '${esc(e.user_id)}')">Одобрить выход</button></div></div>`).join('') : 'Нет заявок.';
 
-      // NEW CARDS
       await renderAdminCards();
 
       const { data: regs } = await db.from('registry_applications').select('*').eq('status', 'pending');
@@ -2573,6 +2596,7 @@
 
       if (typeof renderHolidayRequestsForAdmin === 'function') await renderHolidayRequestsForAdmin();
     }
+    window.loadAdminData = loadAdminData;
 
     window.approveExit = async (requestId, userId) => {
         if (isProcessing) return;
@@ -2590,11 +2614,9 @@
                 await db.from('registry_applications').delete().in('subsidiary_id', subIds);
                 await db.from('subsidiaries').delete().in('id', subIds);
             }
-            hideLoading();
-            await logAdminAction('Одобрен выход из альянса', null, userId);
+            hideLoading(); await logAdminAction('Одобрен выход из альянса', null, userId);
             message('Выход одобрен. Все данные аннулированы.');
-            await loadAdminData();
-            await updateAdminBadge();
+            await loadAdminData(); await updateAdminBadge();
         } catch(err) { hideLoading(); message('Ошибка: ' + err.message, true); }
     };
 
@@ -2825,7 +2847,6 @@
       const code = displayCompanyCode(userProfile, currentUser?.id);
       const docLogo = getDocLogo();
 
-      // === Проверки доступа к документу ===
       if (!userProfile?.joined_at && currentUser.id !== ADMIN_UID) {
         return message('Документ станет доступен только после одобрения вашей заявки главой альянса', true);
       }
@@ -2961,7 +2982,7 @@
       }
       await db.from('profiles').upsert({ id: user.id, company_name, blood_effects: bloodPref });
       localStorage.setItem('blood_effects', bloodPref ? 'true' : 'false');
-      fetch('https://formspree.io/f/xeaalzlg', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: company_name, email: $('applicationEmail').value, type: 'Заявка в альянс' }) }).catch(() => {});
+      fetch('https://formspree.io/xeaalzlg', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: company_name, email: $('applicationEmail').value, type: 'Заявка в альянс' }) }).catch(() => {});
       hideLoading(); message('Документ отправлен. Ожидайте одобрения.');
       await loadDashboard(true);
       showPage('dashboardPage');
@@ -2990,7 +3011,6 @@
       appSigPad = setupCanvas($('appSigCanvas'));
       exitSigPad = setupCanvas($('exitSigCanvas'));
 
-      // Обработчики новых кнопок
       $('btnFreezeCard')?.addEventListener('click', freezeCard);
       $('btnUnfreezeCard')?.addEventListener('click', unfreezeCard);
       $('btnRequestHoliday')?.addEventListener('click', requestHoliday);
