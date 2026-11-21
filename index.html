@@ -848,7 +848,6 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
 <script>
 'use strict';
 // ===== MayVersion 1.1.3 — Stable =====
-// Автоинкремент каждые 5 недель с 18.11.2026
 function getAppVersion() {
   const baseline = Date.UTC(2026, 10, 18);
   const week5 = 5 * 7 * 86400000;
@@ -1283,17 +1282,19 @@ window.openMemberProfile = async (userId) => {
   const code = displayCompanyCode(m, m.id);
   const check = isAdminUser ? adminBadge() : '';
   const inRegistry = isAdminUser || m.registry_status === 'approved';
-  let mayskRes = { data: [] }, subsRes = { data: [] };
+  let mayskRes = { data: [] }, subsRes = { data: [] }, fullProfileRes = { data: null };
   try {
-    [mayskRes, subsRes] = await Promise.all([
+    [mayskRes, subsRes, fullProfileRes] = await Promise.all([
       db.from('maysk_requests').select('id').eq('user_id', userId).eq('status', 'approved').limit(1),
-      db.from('subsidiaries').select('company_name').or(`parent_id.eq.${userId},user_id.eq.${userId}`).eq('status', 'approved')
+      db.from('subsidiaries').select('company_name').or(`parent_id.eq.${userId},user_id.eq.${userId}`).eq('status', 'approved'),
+      db.from('profiles').select('description,history,card_data').eq('id', userId).maybeSingle()
     ]);
   } catch (e) { console.error(e); }
+  const fullProfile = fullProfileRes?.data || {};
   const fliesToMaysk = mayskRes.data && mayskRes.data.length > 0;
   const hasSubs = subsRes.data && subsRes.data.length > 0;
   const subsList = subsRes.data || [];
-  let cd = m.card_data; if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } } cd = cd || {};
+  let cd = fullProfile.card_data; if (typeof cd === 'string') { try { cd = JSON.parse(cd); } catch(e) { cd = {}; } } cd = cd || {};
   const slogan = cd.slogan || '';
   const socialLinks = Array.isArray(cd.social_links) ? cd.social_links : [];
   const socialIcons = { site: '🌐', vk: '🅥', tg: '✈️', tgk: '📢', youtube: '▶️', instagram: '📷', other: '🔗' };
@@ -1307,8 +1308,8 @@ window.openMemberProfile = async (userId) => {
     ${socialLinks.length ? `<div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">🔗 Мы есть</label><div class="social-links-display">${socialLinks.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener" class="social-link-pill"><span class="icon">${socialIcons[l.type] || '🔗'}</span>${esc(l.label)}</a>`).join('')}</div></div>` : ''}
     ${hasSubs ? `<div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Дочерние</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.8">${subsList.map(s => `• ${esc(s.company_name)}`).join('<br>')}</div></div>` : ''}
     <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Баланс</label><div style="font-size:26px;font-weight:800;color:var(--red)">${isAdminUser ? '∞' : Number(m.balance || 0).toLocaleString('ru-RU')} <span style="font-size:14px;color:var(--muted)">МайБит</span></div></div>
-    <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Описание</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.6">${esc(m.description || '—')}</div></div>
-    <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">История</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.6">${esc(m.history || '—')}</div></div>
+    <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Описание</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.6">${esc(fullProfile.description || '—')}</div></div>
+    <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">История</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.6">${esc(fullProfile.history || '—')}</div></div>
     <div><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Флот Баловск</label>${m.fleet?.length ? m.fleet.map(f => `<div class="transaction-item"><span>${esc(f.model)}</span><strong>${Number(f.quantity)} шт.</strong></div>`).join('') : '<span class="muted">Нет самолётов</span>'}</div>
   `;
   $('memberProfileModal').classList.add('show');
@@ -2120,7 +2121,6 @@ async function loadDashboard(silent = false) {
       if (!joinedAt) { const { data: app } = await db.from('applications').select('approved_at').eq('user_id', user.id).eq('status', 'approved').maybeSingle(); if (app?.approved_at) { joinedAt = new Date(app.approved_at); db.from('profiles').update({ joined_at: app.approved_at }).eq('id', user.id).then(()=>{}); } }
       if (joinedAt) { const days = Math.floor((Date.now() - joinedAt.getTime()) / 86400000); $('statTime').textContent = `В альянсе: ${days.toLocaleString('ru-RU')} ${pluralDays(days)}`; $('statDate').textContent = `Дата вступления: ${joinedAt.toLocaleDateString('ru-RU')}`; }
       else { $('statTime').textContent = 'В альянсе: не состоит'; $('statDate').textContent = 'Дата вступления: —'; }
-      // Параллельная загрузка независимых блоков
       await Promise.all([loadLoans(), loadCardStatus(), loadExitRequest(), loadCompanyChart()]);
       renderCards();
       renderSocialLinks();
@@ -2156,7 +2156,6 @@ async function loadDashboard(silent = false) {
     $('newsList').innerHTML = posts?.length ? posts.map(p => `<div class="post-card"><div class="post-header"><strong>${esc(p.author_name)}</strong>${p.author_name === ADMIN_NAME ? adminBadge() : ''}<span>${new Date(p.created_at).toLocaleString()}</span></div><div class="post-content">${esc(p.content)}</div></div>`).join('') : '<div class="muted">Новостей нет.</div>';
     updateSectionBadge('newsSection', posts?.length || 0);
 
-    // Параллельно: праздники + участники
     await Promise.all([
       db.from('profiles').select('id,company_name,birthday_date,card_data').then(r => renderHolidays(r.data)),
       loadMembers()
@@ -2734,7 +2733,6 @@ db.auth.onAuthStateChange((event) => {
     } else if (!isRecovery) { await loadDashboard(); }
   } else if (!isRecovery) { showPage('authPage'); }
   updateBrand(); updateAssistantAvatar();
-  // Реже polling — 60 секунд вместо 20
   setInterval(() => {
     if (currentUser && !isProcessing && !document.hidden) {
       const onAdmin = !$('adminPage').classList.contains('hidden');
