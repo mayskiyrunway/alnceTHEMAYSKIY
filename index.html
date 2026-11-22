@@ -9,7 +9,6 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
 <link rel="dns-prefetch" href="https://qyabbiyhvwiafprolzoh.supabase.co">
-<link rel="preload" as="image" href="https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F146_20261103132639.png">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
@@ -135,9 +134,13 @@ body[data-theme="light"] .rank-badge{background:#1d1d1f;color:#fff}
 .holiday-company{font-size:11px;color:var(--muted);margin-top:6px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
 .holiday-delete{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:50%;background:rgba(167,53,42,.1);color:var(--red);border:1px solid var(--red);cursor:pointer;font-size:16px;line-height:1;font-weight:bold;z-index:5;transition:all .3s var(--ios-smooth)}
 .holiday-delete:hover{background:var(--red);color:#fff}
-.party-decor{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden;opacity:.4;z-index:1}
+.party-decor{position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;overflow:hidden;opacity:.5;z-index:1}
 .party-decor span{position:absolute;font-size:20px;animation:fall linear infinite}
+.party-decor.party-active{opacity:.75}
+.party-decor.party-active span{font-size:24px}
 @keyframes fall{0%{transform:translateY(-20px) rotate(0)}100%{transform:translateY(100px) rotate(360deg)}}
+@keyframes firework{0%,100%{transform:scale(1) rotate(0);opacity:.8}50%{transform:scale(1.3) rotate(15deg);opacity:1}}
+.party-decor span.firework{animation:fall linear infinite,firework 1.2s ease-in-out infinite}
 .members-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .member-card{border:1px solid var(--line);background:var(--paper);padding:16px;border-radius:14px;text-align:center;cursor:pointer;transition:transform .45s var(--ios-spring),box-shadow .4s var(--ios-smooth),background .3s var(--ios-smooth)}
 .member-card:hover{transform:translateY(-5px);box-shadow:0 12px 28px rgba(0,0,0,.12);background:var(--soft)}
@@ -330,6 +333,8 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
 .social-vk:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 10px 24px rgba(0,119,255,.55)}
 .social-tg{background:#0088cc;box-shadow:0 4px 14px rgba(0,136,204,.4)}
 .social-tg:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 10px 24px rgba(0,136,204,.55)}
+.social-help{background:linear-gradient(135deg,#276b4b 0%,#3d9f6f 100%);box-shadow:0 4px 14px rgba(39,107,75,.5)}
+.social-help:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 10px 24px rgba(39,107,75,.65)}
 .cards-wrap{display:flex;flex-direction:column;gap:18px}
 .bank-card{width:100%;max-width:380px;aspect-ratio:1.586/1;border-radius:20px;padding:20px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.28);display:flex;flex-direction:column;justify-content:space-between;margin:0 auto;font-family:Inter,sans-serif;transition:transform .5s var(--ios-spring),box-shadow .4s var(--ios-smooth)}
 .bank-card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 18px 46px rgba(0,0,0,.35)}
@@ -723,6 +728,7 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
     <div style="display:flex;gap:12px;justify-content:center;margin:15px 0;flex-wrap:wrap;">
       <a href="https://vk.ru/mayskiyrunway" target="_blank" rel="noopener" class="social-btn social-vk"><svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.78.677.864 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.204.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.254-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.762-.491h1.744c.525 0 .643.271.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.78 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/></svg><span>ВКонтакте</span></a>
       <a href="https://t.me/AliansMY_bot" target="_blank" rel="noopener" class="social-btn social-tg"><svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg><span>Telegram</span></a>
+      <a href="https://mayskiyrunway.github.io/aliance/" target="_blank" rel="noopener" class="social-btn social-help"><svg width="22" height="22" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M12 2L1 21h22L12 2zm0 4l7.53 13H4.47L12 6zm-1 5v4h2v-4h-2zm0 5v2h2v-2h-2z"/></svg><span>Сайт помощи</span></a>
     </div>
     <p><a onclick="showSupport()">Нашли проблему? нужна помощь? Есть идея? жмите!</a></p>
     <p>Почта: <a href="mailto:mayskiyrunway@gmail.com">mayskiyrunway@gmail.com</a></p>
@@ -942,12 +948,14 @@ const ASSISTANT_QA = [
 { q: "Где можно поменять тему?", a: "Нажмите «Настройки» в верхней панели. Там доступны 4 темы: альянсовая, светлая (Ч/Б), тёмная и системная.", highlight: '#btnSettings' },
 { q: "Кто главный здесь?", a: "Глава альянса — «Майские авиалинии». Официальный аккаунт управления альянсом. У них красная галочка рядом с названием.", highlight: null },
 { q: "Кто ты?", a: "Я — ИИ МайУмшка! Виртуальный помощник альянса THEMAYSKIY. Помогаю участникам с вопросами по сайту и подсказываю куда нажать.", highlight: null },
+{ q: "Кто тебя создал?", a: "Меня создал холдинг MYRY специально для альянса THEMAYSKIY. Мы вместе работаем над развитием экосистемы.", highlight: null },
+{ q: "Почему теперь сайт, а не Telegram?", a: "Майские авиалинии решили развивать альянс на собственной платформе для полного контроля и новых возможностей. Но мы остаёмся и в Telegram — вы можете зарегистрироваться и там, и тут. Оба канала официальные!", highlight: null },
 { q: "Как перевести МайБиты?", a: "В разделе «💸 Перевод МайБитов» — выберите получателя из списка и введите сумму. Перевод выполняется мгновенно.", highlight: '#transferTarget' },
 { q: "Как взять кредит в МайБанке?", a: "В разделе «МайБанк (Кредиты)» введите сумму и нажмите «Взять кредит». Процент растёт 2% в час, при просрочке (7 дней) — штраф 10 МайБит.", highlight: '#btnTakeLoan' },
 { q: "Как добавить дочернюю компанию?", a: "В разделе «Дочерние компании» нажмите «Добавить дочернюю» и введите название. Заявка уйдёт главе альянса.", highlight: '#btnOpenSubsidiaryForm' },
 { q: "Что такое МайБит?", a: "МайБит — это внутренняя валюта альянса THEMAYSKIY. Используется для покупки самолётов, оплаты штрафов и переводов между компаниями. Не является настоящими деньгами.", highlight: null },
 { q: "Как оплатить штраф?", a: "В разделе «Штрафы» нажмите кнопку «Оплатить» рядом со штрафом. Если не хватает МайБитов — возьмите кредит в МайБанке.", highlight: '#finesList' },
-{ q: "Как связаться с поддержкой?", a: "В самом низу сайта есть кнопка «Нашли проблему? нужна помощь? Есть идея? жмите!». Она откроет почту mayskiyrunway@gmail.com.", highlight: null },
+{ q: "Как связаться с поддержкой?", a: "В самом низу сайта есть кнопка «Нашли проблему? нужна помощь? Есть идея? жмите!». Она откроет почту mayskiyrunway@gmail.com. Также есть «Сайт помощи» и Telegram-бот @AliansMY_bot.", highlight: null },
 { q: "Как увидеть свой код компании?", a: "Ваш код компании (например, MY00001) отображается рядом с названием авиакомпании в верхней части вашего кабинета.", highlight: '#headerCompany' },
 { q: "Как выйти из аккаунта?", a: "Нажмите кнопку «Выйти» в правом верхнем углу сайта. Это безопасно завершит сессию.", highlight: '#topLogout' },
 { q: "Что делать если забыл пароль?", a: "На экране входа нажми «Забыли пароль?». Введи свою почту, и мы отправим ссылку для восстановления.", highlight: null },
@@ -961,14 +969,23 @@ const ASSISTANT_QA = [
 { q: "Что такое «Наш лозунг»?", a: "Короткая фраза-девиз вашей компании. Введите её в «Информация о компании» — она будет видна всем в вашем профиле.", highlight: '#profileSlogan' },
 { q: "Как заказать MAYCard?", a: "В разделе «Карта авиакомпании» нажмите «Заказать MAYCard». После одобрения главой карта появится в «Мои карты».", highlight: '#cardStatusContent' },
 { q: "Как заказать Balocard?", a: "В разделе «Карта авиакомпании» нажмите «Заказать Balocard» (доступно после 5 дней в альянсе). Даёт скидку 10% на Баловск.", highlight: '#cardStatusContent' },
-{ q: "Где встретиться для заключения контракта?", a: "Все официальные встречи проходят онлайн через поддержку: mayskiyrunway@gmail.com или Telegram-бот @AliansMY_bot.", highlight: null },
 { q: "Что за красная галочка?", a: "Красная галочка — это официальный аккаунт Майских авиалиний (главы альянса). Только у них есть такая метка.", highlight: null },
 { q: "Почему моя карта стала серой?", a: "Карта заморожена главой альянса или истёк её срок. Для апелляции напишите в поддержку (VK/Telegram/Почта).", highlight: '#cardsSection' },
 { q: "Как посмотреть статистику компании?", a: "В разделе «📊 Статистика компании» — доход (зелёный), траты (красный) и дни в альянсе (жёлтый).", highlight: '#companyChartSection' },
-{ q: "Как удалить ссылку «Мы есть»?", a: "В разделе «🔗 Мы есть» рядом с каждой ссылкой есть кнопка × — нажмите её, чтобы удалить.", highlight: '#socialLinksList' }
+{ q: "Как удалить ссылку «Мы есть»?", a: "В разделе «🔗 Мы есть» рядом с каждой ссылкой есть кнопка × — нажмите её, чтобы удалить.", highlight: '#socialLinksList' },
+{ q: "Где официальный сайт помощи?", a: "Наш альянсовый сайт помощи: https://mayskiyrunway.github.io/aliance/ — там можно найти дополнительную информацию и ответы на вопросы.", highlight: null }
 ];
 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+// Защита от бесконечных/невалидных чисел
+function safeNum(n) {
+  const v = Number(n);
+  return Number.isFinite(v) ? v : 0;
+}
+function fmtNum(n) {
+  return safeNum(n).toLocaleString('ru-RU');
+}
 
 function chooseDevice(mode) {
   localStorage.setItem('device_mode', mode);
@@ -1220,7 +1237,7 @@ async function updateAdminBadge() {
 
 async function loadMembers() {
   const [{ data: profiles }, { data: fleets }, { data: subs }] = await Promise.all([
-    db.from('profiles').select('id,company_name,company_code,rank,joined_at,balance,avatar_url,registry_status'),
+    db.from('profiles').select('id,company_name,company_code,rank,joined_at,balance,avatar_url,registry_status,callsign'),
     db.from('user_fleet').select('user_id,model,quantity'),
     db.from('subsidiaries').select('*').eq('status', 'approved')
   ]);
@@ -1287,10 +1304,11 @@ window.openMemberProfile = async (userId) => {
     [mayskRes, subsRes, fullProfileRes] = await Promise.all([
       db.from('maysk_requests').select('id').eq('user_id', userId).eq('status', 'approved').limit(1),
       db.from('subsidiaries').select('company_name').or(`parent_id.eq.${userId},user_id.eq.${userId}`).eq('status', 'approved'),
-      db.from('profiles').select('description,history,card_data').eq('id', userId).maybeSingle()
+      db.from('profiles').select('description,history,card_data,balance').eq('id', userId).maybeSingle()
     ]);
   } catch (e) { console.error(e); }
   const fullProfile = fullProfileRes?.data || {};
+  const freshBalance = safeNum(fullProfile.balance ?? m.balance);
   const fliesToMaysk = mayskRes.data && mayskRes.data.length > 0;
   const hasSubs = subsRes.data && subsRes.data.length > 0;
   const subsList = subsRes.data || [];
@@ -1307,7 +1325,7 @@ window.openMemberProfile = async (userId) => {
     <div style="margin-bottom:15px"><div class="profile-badge ${inRegistry ? 'yes' : 'no'}">${inRegistry ? '✅' : '❌'} В реестре</div><div class="profile-badge ${fliesToMaysk ? 'yes' : 'no'}">${fliesToMaysk ? '✅' : '❌'} Летает в Майск</div><div class="profile-badge ${hasSubs ? 'yes' : 'no'}">${hasSubs ? '✅' : '❌'} Дочерние компании</div></div>
     ${socialLinks.length ? `<div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">🔗 Мы есть</label><div class="social-links-display">${socialLinks.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener" class="social-link-pill"><span class="icon">${socialIcons[l.type] || '🔗'}</span>${esc(l.label)}</a>`).join('')}</div></div>` : ''}
     ${hasSubs ? `<div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Дочерние</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.8">${subsList.map(s => `• ${esc(s.company_name)}`).join('<br>')}</div></div>` : ''}
-    <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Баланс</label><div style="font-size:26px;font-weight:800;color:var(--red)">${isAdminUser ? '∞' : Number(m.balance || 0).toLocaleString('ru-RU')} <span style="font-size:14px;color:var(--muted)">МайБит</span></div></div>
+    <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Баланс</label><div style="font-size:26px;font-weight:800;color:var(--red)">${isAdminUser ? '∞' : fmtNum(freshBalance)} <span style="font-size:14px;color:var(--muted)">МайБит</span></div></div>
     <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Описание</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.6">${esc(fullProfile.description || '—')}</div></div>
     <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">История</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.6">${esc(fullProfile.history || '—')}</div></div>
     <div><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Флот Баловск</label>${m.fleet?.length ? m.fleet.map(f => `<div class="transaction-item"><span>${esc(f.model)}</span><strong>${Number(f.quantity)} шт.</strong></div>`).join('') : '<span class="muted">Нет самолётов</span>'}</div>
@@ -1345,7 +1363,7 @@ function printProfile() {
           <div class="print-info-item"><strong>Реестр</strong><span>${inRegistry ? '✅ В реестре' : '❌ Не в реестре'}</span></div>
           <div class="print-info-item"><strong>Полет в Майск</strong><span>${fliesToMaysk ? '✅ Разрешено' : '❌ Не разрешено'}</span></div>
           <div class="print-info-item"><strong>Дочерние</strong><span>${hasSubs ? '✅ Есть (' + subsList.length + ')' : '❌ Нет'}</span></div>
-          <div class="print-info-item" style="grid-column: 1/-1"><strong>Баланс</strong><span>${isAdminUser ? '∞' : Number(userProfile.balance || 0).toLocaleString('ru-RU')} МайБит</span></div>
+          <div class="print-info-item" style="grid-column: 1/-1"><strong>Баланс</strong><span>${isAdminUser ? '∞' : fmtNum(userProfile.balance)} МайБит</span></div>
           ${hasSubs ? `<div class="print-info-item" style="grid-column: 1/-1"><strong>Дочерние авиакомпании</strong><span>${subsList.map(s => esc(s.company_name)).join(', ')}</span></div>` : ''}
         </div>
         <div style="text-align:right;margin-top:40px;font-size:13px;color:#666"><p style="margin:0">Дата печати: ${today}</p></div>
@@ -1443,6 +1461,17 @@ function formatCountdown(nextDate) {
   if (days === 1) return `Завтра (${hours} ч ${minutes} мин)`;
   return `Через ${days} ${pluralDays(days)}`;
 }
+
+function makePartyDecor(isToday, isClose) {
+  if (isToday) {
+    return '<div class="party-decor party-active"><span class="firework" style="left:8%;top:8%;animation-duration:3s">🎆</span><span class="firework" style="left:25%;top:15%;animation-duration:2.5s;animation-delay:.3s">🎇</span><span style="left:42%;animation-duration:3.2s;animation-delay:.5s">🎈</span><span class="firework" style="left:60%;top:10%;animation-duration:2.8s;animation-delay:.2s">🎊</span><span style="left:78%;animation-duration:3.5s;animation-delay:.4s">🎉</span><span class="firework" style="left:90%;top:20%;animation-duration:2.6s;animation-delay:.6s">🎆</span><span style="left:15%;animation-duration:4s;animation-delay:1s">🎈</span><span style="left:55%;animation-duration:3.8s;animation-delay:1.2s">🎈</span><span class="firework" style="left:85%;top:5%;animation-duration:2.4s;animation-delay:.9s">🪩</span></div>';
+  }
+  if (isClose) {
+    return '<div class="party-decor"><span style="left:12%;animation-duration:3s">🎈</span><span style="left:35%;animation-duration:2.8s;animation-delay:.4s">🎈</span><span style="left:62%;animation-duration:3.3s;animation-delay:.2s">🎉</span><span style="left:82%;animation-duration:2.9s;animation-delay:.6s">🎈</span></div>';
+  }
+  return '<div class="party-decor"><span style="left:20%;animation-duration:4s;opacity:.7">🎈</span><span style="left:55%;animation-duration:3.5s;animation-delay:.5s;opacity:.7">🎈</span><span style="left:78%;animation-duration:4.5s;animation-delay:1s;opacity:.7">🎈</span></div>';
+}
+
 async function renderHolidays(profiles) {
   const { data: hidden } = await db.from('hidden_holidays').select('holiday_key');
   const hiddenKeys = (hidden || []).map(h => h.holiday_key);
@@ -1465,7 +1494,7 @@ async function renderHolidays(profiles) {
     const daysUntil = Math.ceil((h.nextDate - Date.now()) / 86400000);
     const isClose = daysUntil <= 7 && daysUntil > 0;
     const isToday = h.nextDate.toDateString() === new Date().toDateString();
-    let decor = isToday ? '<div class="party-decor"><span style="left:10%;animation-duration:3s">🎊</span><span style="left:30%;animation-duration:2.5s;animation-delay:.5s">🎈</span><span style="left:50%;animation-duration:3.5s;animation-delay:.2s">🎉</span><span style="left:70%;animation-duration:2.8s;animation-delay:.8s">🎊</span><span style="left:90%;animation-duration:3.2s">🪩</span></div>' : '';
+    const decor = makePartyDecor(isToday, isClose);
     let bonusInfo = '';
     if (h.bonus) bonusInfo = `<span class="muted" style="color:var(--red);font-weight:bold;font-size:12px">🎁 Бонус: ${h.bonus.toLocaleString('ru-RU')} МайБит каждому!</span>`;
     else if (h.discount) bonusInfo = `<span class="muted" style="color:var(--red);font-weight:bold;font-size:12px">💸 Скидка ${h.discount}% на неделю!</span>`;
@@ -1871,10 +1900,11 @@ window.renderAdminSocialList = renderAdminSocialList;
 
 /* ===== ГРАФИКИ ===== */
 function renderBarChart(el, data) {
-  const max = Math.max(...data.map(d => d.value), 1);
+  const max = Math.max(...data.map(d => safeNum(d.value)), 1);
   el.innerHTML = data.map(d => {
-    const pct = d.value > 0 ? Math.max(3, (d.value / max) * 100) : 0;
-    const display = Number(d.value).toLocaleString('ru-RU') + (d.unit ? ' ' + d.unit : '');
+    const v = safeNum(d.value);
+    const pct = v > 0 ? Math.max(3, (v / max) * 100) : 0;
+    const display = v.toLocaleString('ru-RU') + (d.unit ? ' ' + d.unit : '');
     return `<div class="chart-row"><div class="chart-label">${esc(d.label)}</div><div class="chart-bar"><div class="chart-fill" style="width:${pct}%;background:${d.color}"></div></div><div class="chart-value">${display}</div></div>`;
   }).join('');
 }
@@ -1894,7 +1924,7 @@ async function loadAdminChart() {
     const joinedCount = appsRes.count || 0;
     const exitedCount = exitsRes.count || 0;
     const subsCount = subsRes.count || 0;
-    const ordersQty = (ordersRes.data || []).reduce((s, o) => s + Number(o.quantity || 0), 0);
+    const ordersQty = (ordersRes.data || []).reduce((s, o) => s + safeNum(o.quantity), 0);
     const regCount = regRes.count || 0;
     const mayskCount = mayskRes.count || 0;
     renderBarChart(el, [
@@ -1921,8 +1951,8 @@ async function loadCompanyChart() {
       db.from('aircraft_orders').select('price').eq('user_id', currentUser.id),
       db.from('fines').select('amount').eq('user_id', currentUser.id).eq('status', 'paid')
     ]);
-    const income = (incRes.data || []).reduce((s, t) => s + Number(t.amount || 0), 0);
-    const expenses = (expRes.data || []).reduce((s, t) => s + Number(t.amount || 0), 0) + (ordersRes.data || []).reduce((s, o) => s + Number(o.price || 0), 0) + (finesRes.data || []).reduce((s, f) => s + Number(f.amount || 0), 0);
+    const income = (incRes.data || []).reduce((s, t) => s + safeNum(t.amount), 0);
+    const expenses = (expRes.data || []).reduce((s, t) => s + safeNum(t.amount), 0) + (ordersRes.data || []).reduce((s, o) => s + safeNum(o.price), 0) + (finesRes.data || []).reduce((s, f) => s + safeNum(f.amount), 0);
     const days = daysInAlliance();
     renderBarChart(el, [
       { label: 'Доход', value: income, color: '#276b4b', unit: 'МайБит' },
@@ -1936,7 +1966,7 @@ window.loadCompanyChart = loadCompanyChart;
 /* ===== КРЕДИТЫ ===== */
 function loanDebt(loan) {
   const hours = Math.max(0, Math.ceil((Date.now() - new Date(loan.created_at).getTime()) / 3600000));
-  return Math.ceil(Number(loan.amount) * Math.pow(1.02, hours));
+  return Math.ceil(safeNum(loan.amount) * Math.pow(1.02, hours));
 }
 async function checkOverdueLoanFines() {
   if (!currentUser) return;
@@ -1962,14 +1992,14 @@ async function loadLoans() {
   const created = new Date(loan.created_at);
   const due = new Date(loan.due_date || created.getTime() + 7 * 86400000);
   const overdue = Date.now() >= due.getTime();
-  $('loanInfo').innerHTML = `Сумма: ${Number(loan.amount).toLocaleString('ru-RU')} МайБит<br>Долг: <strong>${debt.toLocaleString('ru-RU')} МайБит</strong><br>Погасить до: ${due.toLocaleString('ru-RU')}<br>${overdue ? 'Срок истёк!' : 'Штраф 10 МайБит при просрочке.'}`;
+  $('loanInfo').innerHTML = `Сумма: ${fmtNum(loan.amount)} МайБит<br>Долг: <strong>${debt.toLocaleString('ru-RU')} МайБит</strong><br>Погасить до: ${due.toLocaleString('ru-RU')}<br>${overdue ? 'Срок истёк!' : 'Штраф 10 МайБит при просрочке.'}`;
   $('btnPayLoan').onclick = async () => {
     if (isProcessing) return;
     showLoading('Погашение...');
     const { data: profile, error: pe } = await db.from('profiles').select('balance').eq('id', currentUser.id).single();
     if (pe) { hideLoading(); return message(pe.message, true); }
-    if (Number(profile.balance || 0) < debt) { hideLoading(); return message('Недостаточно МайБитов', true); }
-    const { error: ue } = await db.from('profiles').update({ balance: Number(profile.balance || 0) - debt }).eq('id', currentUser.id);
+    if (safeNum(profile.balance) < debt) { hideLoading(); return message('Недостаточно МайБитов', true); }
+    const { error: ue } = await db.from('profiles').update({ balance: safeNum(profile.balance) - debt }).eq('id', currentUser.id);
     if (ue) { hideLoading(); return message(ue.message, true); }
     const { error: le } = await db.from('loans').update({ status: 'paid', paid_at: new Date().toISOString() }).eq('id', loan.id);
     if (le) { hideLoading(); return message(le.message, true); }
@@ -1989,7 +2019,7 @@ $('btnTakeLoan').addEventListener('click', async () => {
   if (error) { hideLoading(); return message(error.message, true); }
   const { data: prof, error: profileError } = await db.from('profiles').select('balance,company_name').eq('id', currentUser.id).single();
   if (profileError) { hideLoading(); return message('Кредит создан, но баланс не загружен', true); }
-  await db.from('profiles').update({ balance: Number(prof.balance || 0) + amount }).eq('id', currentUser.id);
+  await db.from('profiles').update({ balance: safeNum(prof.balance) + amount }).eq('id', currentUser.id);
   await db.from('transactions').insert({ sender_name: 'МайБанк', receiver_name: prof.company_name || 'Компания', amount, type: 'loan' });
   hideLoading(); message(`Кредит оформлен. +${amount} МайБит начислено.`);
   $('loanAmount').value = ''; await loadDashboard(true);
@@ -2046,6 +2076,14 @@ async function confirmBuyAircraft() {
   if (isProcessing) return;
   if (!selectedAircraft || !currentUser) return message('Не выбран самолёт', true);
   if (userProfile?.card_status !== 'approved') return message('У вас нет одобренной карты!', true);
+  // ✅ НОВАЯ ПРОВЕРКА: карта заморожена — блокируем
+  const cd = getCardData();
+  if (isCardFrozen(cd)) {
+    let until = '—';
+    try { until = new Date(cd.frozen_until).toLocaleDateString('ru-RU'); } catch(e) {}
+    return message(`❄️ Ваша карта заморожена до ${until}. Для апелляции напишите в поддержку.`, true);
+  }
+  if (isCardExpired(cd, 'maycard')) return message('Срок действия карты истёк. Перезакажите карту в разделе «Карта авиакомпании».', true);
   const qty = Number($('buyQuantity').value);
   const email = $('buyEmail').value.trim();
   const consent = $('buyConsent').checked;
@@ -2057,7 +2095,7 @@ async function confirmBuyAircraft() {
   const monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0,0,0,0);
   const { data: existing, error: readErr } = await db.from('aircraft_orders').select('quantity').eq('user_id', currentUser.id).eq('model', selectedAircraft.model).gte('created_at', monthStart.toISOString());
   if (readErr) { hideLoading(); return message(readErr.message, true); }
-  const sum = (existing || []).reduce((n, o) => n + Number(o.quantity || 0), 0);
+  const sum = (existing || []).reduce((n, o) => n + safeNum(o.quantity), 0);
   if (sum + qty > 5) { hideLoading(); return message(`Лимит — 5 самолётов за месяц. Уже: ${sum}.`, true); }
   const discountPct = getDiscountPct();
   const finalPrice = Math.round(selectedAircraft.price * qty * (1 - discountPct/100));
@@ -2106,7 +2144,7 @@ async function loadDashboard(silent = false) {
       $('socialSection')?.classList.remove('hidden');
       $('companyChartSection')?.classList.add('hidden');
     } else {
-      $('balanceAmount').textContent = Number(profile?.balance || 0).toLocaleString('ru-RU');
+      $('balanceAmount').textContent = fmtNum(profile?.balance);
       $('rankDisplay').textContent = profile?.rank || 'Участник'; $('rankDisplay').style.fontSize = '';
       $('statRank').textContent = profile?.rank || 'Участник'; $('statRank').style.fontSize = '';
       $('finesSection').classList.remove('hidden');
@@ -2171,8 +2209,13 @@ async function loadDashboard(silent = false) {
       $('myFleetList').innerHTML = fleetHtml;
       const { data: maysk } = await db.from('maysk_requests').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1);
       $('mayskStatus').innerHTML = maysk?.length ? `<div class="muted">Заявка: ${maysk[0].status === 'approved' ? 'Одобрена' : maysk[0].status === 'rejected' ? 'Отклонена' : 'На проверке'}</div>` : '';
+      // Загрузка дочек для Майска + показать поле если есть дочки
       const { data: subsApproved } = await db.from('subsidiaries').select('id,company_name').eq('parent_id', user.id).eq('status', 'approved');
       if ($('mayskSubSelect')) $('mayskSubSelect').innerHTML = subsApproved?.length ? subsApproved.map(s => `<option value="${esc(s.id)}">${esc(s.company_name)}</option>`).join('') : '<option value="">Нет дочек</option>';
+      if ($('mayskSubField')) {
+        if (subsApproved?.length) $('mayskSubField').classList.remove('hidden');
+        else $('mayskSubField').classList.add('hidden');
+      }
       if ($('mayskCompany') && profile?.company_name) $('mayskCompany').value = profile.company_name;
       updateRegistryButtons().catch(()=>{});
       checkMfaStatus().catch(()=>{});
@@ -2271,7 +2314,7 @@ async function submitMaysk(kind) {
   const companyInput = $('mayskCompany').value.trim();
   const reason = $('mayskReason').value.trim();
   let companyName = companyInput;
-  if (kind === 'subsidiary') { const sel = $('mayskSubSelect'); if (!sel || !sel.value) return message('У вас нет дочерних компаний', true); companyName = sel.options[sel.selectedIndex].text; }
+  if (kind === 'subsidiary') { const sel = $('mayskSubSelect'); if (!sel || !sel.value) return message('У вас нет одобренных дочерних компаний', true); companyName = sel.options[sel.selectedIndex].text; }
   if (!companyName || !reason) return message('Заполните все поля', true);
   showLoading('Отправка...');
   const { error } = await db.from('maysk_requests').insert({ user_id: currentUser.id, company_name: companyName, reason, status: 'pending' });
@@ -2282,8 +2325,12 @@ async function submitMaysk(kind) {
 window.submitMaysk = submitMaysk;
 $('btnSubmitMayskSelf').addEventListener('click', () => submitMaysk('self'));
 $('btnSubmitMayskSub').addEventListener('click', () => {
+  const field = $('mayskSubField');
   const sel = $('mayskSubSelect');
-  if (!sel || !sel.value || sel.options[sel.selectedIndex]?.text === 'Нет дочек') { $('mayskSubField').classList.remove('hidden'); return message('Выберите дочернюю компанию в списке', true); }
+  if (!sel || !sel.value || sel.options[sel.selectedIndex]?.text === 'Нет дочек') {
+    field.classList.remove('hidden');
+    return message('У вас нет одобренных дочерних компаний. Подайте дочку в разделе «Дочерние компании».', true);
+  }
   submitMaysk('subsidiary');
 });
 
@@ -2299,7 +2346,7 @@ async function loadAdminData() {
     const code = displayCompanyCode(p, p.id);
     const isJoined = isAdminUser || p.joined_at != null;
     const check = isAdminUser ? adminBadge() : (isJoined ? '<span class="black-check">✓</span>' : '');
-    return `<div class="admin-card"><div class="avatar">${p.avatar_url ? `<img src="${esc(p.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div><div class="admin-card-info"><h4 onclick="fillAdminSelects('${esc(p.id)}')">${esc(p.company_name)} <span class="code-badge">${esc(code)}</span> ${check}</h4><span class="muted" style="font-size:11px">Дней: ${days} | Ранг: ${esc(p.rank || 'Участник')} | Баланс: ${isAdminUser ? '∞' : Number(p.balance || 0)}</span></div><select onchange="updateRank('${esc(p.id)}',this.value)"><option value="">Звание...</option>${ranks.map(r => `<option value="${esc(r)}" ${p.rank === r ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select>${!isAdminUser && isJoined ? `<button class="secondary" style="border-color:var(--red);color:var(--red);padding:6px 12px;font-size:11px" onclick="expelMember('${esc(p.id)}','${esc(p.company_name)}')">Изгнать</button>` : ''}</div>`;
+    return `<div class="admin-card"><div class="avatar">${p.avatar_url ? `<img src="${esc(p.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div><div class="admin-card-info"><h4 onclick="fillAdminSelects('${esc(p.id)}')">${esc(p.company_name)} <span class="code-badge">${esc(code)}</span> ${check}</h4><span class="muted" style="font-size:11px">Дней: ${days} | Ранг: ${esc(p.rank || 'Участник')} | Баланс: ${isAdminUser ? '∞' : fmtNum(p.balance)}</span></div><select onchange="updateRank('${esc(p.id)}',this.value)"><option value="">Звание...</option>${ranks.map(r => `<option value="${esc(r)}" ${p.rank === r ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select>${!isAdminUser && isJoined ? `<button class="secondary" style="border-color:var(--red);color:var(--red);padding:6px 12px;font-size:11px" onclick="expelMember('${esc(p.id)}','${esc(p.company_name)}')">Изгнать</button>` : ''}</div>`;
   }).join('') || 'Нет участников';
   const { data: trans } = await db.from('transactions').select('*').order('created_at', { ascending: false }).limit(30);
   $('adminTransactionsList').innerHTML = trans?.length ? trans.map(t => {
@@ -2346,7 +2393,7 @@ async function loadAdminData() {
     $('adminAircraftOrders').innerHTML = Object.entries(grouped).map(([uid, uo]) => {
       const cn = names[uid] || 'Компания';
       const badge = uid === ADMIN_UID ? adminBadge() : '';
-      const oh = uo.map(o => { const ready = new Date(o.ready_at || new Date(o.created_at).getTime() + 7 * 86400000); const can = o.status === 'ready' || Date.now() >= ready.getTime(); return `<div class="order-row"><span><strong>${esc(o.model)}</strong> × ${Number(o.quantity)}</span><span class="muted">${Number(o.price).toLocaleString('ru-RU')} МайБит</span><span class="muted" style="font-size:11px">${can ? '✅ Готов' : '⏳ до ' + ready.toLocaleDateString('ru-RU')}</span><div style="display:flex;gap:5px">${can ? `<button class="primary" style="padding:6px 12px;font-size:11px" onclick="releaseAircraft('${esc(o.id)}')">＋ Выдать</button>` : ''}<button class="secondary" style="padding:6px 12px;font-size:11px;border-color:var(--red);color:var(--red)" onclick="cancelAircraftOrder('${esc(o.id)}')">✕</button></div></div>`; }).join('');
+      const oh = uo.map(o => { const ready = new Date(o.ready_at || new Date(o.created_at).getTime() + 7 * 86400000); const can = o.status === 'ready' || Date.now() >= ready.getTime(); return `<div class="order-row"><span><strong>${esc(o.model)}</strong> × ${Number(o.quantity)}</span><span class="muted">${fmtNum(o.price)} МайБит</span><span class="muted" style="font-size:11px">${can ? '✅ Готов' : '⏳ до ' + ready.toLocaleDateString('ru-RU')}</span><div style="display:flex;gap:5px">${can ? `<button class="primary" style="padding:6px 12px;font-size:11px" onclick="releaseAircraft('${esc(o.id)}')">＋ Выдать</button>` : ''}<button class="secondary" style="padding:6px 12px;font-size:11px;border-color:var(--red);color:var(--red)" onclick="cancelAircraftOrder('${esc(o.id)}')">✕</button></div></div>`; }).join('');
       return `<div class="company-orders-box"><h4>🏢 ${esc(cn)}${badge}</h4>${oh}</div>`;
     }).join('');
   } else $('adminAircraftOrders').textContent = 'Нет заказов.';
@@ -2470,7 +2517,7 @@ window.approveApp = async (id, userId) => {
     const { data: prof, error: pErr } = await db.from('profiles').select('balance, company_name').eq('id', userId).single();
     if (pErr) throw new Error('Ошибка чтения баланса: ' + pErr.message);
     if (prof) {
-      const newBalance = Number(prof.balance || 0) + 1000000;
+      const newBalance = safeNum(prof.balance) + 1000000;
       const { error: bErr } = await db.from('profiles').update({ balance: newBalance }).eq('id', userId);
       if (bErr) { message('Принято, но ошибка начисления: ' + bErr.message, true); }
       else { await db.from('transactions').insert({ sender_name: 'Альянс (Принятие)', receiver_name: prof.company_name, amount: 1000000, type: 'balance' }); }
@@ -2514,7 +2561,7 @@ $('btnAdminBalance').addEventListener('click', async () => {
   showLoading('Начисление...');
   const { data, error } = await db.from('profiles').select('balance,company_name').eq('id', target).single();
   if (error) { hideLoading(); return message(error.message, true); }
-  await db.from('profiles').update({ balance: Number(data.balance || 0) + amt }).eq('id', target);
+  await db.from('profiles').update({ balance: safeNum(data.balance) + amt }).eq('id', target);
   await db.from('transactions').insert({ sender_name: 'Альянс (Начисление)', receiver_name: data.company_name, amount: amt, type: 'balance' });
   hideLoading(); await logAdminAction('Начисление', data.company_name, `+${amt} МайБит`);
   message('Начислено!'); $('adminBalanceAmount').value = ''; await loadAdminData();
