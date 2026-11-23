@@ -374,7 +374,22 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
 .card-status-block .expiry-warn{color:#b8651a;font-weight:700;background:#fff5e6;padding:8px 12px;border-radius:10px;margin:8px 0;font-size:12px}
 .card-status-block .expired-box{color:var(--red);font-weight:700;background:#fbeae8;padding:8px 12px;border-radius:10px;margin:8px 0;font-size:12px}
 .card-status-block .pending-box{color:#a06c1b;background:#fff5e6;padding:8px 12px;border-radius:10px;margin:8px 0;font-size:12px}
+
+/* ===== РЕДАКТОР РАЗДЕЛОВ ===== */
+.edit-mode details.section{position:relative}
+.edit-mode details.section>summary{pointer-events:none;user-select:none}
+.edit-mode details.section.dragging{opacity:.9;box-shadow:0 16px 40px rgba(0,0,0,.3);z-index:200;transform:scale(1.02)}
+.drag-handle{display:none;position:absolute;top:14px;left:12px;z-index:25;width:32px;height:32px;cursor:grab;align-items:center;justify-content:center;font-size:16px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:8px;touch-action:none;user-select:none}
+.edit-mode .drag-handle{display:flex}
+.drag-handle:active{cursor:grabbing}
+.section-del{display:none;position:absolute;top:14px;right:14px;z-index:25;width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:17px;font-weight:bold;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(167,53,42,.4)}
+.edit-mode .section-del{display:flex}
+.edit-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:900;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px 18px;display:none;align-items:center;gap:12px;box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.edit-mode .edit-bar{display:flex}
+.edit-mode .account-head,.edit-mode .folders-container,.edit-mode .footer{opacity:.45;pointer-events:none}
+.deleted-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:var(--soft);font-size:13px}
 </style>
+<base target="_blank">
 </head>
 <body data-theme="ally">
 
@@ -399,7 +414,7 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
     <div class="top-actions">
       <button class="plain-button" id="btnAbout" onclick="showPage('aboutPage')">О нас</button>
       <button class="plain-button" id="btnSettings" onclick="openThemeModal()">Настройки</button>
-      <button class="plain-button admin-btn hidden" id="topAdmin" type="button">Управление альянсом <span id="adminBadgeCount" class="badge-count hidden">0</span></button>
+      <button class="plain-button admin-btn hidden" id="topAdmin" type="button">Управление альянсом <span id="adminBadgeCount" class="badge-count hidden" onclick="openAdminNotif(event)" style="cursor:pointer" title="Показать новые уведомления">0</span></button>
       <button class="plain-button hidden" id="topCabinet" type="button">В кабинет</button>
       <button class="plain-button hidden" id="topExit" type="button" onclick="openExitModal()">Выйти из альянса</button>
       <button class="plain-button" id="topLogin" type="button">Войти</button>
@@ -517,8 +532,7 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
             <div class="section-content">
               <div class="field"><label>Название</label><input id="profileName" maxlength="120"></div>
               <div class="field"><label>Наш лозунг</label><input id="profileSlogan" maxlength="100" placeholder="Коротко о главном"></div>
-              <div class="field"><label>QSO-код (позывной)</label><input id="profileQSO" maxlength="20" placeholder="Например, MAY-001"></div>
-              <div class="field"><label>Описание</label><textarea id="profileDescription"></textarea></div>
+                            <div class="field"><label>Описание</label><textarea id="profileDescription"></textarea></div>
               <div class="field"><label>История</label><textarea id="profileHistory"></textarea></div>
               <button class="primary" id="saveProfile" type="button">Сохранить</button>
             </div>
@@ -761,6 +775,8 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
   </div>
 </div>
 
+<div class="edit-bar" id="editBar"><span style="font-size:13px;font-weight:600;white-space:nowrap">✏️ Режим редактирования</span><button class="primary" style="min-height:38px;padding:8px 18px;font-size:13px" onclick="toggleEditMode()">✓ Готово</button></div>
+
 <div id="loadingOverlay" class="loading-overlay hidden"><div class="loader"></div><div class="loading-text" id="loadingText">Подождите...</div></div>
 
 <div id="docModal" onclick="if(event.target===this)closeDocument()">
@@ -768,6 +784,14 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
     <button class="close-modal" onclick="closeDocument()">×</button>
     <div id="docContent"></div>
     <div style="text-align:center;margin-top:10px"><button class="secondary print-btn" onclick="printDocument()" style="color:#000;border-color:#999">🖨 Скачать / Распечатать</button></div>
+  </div>
+</div>
+
+<div id="adminNotifModal" class="assistant-modal" onclick="if(event.target===this)closeAdminNotif()">
+  <div class="modal-content">
+    <button class="close-modal" onclick="closeAdminNotif()" style="color:var(--ink)">×</button>
+    <h3>🔔 Новые уведомления</h3>
+    <div id="adminNotifList" style="margin-top:15px"></div>
   </div>
 </div>
 
@@ -787,6 +811,10 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
     <button class="theme-option" onclick="resetDocLogo()">↩️ Стандартный логотип</button>
     <input type="file" id="docLogoUpload" accept="image/*" style="display:none" onchange="uploadDocLogo(event)">
     <p class="muted" style="font-size:11px;margin-top:8px">Используется в печати документов и профиля.</p>
+    <h4 style="font-size:14px;margin:20px 0 10px 0">Редактирование разделов</h4>
+    <button class="theme-option" onclick="toggleEditMode()">✏️ Редактировать (перетаскивание / удаление разделов)</button>
+    <div id="deletedSectionsList" style="margin:10px 0"></div>
+    <button class="theme-option" onclick="resetDesign()">♻️ Сброс дизайна</button>
     <h4 style="font-size:14px;margin:20px 0 10px 0">Особые эффекты</h4>
     <label class="toggle-label"><span>🩸 Кровавые эффекты (19 сентября)</span><div class="toggle-switch"><input type="checkbox" id="bloodToggle" onchange="toggleBlood()"><span class="toggle-slider"></span></div></label>
     <p class="muted" style="font-size:11px;margin-top:8px">Если выключено — праздничные кровавые версии логотипа и помощника не будут отображаться.</p>
@@ -914,7 +942,7 @@ let chatInitialized = false;
 let allMembersCache = [];
 let membersFiltered = [];
 let membersCurrentPage = 0;
-let appSigPad = null, exitSigPad = null;
+let appSigPad = null, exitSigPad = null, editMode = false;
 let lastDashboardLoad = 0;
 const MEMBERS_PER_PAGE = 20;
 
@@ -970,7 +998,6 @@ const ASSISTANT_QA = [
 { q: "Где посмотреть других участников?", a: "В разделе «👥 Участники альянса» вы можете найти любую компанию по названию или коду. Там же показаны дочерние компании.", highlight: '#membersSection' },
 { q: "Как добавить свои соцсети?", a: "В разделе «🔗 Мы есть» заполните форму и отправьте ссылку на одобрение главе альянса. После одобрения она появится у вас в профиле.", highlight: '#socialSection' },
 { q: "Что такое «Наш лозунг»?", a: "Короткая фраза-девиз вашей компании. Введите её в «Информация о компании» — она будет видна всем в вашем профиле.", highlight: '#profileSlogan' },
-{ q: "Что такое QSO-код?", a: "Это ваш позывной, короткий код из 3-20 символов (например MAY-001). Введите в «Информация о компании» — он виден всем участникам в вашем профиле.", highlight: '#profileQSO' },
 { q: "Как заказать MAYCard?", a: "В разделе «Карта авиакомпании» нажмите «Заказать MAYCard». После одобрения главой карта появится в «Мои карты».", highlight: '#cardStatusContent' },
 { q: "Как заказать Balocard?", a: "В разделе «Карта авиакомпании» нажмите «Заказать Balocard» (доступно после 5 дней в альянсе). Даёт скидку 10% на Баловск.", highlight: '#cardStatusContent' },
 { q: "Что за красная галочка?", a: "Красная галочка — это официальный аккаунт Майских авиалиний (главы альянса). Только у них есть такая метка.", highlight: null },
@@ -1109,7 +1136,7 @@ function hideLoading() { isProcessing = false; $('loadingOverlay').classList.add
 function updateAboutLogo() { const aboutLogo = $('aboutLogo'); if (!aboutLogo) return; const theme = document.body.getAttribute('data-theme'); if (theme === 'dark') aboutLogo.src = LOGO_DARK; else aboutLogo.src = LOGO_LIGHT; }
 function applyTheme(theme) { if (theme === 'system') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.body.setAttribute('data-theme', theme); updateBrand(); updateAssistantAvatar(); updateAboutLogo(); }
 function setTheme(theme) { localStorage.setItem('theme', theme); applyTheme(theme); closeThemeModal(); }
-function openThemeModal() { $('themeModal').classList.add('show'); if ($('bloodToggle') && userProfile) $('bloodToggle').checked = userProfile.blood_effects !== false; if ($('bloodToggle') && !userProfile) $('bloodToggle').checked = localStorage.getItem('blood_effects') !== 'false'; }
+function openThemeModal() { renderDeletedSections(); $('themeModal').classList.add('show'); if ($('bloodToggle') && userProfile) $('bloodToggle').checked = userProfile.blood_effects !== false; if ($('bloodToggle') && !userProfile) $('bloodToggle').checked = localStorage.getItem('blood_effects') !== 'false'; }
 function closeThemeModal() { $('themeModal').classList.remove('show'); }
 applyTheme(localStorage.getItem('theme') || 'ally');
 
@@ -1193,11 +1220,11 @@ function scheduleReload() {
     if (currentUser && !isProcessing) loadDashboard(onAdmin);
     if (isAdmin && !isProcessing && onAdmin) loadAdminData();
     if (isAdmin) updateAdminBadge();
-  }, 900);
+  }, 400);
 }
 function setupRealtime() {
   const channel = db.channel('custom-all-channel');
-  ['profiles', 'posts', 'fines', 'transactions'].forEach(table => {
+  ['profiles', 'posts', 'fines', 'transactions', 'applications', 'exit_requests', 'registry_applications', 'subsidiaries', 'maysk_requests', 'aircraft_orders', 'loans', 'hidden_holidays'].forEach(table => {
     channel.on('postgres_changes', { event: '*', schema: 'public', table }, scheduleReload);
   });
   channel.subscribe();
@@ -1242,13 +1269,29 @@ async function updateAdminBadge() {
         (cd?.social_links_requests || []).forEach(r => { if (r.status === 'pending') socialCount++; });
       });
     } catch(e) {}
+    window.adminNotifCounts = [
+      { id:'adminAppsSection', label:'📋 Заявки на вступление', count: apps.count||0 },
+      { id:'adminExitSection', label:'🚪 Заявки на выход', count: exits.count||0 },
+      { id:'adminCardsSection', label:'💳 Заявки на карты', count: cardsCount },
+      { id:'adminSocialSection', label:'🔗 Заявки на «Мы есть»', count: socialCount },
+      { id:'adminRegistrySection', label:'🏢 Заявки в Реестр', count: regs.count||0 },
+      { id:'adminSubsSection', label:'🏭 Дочерние компании', count: subs.count||0 },
+      { id:'adminMayskSection', label:'✈️ Заявки в Майск', count: maysks.count||0 }
+    ];
     const total = (apps.count||0)+(regs.count||0)+(maysks.count||0)+(subs.count||0)+(exits.count||0)+cardsCount+socialCount;
     const badge = $('adminBadgeCount');
     if (badge) { badge.textContent = total; badge.classList.toggle('hidden', total === 0); }
   } catch (e) { console.error(e); }
 }
 
-async function loadMembers() {
+let membersCache = null, membersCacheTime = 0;
+async function loadMembers(force = false) {
+  if (!force && membersCache && (Date.now() - membersCacheTime) < 10000) {
+    allMembersCache = membersCache;
+    membersFiltered = [...allMembersCache];
+    renderMembersPage();
+    return;
+  }
   const [{ data: profiles }, { data: fleets }, { data: subs }] = await Promise.all([
     db.from('profiles').select('id,company_name,company_code,rank,joined_at,balance,avatar_url,registry_status,callsign').limit(200),
     db.from('user_fleet').select('user_id,model,quantity'),
@@ -1264,6 +1307,8 @@ async function loadMembers() {
   const subCards = (subs || []).map(s => ({ id: 'sub_' + s.id, company_name: s.company_name, is_subsidiary: true, parent_name: parentMap[s.parent_id] || '—', rank: 'Дочерняя компания' }));
   allMembersCache = [...members.map(m => ({ ...m, fleet: fleetMap[m.id] || [] })), ...subCards];
   membersFiltered = [...allMembersCache];
+  membersCache = allMembersCache;
+  membersCacheTime = Date.now();
   renderMembersPage();
 }
 function filterMembers() {
@@ -1303,6 +1348,112 @@ function renderMembersPage() {
   } else { pag.classList.add('hidden'); }
 }
 
+
+/* ===== РЕДАКТОР РАЗДЕЛОВ (настройки / перетаскивание / удаление) ===== */
+let dragEl = null;
+function initSectionEditor() {
+  const grid = $('dashboardPage') ? $('dashboardPage').querySelector('.dashboard-grid') : null;
+  if (!grid) return;
+  grid.querySelectorAll(':scope > .sections').forEach((col, ci) => {
+    col.querySelectorAll('details.section').forEach((sec, si) => {
+      if (!sec.dataset.sid) sec.dataset.sid = (ci === 0 ? 'L' : 'R') + si;
+      const summary = sec.querySelector('summary');
+      if (summary && !sec.querySelector('.drag-handle')) summary.insertAdjacentHTML('afterbegin', '<span class="drag-handle" title="Перетащите, чтобы переместить">⠿</span>');
+      if (!sec.querySelector('.section-del')) sec.insertAdjacentHTML('beforeend', `<button type="button" class="section-del" title="Удалить раздел" onclick="deleteSection('${sec.dataset.sid}')">×</button>`);
+      const h = sec.querySelector('.drag-handle');
+      if (!h || h.dataset.bound) return;
+      h.dataset.bound = '1';
+      h.addEventListener('pointerdown', e => { if (!editMode) return; e.preventDefault(); dragEl = sec; sec.classList.add('dragging'); try { h.setPointerCapture(e.pointerId); } catch (err) {} });
+      h.addEventListener('pointermove', e => { if (!dragEl || dragEl !== sec) return; const parent = sec.parentElement; const after = getDragAfterEl(parent, e.clientY); if (after == null) parent.appendChild(sec); else parent.insertBefore(sec, after); });
+      const endDrag = () => { if (dragEl !== sec) return; sec.classList.remove('dragging'); dragEl = null; saveSectionsLayout(); };
+      h.addEventListener('pointerup', endDrag);
+      h.addEventListener('pointercancel', endDrag);
+    });
+  });
+  applySectionsLayout();
+}
+function getDragAfterEl(container, y) {
+  return [...container.querySelectorAll('details.section:not(.dragging)')].reduce((closest, child) => {
+    const box = child.getBoundingClientRect();
+    const offset = y - box.top - box.height / 2;
+    if (offset < 0 && offset > closest.offset) return { offset, element: child };
+    return closest;
+  }, { offset: -Infinity }).element;
+}
+function saveSectionsLayout() {
+  const grid = $('dashboardPage') ? $('dashboardPage').querySelector('.dashboard-grid') : null;
+  if (!grid) return;
+  const layout = {};
+  grid.querySelectorAll(':scope > .sections').forEach((col, ci) => { layout[ci] = [...col.querySelectorAll('details.section')].map(s => s.dataset.sid); });
+  localStorage.setItem('sections_layout', JSON.stringify(layout));
+}
+function applySectionsLayout() {
+  const saved = JSON.parse(localStorage.getItem('sections_layout') || 'null');
+  const deleted = JSON.parse(localStorage.getItem('deleted_sections') || '[]');
+  const grid = $('dashboardPage') ? $('dashboardPage').querySelector('.dashboard-grid') : null;
+  if (!grid) return;
+  grid.querySelectorAll(':scope > .sections').forEach((col, ci) => {
+    const secs = [...col.querySelectorAll('details.section')];
+    const byId = Object.fromEntries(secs.map(s => [s.dataset.sid, s]));
+    if (saved && Array.isArray(saved[ci])) saved[ci].forEach(sid => { if (byId[sid]) col.appendChild(byId[sid]); });
+  });
+  grid.querySelectorAll('details.section').forEach(s => { s.style.display = deleted.includes(s.dataset.sid) ? 'none' : ''; });
+  renderDeletedSections();
+}
+function sectionTitleById(sid) {
+  const sec = document.querySelector(`details.section[data-sid="${sid}"]`);
+  if (!sec) return sid;
+  const t = sec.querySelector('summary') ? sec.querySelector('summary').textContent : sid;
+  return t.replace('⠿', '').trim();
+}
+function renderDeletedSections() {
+  const el = $('deletedSectionsList');
+  if (!el) return;
+  const deleted = JSON.parse(localStorage.getItem('deleted_sections') || '[]');
+  el.innerHTML = deleted.length
+    ? deleted.map(sid => `<div class="deleted-item"><span>🗑 ${esc(sectionTitleById(sid))}</span><button class="secondary" style="padding:6px 12px;font-size:12px;min-height:34px" onclick="restoreSection('${sid}')">↩️ Вернуть</button></div>`).join('')
+    : '<p class="muted" style="font-size:12px">Удалённых разделов нет</p>';
+}
+window.deleteSection = function(sid) {
+  let deleted = JSON.parse(localStorage.getItem('deleted_sections') || '[]');
+  if (!deleted.includes(sid)) deleted.push(sid);
+  localStorage.setItem('deleted_sections', JSON.stringify(deleted));
+  const sec = document.querySelector(`details.section[data-sid="${sid}"]`);
+  if (sec) sec.style.display = 'none';
+  renderDeletedSections();
+  message('🗑 Раздел удалён. Верните его в Настройки → Удалённые.');
+};
+window.restoreSection = function(sid) {
+  const deleted = JSON.parse(localStorage.getItem('deleted_sections') || '[]').filter(x => x !== sid);
+  localStorage.setItem('deleted_sections', JSON.stringify(deleted));
+  const sec = document.querySelector(`details.section[data-sid="${sid}"]`);
+  if (sec) sec.style.display = '';
+  renderDeletedSections();
+  message('✅ Раздел возвращён!');
+};
+window.toggleEditMode = function() {
+  closeThemeModal();
+  editMode = !editMode;
+  document.body.classList.toggle('edit-mode', editMode);
+  if (editMode && currentUser && !isAdmin) {
+    const grid = $('dashboardPage') ? $('dashboardPage').querySelector('.dashboard-grid') : null;
+    if (grid) grid.querySelectorAll('details.section').forEach(s => { s.open = true; });
+    showPage('dashboardPage');
+    message('✏️ Редактирование: тяните ⠿ чтобы переместить раздел, × чтобы удалить. Нажмите «Готово»!');
+  } else if (editMode) {
+    message('✏️ Режим редактирования включён. Откройте кабинет участника для изменения разделов.');
+  } else {
+    saveSectionsLayout();
+    message('✅ Изменения сохранены!');
+  }
+};
+window.resetDesign = function() {
+  if (!confirm('Сбросить расположение разделов к стандартному виду?')) return;
+  localStorage.removeItem('sections_layout');
+  localStorage.removeItem('deleted_sections');
+  location.reload();
+};
+
 window.openMemberProfile = async (userId) => {
   const m = allMembersCache.find(x => x.id === userId);
   if (!m || m.is_subsidiary) return;
@@ -1340,7 +1491,7 @@ window.openMemberProfile = async (userId) => {
     <div style="margin-bottom:15px"><div class="profile-badge ${inRegistry ? 'yes' : 'no'}">${inRegistry ? '✅' : '❌'} В реестре</div><div class="profile-badge ${fliesToMaysk ? 'yes' : 'no'}">${fliesToMaysk ? '✅' : '❌'} Летает в Майск</div><div class="profile-badge ${hasSubs ? 'yes' : 'no'}">${hasSubs ? '✅' : '❌'} Дочерние компании</div></div>
     ${socialLinks.length ? `<div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">🔗 Мы есть</label><div class="social-links-display">${socialLinks.map(l => `<a href="${esc(l.url)}" target="_blank" rel="noopener" class="social-link-pill"><span class="icon">${socialIcons[l.type] || '🔗'}</span>${esc(l.label)}</a>`).join('')}</div></div>` : ''}
     ${hasSubs ? `<div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Дочерние</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.8">${subsList.map(s => `• ${esc(s.company_name)}`).join('<br>')}</div></div>` : ''}
-    <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Баланс</label><div style="font-size:26px;font-weight:800;color:var(--red)">${isAdminUser ? '∞' : fmtNum(freshBalance)} <span style="font-size:14px;color:var(--muted)">МайБит</span></div></div>
+    <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Баланс</label><div style="font-size:26px;font-weight:800;color:var(--red)">${fmtNum(freshBalance)} <span style="font-size:14px;color:var(--muted)">МайБит</span></div></div>
     <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Описание</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.6">${esc(fullProfile.description || '—')}</div></div>
     <div style="margin-bottom:15px"><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">История</label><div style="padding:12px;background:var(--soft);border-radius:12px;font-size:14px;line-height:1.6">${esc(fullProfile.history || '—')}</div></div>
     <div><label style="display:block;font-size:12px;color:var(--muted);margin-bottom:5px">Флот Баловск</label>${m.fleet?.length ? m.fleet.map(f => `<div class="transaction-item"><span>${esc(f.model)}</span><strong>${Number(f.quantity)} шт.</strong></div>`).join('') : '<span class="muted">Нет самолётов</span>'}</div>
@@ -1380,7 +1531,7 @@ function printProfile() {
           <div class="print-info-item"><strong>Реестр</strong><span>${inRegistry ? '✅ В реестре' : '❌ Не в реестре'}</span></div>
           <div class="print-info-item"><strong>Полет в Майск</strong><span>${fliesToMaysk ? '✅ Разрешено' : '❌ Не разрешено'}</span></div>
           <div class="print-info-item"><strong>Дочерние</strong><span>${hasSubs ? '✅ Есть (' + subsList.length + ')' : '❌ Нет'}</span></div>
-          <div class="print-info-item" style="grid-column: 1/-1"><strong>Баланс</strong><span>${isAdminUser ? '∞' : fmtNum(userProfile.balance)} МайБит</span></div>
+          <div class="print-info-item" style="grid-column: 1/-1"><strong>Баланс</strong><span>${fmtNum(userProfile.balance)} МайБит</span></div>
           ${hasSubs ? `<div class="print-info-item" style="grid-column: 1/-1"><strong>Дочерние авиакомпании</strong><span>${subsList.map(s => esc(s.company_name)).join(', ')}</span></div>` : ''}
         </div>
         <div style="text-align:right;margin-top:40px;font-size:13px;color:#666"><p style="margin:0">Дата печати: ${today}</p></div>
@@ -1409,6 +1560,32 @@ function askAssistant(index) {
 window.openAssistant = openAssistant;
 window.closeAssistant = closeAssistant;
 window.askAssistant = askAssistant;
+window.openAdminNotif = function(e) {
+  if (e) e.stopPropagation();
+  const list = window.adminNotifCounts || [];
+  const total = list.reduce((s, i) => s + (i.count || 0), 0);
+  $('adminNotifList').innerHTML = total === 0
+    ? '<p class="muted">Новых уведомлений нет 🎉</p>'
+    : list.map(i => `<button class="theme-option" style="display:flex;justify-content:space-between;align-items:center" onclick="goToAdminSection('${i.id}')"><span>${esc(i.label)}</span>${i.count > 0 ? `<span class="badge-count" style="position:static">${i.count}</span>` : '<span class="muted" style="font-size:11px">нет</span>'}</button>`).join('');
+  $('adminNotifModal').classList.add('show');
+};
+window.closeAdminNotif = () => $('adminNotifModal').classList.remove('show');
+window.goToAdminSection = async function(secId) {
+  closeAdminNotif();
+  showLoading('Загрузка...');
+  await loadAdminData();
+  hideLoading();
+  showPage('adminPage');
+  setTimeout(() => {
+    const el = $(secId);
+    if (el) {
+      el.open = true;
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.add('highlight-pulse');
+      setTimeout(() => el.classList.remove('highlight-pulse'), 4500);
+    }
+  }, 150);
+};
 function highlightElement(selector) {
   const el = document.querySelector(selector); if (!el) return;
   let parent = el.closest('details'); while (parent) { parent.open = true; parent = parent.parentElement?.closest('details'); }
@@ -2117,6 +2294,8 @@ async function confirmBuyAircraft() {
   const createdAt = new Date(); const readyAt = new Date(createdAt.getTime() + 7 * 86400000);
   const { error } = await db.from('aircraft_orders').insert({ user_id: currentUser.id, model: selectedAircraft.model, price: finalPrice, quantity: qty, email, status: 'assembling', created_at: createdAt.toISOString(), ready_at: readyAt.toISOString() });
   if (error) { hideLoading(); return message(error.message, true); }
+  const { data: buyerProf } = await db.from('profiles').select('balance').eq('id', currentUser.id).single();
+  if (buyerProf) { await db.from('profiles').update({ balance: Math.max(0, safeNum(buyerProf.balance) - finalPrice) }).eq('id', currentUser.id); if (userProfile) userProfile.balance = Math.max(0, safeNum(buyerProf.balance) - finalPrice); }
   fetch('https://formspree.io/f/xeaalzlg', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: `Заказ Баловск: ${selectedAircraft.model} x${qty}${discountPct > 0 ? ' (скидка Balocard 10%)' : ''}`, email, type: 'Покупка Баловск', price: finalPrice }) }).catch(() => {});
   hideLoading(); message(discountPct > 0 ? `Заявка зарегистрирована! Применена скидка ${discountPct}%` : 'Заявка зарегистрирована!'); closeBuyAircraftModal(); await loadDashboard(true);
 }
@@ -2144,7 +2323,7 @@ async function loadDashboard(silent = false) {
 
     if (isAdmin) {
       companyName = ADMIN_NAME; companyCode = ADMIN_CODE;
-      $('balanceAmount').textContent = '∞';
+      $('balanceAmount').textContent = fmtNum(profile?.balance);
       $('rankDisplay').textContent = 'Глава Альянса'; $('rankDisplay').style.fontSize = '10px';
       $('statRank').textContent = ADMIN_RANK; $('statRank').style.fontSize = '10px';
       const days = Math.floor((Date.now() - new Date(ADMIN_JOIN_DATE).getTime()) / 86400000);
@@ -2199,7 +2378,6 @@ async function loadDashboard(silent = false) {
     if (!silent || !$('profileName').value) {
       $('profileName').value = companyName;
       if ($('profileSlogan')) $('profileSlogan').value = cd0.slogan || '';
-      if ($('profileQSO')) $('profileQSO').value = cd0.qso_code || '';
       $('profileDescription').value = profile?.description || '';
       $('profileHistory').value = profile?.history || '';
     }
@@ -2361,7 +2539,7 @@ async function loadAdminData() {
     const code = displayCompanyCode(p, p.id);
     const isJoined = isAdminUser || p.joined_at != null;
     const check = isAdminUser ? adminBadge() : (isJoined ? '<span class="black-check">✓</span>' : '');
-    return `<div class="admin-card"><div class="avatar">${p.avatar_url ? `<img src="${esc(p.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div><div class="admin-card-info"><h4 onclick="fillAdminSelects('${esc(p.id)}')">${esc(p.company_name)} <span class="code-badge">${esc(code)}</span> ${check}</h4><span class="muted" style="font-size:11px">Дней: ${days} | Ранг: ${esc(p.rank || 'Участник')} | Баланс: ${isAdminUser ? '∞' : fmtNum(p.balance)}</span></div><select onchange="updateRank('${esc(p.id)}',this.value)"><option value="">Звание...</option>${ranks.map(r => `<option value="${esc(r)}" ${p.rank === r ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select>${!isAdminUser && isJoined ? `<button class="secondary" style="border-color:var(--red);color:var(--red);padding:6px 12px;font-size:11px" onclick="expelMember('${esc(p.id)}','${esc(p.company_name)}')">Изгнать</button>` : ''}</div>`;
+    return `<div class="admin-card"><div class="avatar">${p.avatar_url ? `<img src="${esc(p.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div><div class="admin-card-info"><h4 onclick="fillAdminSelects('${esc(p.id)}')">${esc(p.company_name)} <span class="code-badge">${esc(code)}</span> ${check}</h4><span class="muted" style="font-size:11px">Дней: ${days} | Ранг: ${esc(p.rank || 'Участник')} | Баланс: ${fmtNum(p.balance)}</span></div><select onchange="updateRank('${esc(p.id)}',this.value)"><option value="">Звание...</option>${ranks.map(r => `<option value="${esc(r)}" ${p.rank === r ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select>${!isAdminUser && isJoined ? `<button class="secondary" style="border-color:var(--red);color:var(--red);padding:6px 12px;font-size:11px" onclick="expelMember('${esc(p.id)}','${esc(p.company_name)}')">Изгнать</button>` : ''}</div>`;
   }).join('') || 'Нет участников';
   const { data: trans } = await db.from('transactions').select('*').order('created_at', { ascending: false }).limit(30);
   $('adminTransactionsList').innerHTML = trans?.length ? trans.map(t => {
@@ -2699,7 +2877,7 @@ $('saveProfile').addEventListener('click', async () => {
   if (error) { hideLoading(); return message(error.message, true); }
   const cd = getCardData();
   cd.slogan = $('profileSlogan').value.trim();
-  cd.qso_code = ($('profileQSO')?.value || '').trim();
+  // QSO-код удалён по запросу
   await db.from('profiles').update({ card_data: cd }).eq('id', currentUser.id);
   hideLoading();
   userProfile.card_data = cd;
@@ -2779,6 +2957,7 @@ db.auth.onAuthStateChange((event) => {
   setTimeout(checkAutoBlood19Sept, 500);
   appSigPad = setupCanvas($('appSigCanvas'));
   exitSigPad = setupCanvas($('exitSigCanvas'));
+  initSectionEditor();
   $('btnFreezeCard')?.addEventListener('click', freezeCard);
   $('btnUnfreezeCard')?.addEventListener('click', unfreezeCard);
   $('btnRequestHoliday')?.addEventListener('click', requestHoliday);
