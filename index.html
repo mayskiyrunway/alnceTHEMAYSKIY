@@ -377,13 +377,13 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
 
 /* ===== РЕДАКТОР РАЗДЕЛОВ ===== */
 .edit-mode details.section{position:relative}
-.edit-mode details.section>summary{pointer-events:none;user-select:none}
+.edit-mode details.section>summary{user-select:none;cursor:default}
 .edit-mode details.section.dragging{opacity:.9;box-shadow:0 16px 40px rgba(0,0,0,.3);z-index:200;transform:scale(1.02)}
 .drag-handle{display:none;position:absolute;top:14px;left:12px;z-index:25;width:32px;height:32px;cursor:grab;align-items:center;justify-content:center;font-size:16px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:8px;touch-action:none;user-select:none}
-.edit-mode .drag-handle{display:flex}
+.edit-mode .drag-handle{display:flex;pointer-events:auto}
 .drag-handle:active{cursor:grabbing}
 .section-del{display:none;position:absolute;top:14px;right:14px;z-index:25;width:32px;height:32px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:17px;font-weight:bold;cursor:pointer;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(167,53,42,.4)}
-.edit-mode .section-del{display:flex}
+.edit-mode .section-del{display:flex;pointer-events:auto}
 .edit-bar{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:900;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:12px 18px;display:none;align-items:center;gap:12px;box-shadow:0 12px 40px rgba(0,0,0,.3)}
 .edit-mode .edit-bar{display:flex}
 .edit-mode .account-head,.edit-mode .folders-container,.edit-mode .footer{opacity:.45;pointer-events:none}
@@ -1217,6 +1217,7 @@ function scheduleReload() {
     const now = Date.now();
     if (now - lastDashboardLoad < 1500) return;
     const onAdmin = !$('adminPage').classList.contains('hidden');
+    membersCacheTime = 0;
     if (currentUser && !isProcessing) loadDashboard(onAdmin);
     if (isAdmin && !isProcessing && onAdmin) loadAdminData();
     if (isAdmin) updateAdminBadge();
@@ -1284,22 +1285,36 @@ async function updateAdminBadge() {
   } catch (e) { console.error(e); }
 }
 
-let membersCache = null, membersCacheTime = 0;
+let membersCache = null, membersCacheTime = 0, membersLazyBound = false;
+function setupLazyMembers() {
+  const sec = $('membersSection');
+  if (!sec || membersLazyBound) return;
+  membersLazyBound = true;
+  const summary = sec.querySelector('summary');
+  summary.addEventListener('click', () => {
+    setTimeout(() => { if (sec.open) loadMembers(); }, 60);
+  });
+}
 async function loadMembers(force = false) {
-  if (!force && membersCache && (Date.now() - membersCacheTime) < 10000) {
+  if (!force && membersCache && (Date.now() - membersCacheTime) < 15000) {
     allMembersCache = membersCache;
     membersFiltered = [...allMembersCache];
     renderMembersPage();
     return;
   }
-  const [{ data: profiles }, { data: fleets }, { data: subs }] = await Promise.all([
-    db.from('profiles').select('id,company_name,company_code,rank,joined_at,balance,avatar_url,registry_status,callsign').limit(200),
-    db.from('user_fleet').select('user_id,model,quantity'),
-    db.from('subsidiaries').select('*').eq('status', 'approved')
-  ]);
-  if (!profiles) return;
+  const listEl = $('membersList');
+  if (listEl) listEl.innerHTML = '<div class="muted" style="padding:20px;text-align:center">⏳ Загрузка участников...</div>';
+  const { data: profiles } = await db.from('profiles').select('id,company_name,company_code,rank,joined_at,balance,avatar_url,registry_status,callsign').limit(300);
+  if (!profiles) { if (listEl) listEl.innerHTML = '<div class="muted">Не удалось загрузить. Попробуйте ещё раз.</div>'; return; }
   const members = profiles.filter(p => p.id === ADMIN_UID || p.joined_at != null);
   if (!members.find(m => m.id === ADMIN_UID)) members.unshift({ id: ADMIN_UID, company_name: ADMIN_NAME, company_code: ADMIN_CODE, rank: 'Глава Альянса', joined_at: ADMIN_JOIN_DATE, balance: 999999999 });
+  allMembersCache = [...members.map(m => ({ ...m, fleet: [] }))];
+  membersFiltered = [...allMembersCache];
+  renderMembersPage();
+  const [{ data: fleets }, { data: subs }] = await Promise.all([
+    db.from('user_fleet').select('user_id,model,quantity'),
+    db.from('subsidiaries').select('*').eq('status', 'approved').limit(500)
+  ]);
   const fleetMap = {};
   (fleets || []).forEach(f => { if (!fleetMap[f.user_id]) fleetMap[f.user_id] = []; fleetMap[f.user_id].push(f); });
   const parentMap = {};
@@ -1360,6 +1375,7 @@ function initSectionEditor() {
       const summary = sec.querySelector('summary');
       if (summary && !sec.querySelector('.drag-handle')) summary.insertAdjacentHTML('afterbegin', '<span class="drag-handle" title="Перетащите, чтобы переместить">⠿</span>');
       if (!sec.querySelector('.section-del')) sec.insertAdjacentHTML('beforeend', `<button type="button" class="section-del" title="Удалить раздел" onclick="deleteSection('${sec.dataset.sid}')">×</button>`);
+      summary.addEventListener('click', e => { if (editMode) e.preventDefault(); });
       const h = sec.querySelector('.drag-handle');
       if (!h || h.dataset.bound) return;
       h.dataset.bound = '1';
@@ -1435,13 +1451,13 @@ window.toggleEditMode = function() {
   closeThemeModal();
   editMode = !editMode;
   document.body.classList.toggle('edit-mode', editMode);
-  if (editMode && currentUser && !isAdmin) {
+  if (editMode && currentUser) {
     const grid = $('dashboardPage') ? $('dashboardPage').querySelector('.dashboard-grid') : null;
     if (grid) grid.querySelectorAll('details.section').forEach(s => { s.open = true; });
-    showPage('dashboardPage');
+    showPage(isAdmin ? 'dashboardPage' : 'dashboardPage');
     message('✏️ Редактирование: тяните ⠿ чтобы переместить раздел, × чтобы удалить. Нажмите «Готово»!');
   } else if (editMode) {
-    message('✏️ Режим редактирования включён. Откройте кабинет участника для изменения разделов.');
+    message('Войдите в аккаунт, чтобы редактировать разделы.');
   } else {
     saveSectionsLayout();
     message('✅ Изменения сохранены!');
@@ -2391,7 +2407,7 @@ async function loadDashboard(silent = false) {
 
     await Promise.all([
       db.from('profiles').select('id,company_name,birthday_date,card_data').then(r => renderHolidays(r.data)),
-      loadMembers()
+      setupLazyMembers()
     ]);
 
     // Загрузка флота — для всех (включая админа)
