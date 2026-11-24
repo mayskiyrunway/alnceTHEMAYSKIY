@@ -392,14 +392,20 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
 .typing-msg span:nth-child(3){animation-delay:.36s}
 @keyframes typingDot{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-6px);opacity:1}}
 @keyframes typingGlow{0%,100%{background-position:0% 50%;box-shadow:0 4px 18px rgba(139,92,246,.5)}50%{background-position:100% 50%;box-shadow:0 4px 26px rgba(236,72,153,.55)}}
-/* ===== РЕДАКТОР: ПЛАВНОСТЬ И ПОНЯТНОСТЬ ===== */
+/* ===== СИЯНИЕ В ЧАТЕ, ПОКА МАЙУМШКА ДУМАЕТ (северное сияние) ===== */
+.chat-messages.thinking{position:relative}
+.chat-messages.thinking::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 45% 35% at 25% 30%,rgba(236,72,153,.55),transparent 65%),radial-gradient(ellipse 45% 40% at 75% 65%,rgba(139,92,246,.6),transparent 65%),radial-gradient(ellipse 35% 30% at 55% 15%,rgba(255,154,205,.45),transparent 70%);filter:blur(24px);animation:auroraShift 6s ease-in-out infinite alternate}
+.chat-messages.thinking::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse 40% 30% at 70% 25%,rgba(167,53,42,.35),transparent 65%),radial-gradient(ellipse 40% 35% at 25% 75%,rgba(124,58,237,.5),transparent 65%);filter:blur(28px);animation:auroraShift 8s ease-in-out infinite alternate-reverse}
+@keyframes auroraShift{0%{transform:translate(0,0) rotate(0deg) scale(1)}33%{transform:translate(5%,-4%) rotate(4deg) scale(1.14)}66%{transform:translate(-4%,5%) rotate(-4deg) scale(1.07)}100%{transform:translate(3%,3%) rotate(2deg) scale(1.18)}}
+.chat-messages.thinking .bot-msg,.chat-messages.thinking .user-msg,.chat-messages.thinking .typing-msg{position:relative;z-index:1}
+/* ===== РЕДАКТОР: ПЛАВНОСТЬ И ПОНЯТНОСТЬ (перетаскивание как приложения на телефоне) ===== */
 .edit-mode details.section>summary::after{content:""}
-.edit-mode details.section{transition:box-shadow .3s var(--ios-smooth)}
-.edit-mode details.section.dragging{opacity:.95;box-shadow:0 18px 44px rgba(0,0,0,.35);z-index:200;transform:scale(1.03) rotate(.4deg);transition:none;border-radius:16px}
+.edit-mode details.section{transition:transform .35s var(--ios-smooth),box-shadow .3s var(--ios-smooth),opacity .3s var(--ios-smooth);will-change:transform}
+.edit-mode details.section.dragging{opacity:.97;box-shadow:0 24px 60px rgba(0,0,0,.45);z-index:300;transform:scale(1.06) rotate(1.5deg);cursor:grabbing;border-radius:16px}
 /* ===== РЕДАКТОР РАЗДЕЛОВ ===== */
 .edit-mode details.section{position:relative}
 .edit-mode details.section>summary{user-select:none;cursor:default}
-.edit-mode details.section.dragging{opacity:.9;box-shadow:0 16px 40px rgba(0,0,0,.3);z-index:200;transform:scale(1.02)}
+.edit-mode details.section.dragging{opacity:.97;box-shadow:0 22px 55px rgba(0,0,0,.4);z-index:300;transform:scale(1.05) rotate(1.5deg);cursor:grabbing}
 .drag-handle{display:none;position:absolute;top:14px;left:12px;z-index:25;width:32px;height:32px;cursor:grab;align-items:center;justify-content:center;font-size:16px;color:var(--muted);background:var(--soft);border:1px solid var(--line);border-radius:8px;touch-action:none;user-select:none}
 .edit-mode .drag-handle{display:flex;pointer-events:auto}
 .drag-handle:active{cursor:grabbing}
@@ -410,6 +416,7 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
 .edit-mode .account-head,.edit-mode .folders-container,.edit-mode .footer{opacity:.45;pointer-events:none}
 .deleted-item{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;margin-bottom:8px;background:var(--soft);font-size:13px}
 </style>
+<base target="_blank">
 <base target="_blank">
 </head>
 <body data-theme="ally">
@@ -796,7 +803,7 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
   </div>
 </div>
 
-<div class="edit-bar" id="editBar"><span style="font-size:13px;font-weight:600;white-space:nowrap">✏️ Тяните ⠿ — переместить • × — удалить</span><button class="primary" style="min-height:38px;padding:8px 18px;font-size:13px" onclick="toggleEditMode()">✓ Готово</button></div>
+<div class="edit-bar" id="editBar"><span style="font-size:13px;font-weight:600;white-space:nowrap">✏️ Перетаскивайте ⠿ как приложения на телефоне • × — удалить</span><button class="primary" style="min-height:38px;padding:8px 18px;font-size:13px" onclick="toggleEditMode()">✓ Готово</button></div>
 
 <div id="loadingOverlay" class="loading-overlay hidden"><div class="loader"></div><div class="loading-text" id="loadingText">Подождите...</div></div>
 
@@ -1410,9 +1417,25 @@ function initSectionEditor() {
       const h = sec.querySelector('.drag-handle');
       if (!h || h.dataset.bound) return;
       h.dataset.bound = '1';
-      h.addEventListener('pointerdown', e => { if (!editMode) return; e.preventDefault(); dragEl = sec; sec._flip = capturePositions(sec.parentElement); sec.classList.add('dragging'); try { h.setPointerCapture(e.pointerId); } catch (err) {} });
-      h.addEventListener('pointermove', e => { if (!dragEl || dragEl !== sec) return; const parent = sec.parentElement; const after = getDragAfterEl(parent, e.clientY); if (after == null) { if (parent.lastElementChild !== sec) parent.appendChild(sec); } else parent.insertBefore(sec, after); });
-      const endDrag = () => { if (dragEl !== sec) return; sec.classList.remove('dragging'); dragEl = null; if (sec._flip) animatePositions(sec.parentElement, sec._flip); saveSectionsLayout(); };
+      h.addEventListener('pointerdown', e => { if (!editMode) return; e.preventDefault(); dragEl = sec; sec._flip = captureAllPositions(); sec.classList.add('dragging'); try { h.setPointerCapture(e.pointerId); } catch (err) {} });
+      h.addEventListener('pointermove', e => {
+        if (!dragEl || dragEl !== sec) return;
+        e.preventDefault();
+        autoScrollDrag(e.clientY);
+        const hit = document.elementFromPoint(e.clientX, e.clientY);
+        const target = hit ? hit.closest('details.section') : null;
+        if (!target || target === sec) return;
+        const before = new Map();
+        [sec.parentElement, target.parentElement].forEach(col => { if (col) col.querySelectorAll('details.section').forEach(s => { if (s !== sec) before.set(s, s.getBoundingClientRect().top); }); });
+        const tmp = document.createComment('tmp');
+        sec.parentNode.insertBefore(tmp, sec);
+        target.parentNode.insertBefore(sec, target);
+        tmp.parentNode.insertBefore(target, tmp);
+        tmp.remove();
+        animateFlip(before);
+        saveSectionsLayout();
+      });
+      const endDrag = () => { if (dragEl !== sec) return; stopDragScroll(); sec.classList.remove('dragging'); dragEl = null; if (sec._flip) animateDrop(sec._flip); saveSectionsLayout(); };
       h.addEventListener('pointerup', endDrag);
       h.addEventListener('pointercancel', endDrag);
     });
@@ -1443,6 +1466,46 @@ function getDragAfterEl(container, y) {
     return closest;
   }, { offset: -Infinity }).element;
 }
+/* ===== ПЕРЕТАСКИВАНИЕ КАК НА ТЕЛЕФОНЕ: мгновенный обмен местами + FLIP-анимация ===== */
+function captureAllPositions() {
+  const grid = $('dashboardPage') ? $('dashboardPage').querySelector('.dashboard-grid') : null;
+  const map = {};
+  if (!grid) return map;
+  grid.querySelectorAll(':scope > .sections details.section').forEach(s => { map[s.dataset.sid] = s.getBoundingClientRect().top; });
+  return map;
+}
+function animateFlip(before) {
+  before.forEach((top, s) => {
+    if (s === dragEl) return;
+    const d = top - s.getBoundingClientRect().top;
+    if (Math.abs(d) < 1) return;
+    s.style.transition = 'none';
+    s.style.transform = `translateY(${d}px)`;
+    requestAnimationFrame(() => { s.style.transition = 'transform .4s var(--ios-smooth)'; s.style.transform = 'translateY(0)'; setTimeout(() => { s.style.transition = ''; s.style.transform = ''; }, 420); });
+  });
+}
+function animateDrop(before) {
+  const grid = $('dashboardPage') ? $('dashboardPage').querySelector('.dashboard-grid') : null;
+  if (!grid) return;
+  grid.querySelectorAll('details.section').forEach(s => {
+    const b = before[s.dataset.sid];
+    if (b == null) return;
+    const d = b - s.getBoundingClientRect().top;
+    if (Math.abs(d) < 1) return;
+    s.style.transition = 'none';
+    s.style.transform = `translateY(${d}px)`;
+    requestAnimationFrame(() => { s.style.transition = 'transform .45s var(--ios-smooth)'; s.style.transform = ''; setTimeout(() => { s.style.transition = ''; s.style.transform = ''; }, 500); });
+  });
+}
+let dragScrollRAF = null;
+function autoScrollDrag(y) {
+  const margin = 70, speed = 14;
+  let dy = 0;
+  if (y < margin) dy = -speed; else if (y > window.innerHeight - margin) dy = speed;
+  if (dy !== 0 && !dragScrollRAF) { const step = () => { window.scrollBy(0, dy); dragScrollRAF = requestAnimationFrame(step); }; dragScrollRAF = requestAnimationFrame(step); }
+  else if (dy === 0) stopDragScroll();
+}
+function stopDragScroll() { if (dragScrollRAF) { cancelAnimationFrame(dragScrollRAF); dragScrollRAF = null; } }
 function saveSectionsLayout() {
   const grid = $('dashboardPage') ? $('dashboardPage').querySelector('.dashboard-grid') : null;
   if (!grid) return;
@@ -1618,9 +1681,9 @@ function askAssistant(index) {
   const typing = document.createElement('div');
   typing.className = 'typing-msg';
   typing.innerHTML = '<span></span><span></span><span></span>';
-  messages.appendChild(typing); messages.scrollTop = messages.scrollHeight;
+  messages.appendChild(typing); messages.classList.add('thinking'); messages.scrollTop = messages.scrollHeight;
   setTimeout(() => {
-    typing.remove();
+    typing.remove(); messages.classList.remove('thinking');
     const botMsg = document.createElement('div'); botMsg.className = 'bot-msg'; botMsg.textContent = qa.a; messages.appendChild(botMsg); messages.scrollTop = messages.scrollHeight;
   }, 2000);
   if (qa.highlight) { setTimeout(() => { closeAssistant(); highlightElement(qa.highlight); }, 3800); }
