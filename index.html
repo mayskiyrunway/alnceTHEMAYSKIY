@@ -15,13 +15,17 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preconnect" href="https://raw.githubusercontent.com" crossorigin>
 <link rel="dns-prefetch" href="https://qyabbiyhvwiafprolzoh.supabase.co">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="https://unpkg.com">
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="dns-prefetch" href="https://formspree.io">
 <script src="https://unpkg.com/@vkontakte/vk-bridge/dist/browser.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 <style>
 :root{--wine:#260704;--paper:#fffefa;--ink:#171513;--muted:#77716b;--line:#e4ddd3;--accent:#e8b37e;--green:#276b4b;--red:#a7352a;--soft:#f6f2ec;--bg:var(--wine);--topbar-text:#fff;--topbar-border:rgba(255,255,255,.35);--ios-ease:cubic-bezier(.4,0,.2,1);--ios-spring:cubic-bezier(.34,1.56,.64,1);--ios-smooth:cubic-bezier(.22,1,.36,1)}
 body[data-theme="light"]{--wine:#1d1d1f;--paper:#fff;--ink:#1d1d1f;--muted:#86868b;--line:#d2d2d7;--accent:#1d1d1f;--soft:#f5f5f7;--bg:#fff;--topbar-text:#1d1d1f;--topbar-border:#d2d2d7}
 body[data-theme="dark"]{--wine:#000;--paper:#1c1c1e;--ink:#f5f5f7;--muted:#98989d;--line:#38383a;--accent:#e8b37e;--soft:#2c2c2e;--bg:#000;--topbar-text:#fff;--topbar-border:rgba(255,255,255,.2)}
+body[data-theme="victoria"]{--wine:#17130e;--paper:#fffdf6;--ink:#1b1712;--muted:#8d7f68;--line:#ecdfc4;--accent:#e07b24;--soft:#fdf1da;--bg:#f8eedb;--topbar-text:#17130e;--topbar-border:#e3d3b4}
 *{box-sizing:border-box;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Inter,sans-serif;transition:background .5s var(--ios-smooth),color .5s var(--ios-smooth)}
 button,input,textarea,select{font:inherit}button{cursor:pointer}
@@ -493,7 +497,7 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
       <h1>О нас</h1>
       <div class="about-block">
         <div class="about-text">
-          <p>Официальный портал Альянса THEMAYSKIY. Первый в истории СНГ автоматизированный ERP-портал виртуальной авиации. Все права на дизайн, лор и код защищены. Автор продукта: © MAYSKIE AIRLINES <span id="aboutYear"></span></p>
+          <p>Глобальный портал для Майского Альянса THEMAYSKIY. Все права на дизайн, лор и код защищены. Автор продукта: © MAYSKIE AIRLINES <span id="aboutYear"></span></p>
           <div style="margin-top:20px;padding:15px;background:var(--paper);border-radius:12px;border-left:4px solid var(--accent);">
             <p style="margin-bottom:5px;"><b>Год создания:</b> 16.02.2016 (игровая версия)</p>
             <p><b>Год создания:</b> 16.02.2024 (настоящая)</p>
@@ -501,7 +505,7 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
         </div>
         <div class="about-logo-box">
           <img id="aboutLogo" src="https://raw.githubusercontent.com/balovzena9-ops/MYRUN-store/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F146_20261103132642.png" alt="Logo">
-          <div class="about-stamp"><img src="https://raw.githubusercontent.com/balovzena9-ops/mozno-da/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041015.png" alt="Stamp"><br><img id="aboutSignature" src="https://raw.githubusercontent.com/balovzena9-ops/mozno-da/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041030.png" alt="Signature" style="max-width:120px;margin-top:10px;"></div>
+          <div class="about-stamp"><img loading="lazy" src="https://raw.githubusercontent.com/balovzena9-ops/mozno-da/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041015.png" alt="Stamp"><br><img id="aboutSignature" loading="lazy" src="https://raw.githubusercontent.com/balovzena9-ops/mozno-da/main/%D0%91%D0%B5%D0%B7%20%D0%BD%D0%B0%D0%B7%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F161_20261108041030.png" alt="Signature" style="max-width:120px;margin-top:10px;"></div>
         </div>
       </div>
       <h3 style="margin-bottom:15px;font-size:18px;">Значение логотипа альянса:</h3>
@@ -828,6 +832,7 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
     <h3>Настройки</h3>
     <h4 style="font-size:14px;margin:15px 0 10px 0">Тема оформления</h4>
     <button class="theme-option" onclick="setTheme('ally')">Альянсовая тема (по умолчанию)</button>
+    <button class="theme-option" onclick="setTheme('victoria')">🧡 Викторская тема</button>
     <button class="theme-option" onclick="setTheme('light')">Светлая тема (Ч/Б)</button>
     <button class="theme-option" onclick="setTheme('dark')">Темная тема</button>
     <button class="theme-option" onclick="setTheme('system')">Системная</button>
@@ -910,6 +915,7 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
   </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 'use strict';
 // ===== MayVersion 1.1.3 — Stable =====
@@ -1139,7 +1145,7 @@ function bloodDemoRemaining() { return Math.max(0, parseInt(localStorage.getItem
 function isBloodActive() { if (bloodDemoRemaining() > 0) return true; if (bloodDisabled()) return false; if (isBloodWeek()) return true; return false; }
 function startBloodDemoInternal() { localStorage.setItem('blood_demo_until', (Date.now() + 10 * 60 * 1000).toString()); updateBrand(); updateAssistantAvatar(); setTimeout(() => { updateBrand(); updateAssistantAvatar(); }, 10 * 60 * 1000); }
 function checkAutoBlood19Sept() { if (!isSept19() || bloodDisabled()) return; const today = new Date().toDateString(); if (localStorage.getItem('blood_19sept_shown') === today) return; localStorage.setItem('blood_19sept_shown', today); startBloodDemoInternal(); }
-function updateBrand() { const img = $('brandLogo'); if (!img) return; let src; if (isBloodActive()) src = LOGO_BLOOD; else if (document.body.getAttribute('data-theme') === 'light') src = LOGO_LIGHT; else src = LOGO_DARK; img.src = src; }
+function updateBrand() { const img = $('brandLogo'); if (!img) return; const th = document.body.getAttribute('data-theme'); let src; if (isBloodActive()) src = LOGO_BLOOD; else if (th === 'light' || th === 'victoria') src = LOGO_LIGHT; else src = LOGO_DARK; img.src = src; }
 function updateAssistantAvatar() { const img = $('assistantAvatar'); if (!img) return; img.src = isBloodActive() ? ASSISTANT_BLOOD : ASSISTANT_NORMAL; }
 async function toggleBlood() {
   if (!currentUser) { $('bloodToggle').checked = !$('bloodToggle').checked; return message('Войдите в аккаунт', true); }
