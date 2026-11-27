@@ -459,6 +459,23 @@ body.mobile-mode .welcome-inner{padding:30px 14px}
 body.mobile-mode .holiday-card{border-radius:16px}
 body.mobile-mode .card-status-block{border-radius:14px}
 body.mobile-mode .loading-bar{width:150px}
+/* ===== ТЕМА: AeroBlue (голубые и светло-голубые тона) ===== */
+body[data-theme="aeroblue"]{--wine:#0d3a5c;--paper:#f5fbff;--ink:#12303f;--muted:#62899f;--line:#c9e2f2;--accent:#1e9de4;--soft:#e6f4fd;--bg:#e9f5fd;--topbar-text:#0d3a5c;--topbar-border:#b8dcf2}
+body[data-theme="aeroblue"] .plain-button:hover{background:rgba(30,157,228,.12)}
+/* ===== ТЕМА: MAYSKIIIY Zh&Vc (голубой + малиновый, переливающийся фон) ===== */
+body[data-theme="zhvc"]{--wine:#2a1030;--paper:#fff8fc;--ink:#2a1428;--muted:#8a6f88;--line:#eed7ea;--accent:#d94f8e;--soft:#fbeaf5;--topbar-text:#fff;--topbar-border:rgba(255,255,255,.3);background:linear-gradient(120deg,#123a6b 0%,#2f7fc4 25%,#c94f8e 55%,#8e1f56 78%,#123a6b 100%);background-size:320% 320%;animation:zhvcShift 16s ease-in-out infinite}
+@keyframes zhvcShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+/* ===== ТЕМА: MYRUNPLAY (темнота, фонарик, кровавые брызги) ===== */
+body[data-theme="myrunplay"]{--wine:#1a0d08;--paper:#241610;--ink:#e8d9c8;--muted:#9c8873;--line:#3d2a1c;--accent:#a33025;--soft:#2e1c12;--bg:#150a05;--topbar-text:#e8d9c8;--topbar-border:#3d2a1c;background:radial-gradient(circle at 12% 22%,rgba(140,20,15,.55) 0 4px,transparent 5px),radial-gradient(circle at 82% 12%,rgba(120,15,10,.5) 0 3px,transparent 4px),radial-gradient(circle at 68% 78%,rgba(140,20,15,.5) 0 16px,transparent 18px),radial-gradient(circle at 25% 85%,rgba(110,12,8,.5) 0 10px,transparent 12px),radial-gradient(circle at 50% 50%,rgba(90,10,6,.35) 0 2px,transparent 3px),radial-gradient(ellipse at 25% 8%,#3d1a10 0%,#241009 55%,#100502 100%)}
+body[data-theme="myrunplay"]::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:9998;background:radial-gradient(circle 150px at var(--fx,50%) var(--fy,35%),transparent 0,rgba(0,0,0,.5) 180px,rgba(3,0,0,.95) 380px)}
+body[data-theme="myrunplay"] .sheet{box-shadow:0 0 60px rgba(0,0,0,.8)}
+body[data-theme="myrunplay"] .bank-card{filter:sepia(.35) brightness(.9)}
+/* ===== ФИКС ОБРЕЗАННЫХ КНОПОК (в т.ч. «Флот Баловск») ===== */
+.transaction-item{flex-wrap:wrap;gap:6px 10px}
+.transaction-item>*{min-width:0}
+.transaction-item .primary,.transaction-item .secondary{min-height:34px;white-space:normal}
+body.mobile-mode .transaction-item button{padding:4px 10px!important;font-size:11px!important}
+.order-row{flex-wrap:wrap}
 </style>
 <base target="_blank">
 <base target="_blank">
@@ -556,7 +573,7 @@ body.mobile-mode .loading-bar{width:150px}
         <li><b>Венок:</b> Помощь другим и благородие альянса</li>
         <li><b>Ленточка:</b> Объединение всех в одну дружную семью</li>
       </ul>
-      <h3 style="margin-bottom:15px;font-size:18px;">Поддержка идеи:</h3>
+      <h3 style="margin-bottom:15px;font-size:18px;">Код:</h3>
       <ul class="about-list"><li>MYRUNPLAY>_</li><li>MYRY</li><li>MayS</li></ul>
       <h3 style="margin-bottom:15px;font-size:18px;">Финансово:</h3>
       <ul class="about-list"><li>MAYE BALOVSK</li><li>MAYSKIE AIRLINES</li><li>MYRY</li><li>THEMAYSKIY</li></ul>
@@ -614,6 +631,21 @@ body.mobile-mode .loading-bar{width:150px}
                             <div class="field"><label>Описание</label><textarea id="profileDescription"></textarea></div>
               <div class="field"><label>История</label><textarea id="profileHistory"></textarea></div>
               <button class="primary" id="saveProfile" type="button">Сохранить</button>
+            </div>
+          </details>
+
+          <details class="section" id="safetySection">
+            <summary>🛡 Оценка безопасности (анонимно)</summary>
+            <div class="section-content">
+              <p class="muted">Полностью анонимно: расчёт выполняется только в вашем браузере, данные никуда не отправляются и не сохраняются. Результат видите только вы.</p>
+              <h4>Авиакатастрофы</h4>
+              <div class="calc-row"><div class="field"><label>За месяц</label><input id="s_crash_m" type="number" min="0" step="1" placeholder="0"></div><div class="field"><label>За неделю</label><input id="s_crash_w" type="number" min="0" step="1" placeholder="0"></div></div>
+              <div class="calc-row"><div class="field"><label>За день</label><input id="s_crash_d" type="number" min="0" step="1" placeholder="0"></div><div class="field"><label>Самолётов в флоте (всего)</label><input id="s_fleet" type="number" min="0" step="1" placeholder="0"></div></div>
+              <h4>Возраст флота (лет)</h4>
+              <div class="calc-row"><div class="field"><label>Средний возраст</label><input id="s_age_avg" type="number" min="0" step="0.1" placeholder="0"></div><div class="field"><label>Старшие самолёты (самому старшему)</label><input id="s_age_old" type="number" min="0" step="0.1" placeholder="0"></div></div>
+              <div class="field"><label>Младшие самолёты (самому младшему)</label><input id="s_age_young" type="number" min="0" step="0.1" placeholder="0"></div>
+              <button class="primary" id="btnSafetyCalc" type="button">Оценить безопасность</button>
+              <div id="safetyResult"></div>
             </div>
           </details>
 
@@ -883,6 +915,9 @@ body.mobile-mode .loading-bar{width:150px}
     <button class="theme-option" onclick="setTheme('light')">Светлая тема (Ч/Б)</button>
     <button class="theme-option" onclick="setTheme('dark')">Темная тема</button>
     <button class="theme-option" onclick="setTheme('system')">Системная</button>
+    <button class="theme-option" onclick="setTheme('aeroblue')">🔵 AeroBlue (голубая)</button>
+    <button class="theme-option" onclick="setTheme('zhvc')">💙❤️ MAYSKIIIY Zh&amp;Vc (переливающийся фон)</button>
+    <button class="theme-option" id="themeMyrunBtn" onclick="setTheme('myrunplay')">🩸 MYRUNPLAY (темнота, фонарик, кровь)</button>
     <h4 style="font-size:14px;margin:20px 0 10px 0">Устройство</h4>
     <button class="theme-option" onclick="setDeviceMode('pc', true)">💻 ПК (компьютер / ноутбук)</button>
     <button class="theme-option" onclick="setDeviceMode('mobile', true)">📱 Мобильное (телефон / планшет)</button>
@@ -1192,8 +1227,8 @@ function bloodDemoRemaining() { return Math.max(0, parseInt(localStorage.getItem
 function isBloodActive() { if (bloodDemoRemaining() > 0) return true; if (bloodDisabled()) return false; if (isBloodWeek()) return true; return false; }
 function startBloodDemoInternal() { localStorage.setItem('blood_demo_until', (Date.now() + 10 * 60 * 1000).toString()); updateBrand(); updateAssistantAvatar(); setTimeout(() => { updateBrand(); updateAssistantAvatar(); }, 10 * 60 * 1000); }
 function checkAutoBlood19Sept() { if (!isSept19() || bloodDisabled()) return; const today = new Date().toDateString(); if (localStorage.getItem('blood_19sept_shown') === today) return; localStorage.setItem('blood_19sept_shown', today); startBloodDemoInternal(); }
-function updateBrand() { const img = $('brandLogo'); if (!img) return; const th = document.body.getAttribute('data-theme'); let src; if (isBloodActive()) src = LOGO_BLOOD; else if (th === 'light' || th === 'victoria') src = LOGO_LIGHT; else src = LOGO_DARK; img.src = src; }
-function updateAssistantAvatar() { const img = $('assistantAvatar'); if (!img) return; img.src = isBloodActive() ? ASSISTANT_BLOOD : ASSISTANT_NORMAL; }
+function updateBrand() { const img = $('brandLogo'); if (!img) return; const th = document.body.getAttribute('data-theme'); let src; if (isBloodActive() || (th === 'myrunplay' && !bloodDisabled())) src = LOGO_BLOOD; else if (th === 'light' || th === 'victoria' || th === 'aeroblue') src = LOGO_LIGHT; else src = LOGO_DARK; img.src = src; }
+function updateAssistantAvatar() { const img = $('assistantAvatar'); if (!img) return; const th = document.body.getAttribute('data-theme'); img.src = (isBloodActive() || (th === 'myrunplay' && !bloodDisabled())) ? ASSISTANT_BLOOD : ASSISTANT_NORMAL; }
 async function toggleBlood() {
   if (!currentUser) { $('bloodToggle').checked = !$('bloodToggle').checked; return message('Войдите в аккаунт', true); }
   const enabled = $('bloodToggle').checked;
@@ -1215,12 +1250,13 @@ function displayCompanyCode(profile, userId) {
 function pluralDays(n) { const a = Math.abs(n); if (a % 10 === 1 && a % 100 !== 11) return 'день'; if ([2,3,4].includes(a % 10) && ![12,13,14].includes(a % 100)) return 'дня'; return 'дней'; }
 function showLoading(t = 'Подождите...') { isProcessing = true; $('loadingText').textContent = t; $('loadingOverlay').classList.remove('hidden'); }
 function hideLoading() { isProcessing = false; $('loadingOverlay').classList.add('hidden'); }
-function updateAboutLogo() { const aboutLogo = $('aboutLogo'); if (!aboutLogo) return; const theme = document.body.getAttribute('data-theme'); if (theme === 'dark') aboutLogo.src = LOGO_DARK; else aboutLogo.src = LOGO_LIGHT; }
+function updateAboutLogo() { const aboutLogo = $('aboutLogo'); if (!aboutLogo) return; const theme = document.body.getAttribute('data-theme'); if (theme === 'myrunplay' && !bloodDisabled()) aboutLogo.src = LOGO_BLOOD; else if (theme === 'dark' || theme === 'myrunplay') aboutLogo.src = LOGO_DARK; else aboutLogo.src = LOGO_LIGHT; }
 function applyTheme(theme) { if (theme === 'system') theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; document.body.setAttribute('data-theme', theme); updateBrand(); updateAssistantAvatar(); updateAboutLogo(); }
-function setTheme(theme) { localStorage.setItem('theme', theme); applyTheme(theme); closeThemeModal(); }
-function openThemeModal() { renderDeletedSections(); $('themeModal').classList.add('show'); if ($('bloodToggle') && userProfile) $('bloodToggle').checked = userProfile.blood_effects !== false; if ($('bloodToggle') && !userProfile) $('bloodToggle').checked = localStorage.getItem('blood_effects') !== 'false'; }
+function setTheme(theme) { if (theme === 'myrunplay' && bloodDisabled()) return message('🩸 Тема «MYRUNPLAY» недоступна: кровавые эффекты отключены. Включите их в настройках.', true); localStorage.setItem('theme', theme); applyTheme(theme); closeThemeModal(); }
+function openThemeModal() { renderDeletedSections(); $('themeModal').classList.add('show'); if ($('bloodToggle') && userProfile) $('bloodToggle').checked = userProfile.blood_effects !== false; if ($('bloodToggle') && !userProfile) $('bloodToggle').checked = localStorage.getItem('blood_effects') !== 'false'; const mb = $('themeMyrunBtn'); if (mb) { const dis = bloodDisabled(); mb.style.opacity = dis ? '.4' : ''; mb.style.pointerEvents = dis ? 'none' : ''; mb.title = dis ? 'Недоступно: кровавые эффекты отключены' : ''; } }
 function closeThemeModal() { $('themeModal').classList.remove('show'); }
 applyTheme(localStorage.getItem('theme') || 'ally');
+document.addEventListener('pointermove', function(e) { if (document.body.getAttribute('data-theme') === 'myrunplay') { document.body.style.setProperty('--fx', e.clientX + 'px'); document.body.style.setProperty('--fy', e.clientY + 'px'); } }, {passive: true});
 
 function openResetModal() { $('resetModal').classList.add('show'); }
 function closeResetModal() { $('resetModal').classList.remove('show'); }
@@ -2428,6 +2464,39 @@ $('btnCalc').addEventListener('click', () => {
   $('calcResult').innerHTML = `Чистая прибыль за месяц: <span style="color:${netM >= 0 ? 'var(--green)' : 'var(--red)'}">${netM.toLocaleString('ru-RU')} МайБит</span><br>Чистая прибыль за год: <span style="color:${netY >= 0 ? 'var(--green)' : 'var(--red)'}">${netY.toLocaleString('ru-RU')} МайБит</span><div class="muted" style="margin-top:8px">Расчёт выполнен в браузере.</div>`;
 });
 
+/* ===== ОЦЕНКА БЕЗОПАСНОСТИ АВИАКОМПАНИИ (анонимно, только в браузере) ===== */
+$('btnSafetyCalc').addEventListener('click', () => {
+  const v = id => Math.max(0, Number($(id).value) || 0);
+  const cm = v('s_crash_m'), cw = v('s_crash_w'), cd = v('s_crash_d');
+  const fleet = v('s_fleet'), avg = v('s_age_avg'), old = v('s_age_old'), young = v('s_age_young');
+  let score = 100;
+  score -= cm * 12 + cw * 8 + cd * 5;
+  if (avg > 10) score -= Math.min(25, (avg - 10) * 3);
+  if (old > 25) score -= Math.min(15, old - 25);
+  if (fleet > 0 && fleet < 3) score -= 5;
+  score = Math.max(0, Math.min(100, Math.round(score)));
+  const stars = Math.max(0, Math.min(5, Math.round(score / 20)));
+  const level = score >= 80 ? 'Отлично' : score >= 50 ? 'Нормально' : 'Критически опасно';
+  const levelColor = score >= 80 ? 'var(--green)' : score >= 50 ? '#b8651a' : 'var(--red)';
+  const tips = [];
+  if (cd > 0) tips.push('🚨 Катастрофы за день — немедленно приостановите рейсы и проверьте технику и подготовку экипажей!');
+  if (cw > 0 && cd === 0) tips.push('⚠️ Катастрофы за неделю: срочно проведите внеплановое техобслуживание всего флота.');
+  if (cm > 0 && cw === 0) tips.push('📋 Катастрофы за месяц: пересмотрите маршруты, погодные требования и допуски пилотов.');
+  if (old > 25) tips.push('✈️ Старейшему борту больше 25 лет — проверьте или спишите самый старый самолёт.');
+  if (avg > 15) tips.push('🛠 Средний возраст флота высокий — запланируйте обновление парка.');
+  if (fleet > 0 && fleet < 3) tips.push('🔍 Флот маленький: статистика менее надёжна, следите за каждым бортом вручную.');
+  if (young === 0 && fleet > 0) tips.push('🆕 Укажите возраст самого младшего борта — так оценка будет точнее.');
+  if (!tips.length) tips.push('✅ Всё в порядке! Продолжайте поддерживать стандарты безопасности альянса.');
+  $('safetyResult').innerHTML = `
+    <div style="text-align:center;padding:18px;background:var(--soft);border-radius:14px;border:1px solid var(--line);margin-top:5px">
+      <div style="font-size:30px;letter-spacing:4px;color:var(--accent)">${'★'.repeat(stars)}${'☆'.repeat(5 - stars)}</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:2px">${score} / 100 баллов</div>
+      <div style="font-size:20px;font-weight:800;color:${levelColor};margin-top:8px">${level}</div>
+    </div>
+    <div style="margin-top:12px;font-size:13px;line-height:1.6;padding:14px;background:var(--soft);border-radius:14px;border:1px solid var(--line)"><strong>На что обратить внимание:</strong>${tips.map(t => `<div style="margin-top:6px">${t}</div>`).join('')}</div>
+    <p class="muted" style="font-size:11px;margin-top:10px">Оценка математическая и приблизительная. Расчёт выполнен в браузере — данные никому не отправлялись.</p>`;
+});
+
 function updateBuyTotal() {
   if (!selectedAircraft) return;
   const qty = Math.max(1, Number($('buyQuantity').value) || 1);
@@ -2593,14 +2662,14 @@ async function loadDashboard(silent = false) {
     if (assembling?.length) fleetHtml += '<h4 style="margin-top:15px;font-size:13px;color:var(--muted)">Собираются:</h4>' + assembling.map(a => { const ready = new Date(a.ready_at || new Date(a.created_at).getTime() + 7 * 86400000); return `<div class="transaction-item"><span>${esc(a.model)} × ${Number(a.quantity)}</span><div><span class="muted" style="margin-right:10px;font-size:11px">${fmtDate(ready)}</span><button class="secondary" style="padding:4px 8px;font-size:10px;border-color:var(--red);color:var(--red)" onclick="cancelAircraftOrder('${esc(a.id)}')">Отменить</button></div></div>`; }).join('');
     $('myFleetList').innerHTML = fleetHtml;
 
+    let transferList = (allMembersCache || []).filter(m => !m.is_subsidiary && m.id !== user.id);
+    if (!transferList.length) {
+      const { data: tp } = await db.from('profiles').select('id,company_name,company_code,joined_at').limit(300);
+      transferList = (tp || []).filter(p => p.id !== user.id && (p.id === ADMIN_UID || p.joined_at != null));
+    }
+    if (!transferList.find(t => t.id === ADMIN_UID)) transferList.unshift({ id: ADMIN_UID, company_name: ADMIN_NAME });
+    $('transferTarget').innerHTML = transferList.length ? transferList.map(p => `<option value="${esc(p.id)}">${esc(p.company_name)}${p.id === ADMIN_UID ? ' ✓' : ''}</option>`).join('') : '<option value="">Нет компаний</option>';
     if (!isAdmin) {
-      let transferList = (allMembersCache || []).filter(m => !m.is_subsidiary && m.id !== user.id);
-      if (!transferList.length) {
-        const { data: tp } = await db.from('profiles').select('id,company_name,company_code,joined_at').limit(300);
-        transferList = (tp || []).filter(p => p.id !== user.id && (p.id === ADMIN_UID || p.joined_at != null));
-      }
-      if (!transferList.find(t => t.id === ADMIN_UID)) transferList.unshift({ id: ADMIN_UID, company_name: ADMIN_NAME });
-      $('transferTarget').innerHTML = transferList.length ? transferList.map(p => `<option value="${esc(p.id)}">${esc(p.company_name)}${p.id === ADMIN_UID ? ' ✓' : ''}</option>`).join('') : '<option value="">Нет компаний</option>';
       const { data: maysk } = await db.from('maysk_requests').select('*').eq('user_id', user.id).order('created_at', { ascending: false }).limit(1);
       $('mayskStatus').innerHTML = maysk?.length ? `<div class="muted">Заявка: ${maysk[0].status === 'approved' ? 'Одобрена' : maysk[0].status === 'rejected' ? 'Отклонена' : 'На проверке'}</div>` : '';
       const { data: subsApproved } = await db.from('subsidiaries').select('id,company_name').eq('parent_id', user.id).eq('status', 'approved');
@@ -3150,7 +3219,6 @@ db.auth.onAuthStateChange((event) => {
   if (!savedDevice) { $('welcomeScreen').classList.add('show'); document.body.style.overflow = 'hidden'; }
   else { document.body.classList.toggle('mobile-mode', savedDevice === 'mobile'); }
   setupRealtime();
-  if ('serviceWorker' in navigator && location.protocol.indexOf('https') === 0) { navigator.serviceWorker.register('sw.js').catch(function(){}); }
   $('switchAuth').addEventListener('click', () => setMode('register'));
   setTimeout(checkAutoBlood19Sept, 500);
   appSigPad = setupCanvas($('appSigCanvas'));
