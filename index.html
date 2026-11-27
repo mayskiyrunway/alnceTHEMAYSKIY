@@ -628,6 +628,7 @@ body.mobile-mode .transaction-item button{padding:4px 10px!important;font-size:1
             <div class="section-content">
               <div class="field"><label>Название</label><input id="profileName" maxlength="120"></div>
               <div class="field"><label>Наш лозунг</label><input id="profileSlogan" maxlength="100" placeholder="Коротко о главном"></div>
+              <div class="field"><label>QSO код (позывной авиакомпании)</label><input id="profileQso" maxlength="20" placeholder="Например: MAY-01"></div>
                             <div class="field"><label>Описание</label><textarea id="profileDescription"></textarea></div>
               <div class="field"><label>История</label><textarea id="profileHistory"></textarea></div>
               <button class="primary" id="saveProfile" type="button">Сохранить</button>
@@ -1196,7 +1197,9 @@ async function uploadDocLogo(event) {
     const { error: uploadError } = await db.storage.from('avatars').upload(path, file, { upsert: true });
     if (uploadError) { hideLoading(); return message('Ошибка: ' + uploadError.message, true); }
     const { data: urlData } = db.storage.from('avatars').getPublicUrl(path);
-    localStorage.setItem('custom_doc_logo', urlData.publicUrl);
+    let docLogoUrl = urlData.publicUrl;
+    try { const { data: sd } = await db.storage.from('avatars').createSignedUrl(path, 315360000); if (sd?.signedUrl) docLogoUrl = sd.signedUrl; } catch (e) {}
+    localStorage.setItem('custom_doc_logo', docLogoUrl);
     hideLoading(); message('✅ Логотип загружен!'); closeThemeModal(); event.target.value = '';
   } catch (err) { hideLoading(); message('Ошибка: ' + err.message, true); }
 }
@@ -2592,7 +2595,6 @@ async function loadDashboard(silent = false) {
       $('statDate').textContent = 'Дата вступления: 16.02.2016';
       $('finesSection').classList.add('hidden');
       $('docFolders').classList.add('hidden');
-      $('newsSection').classList.add('hidden');
       $('exitRequestSection').classList.add('hidden');
       $('topExit').classList.add('hidden');
       $('cardsSection')?.classList.remove('hidden');
@@ -2639,6 +2641,7 @@ async function loadDashboard(silent = false) {
     if (!silent || !$('profileName').value) {
       $('profileName').value = companyName;
       if ($('profileSlogan')) $('profileSlogan').value = cd0.slogan || '';
+      if ($('profileQso')) $('profileQso').value = cd0.qso_code || '';
       $('profileDescription').value = profile?.description || '';
       $('profileHistory').value = profile?.history || '';
     }
@@ -2856,9 +2859,9 @@ async function loadAdminData() {
       return `<div class="company-orders-box"><h4>🏢 ${esc(cn)}${badge}</h4>${oh}</div>`;
     }).join('');
   } else $('adminAircraftOrders').textContent = 'Нет заказов.';
-  const { data: maysks } = await db.from('maysk_requests').select('*').eq('status', 'pending');
+  const { data: maysks, error: mayskErr } = await db.from('maysk_requests').select('*').eq('status', 'pending');
   updateSectionBadge('adminMayskSection', maysks?.length || 0);
-  $('adminMayskList').innerHTML = maysks?.map(m => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(m.company_name)}</h4><p class="muted">${esc(m.reason)}</p></div><div class="admin-actions"><button class="primary" onclick="approveMaysk('${esc(m.id)}')">Одобрить</button><button class="secondary" onclick="rejectMaysk('${esc(m.id)}')">Отказать</button></div></div>`).join('') || 'Нет заявок.';
+  $('adminMayskList').innerHTML = mayskErr ? `<p class="muted" style="color:var(--red)">⚠️ Не удалось загрузить заявки: ${esc(mayskErr.message)}<br><span style="font-size:11px">Проверьте политики RLS таблицы maysk_requests (инструкция у разработчика в чате).</span></p>` : (maysks?.map(m => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(m.company_name)}</h4><p class="muted">${esc(m.reason)}</p></div><div class="admin-actions"><button class="primary" onclick="approveMaysk('${esc(m.id)}')">Одобрить</button><button class="secondary" onclick="rejectMaysk('${esc(m.id)}')">Отказать</button></div></div>`).join('') || 'Нет заявок.');
   const { data: loans } = await db.from('loans').select('*').eq('status', 'active');
   const loanIds = [...new Set((loans || []).map(l => l.user_id))];
   const { data: lp } = loanIds.length ? await db.from('profiles').select('id,company_name').in('id', loanIds) : { data: [] };
@@ -3125,7 +3128,8 @@ $('avatarUpload').addEventListener('change', async e => {
     const { error: uploadError } = await db.storage.from('avatars').upload(path, file, { upsert: true });
     if (uploadError) { hideLoading(); return message('Ошибка: ' + uploadError.message, true); }
     const { data: urlData } = db.storage.from('avatars').getPublicUrl(path);
-    const freshUrl = `${urlData.publicUrl}?t=${Date.now()}`;
+    let freshUrl = `${urlData.publicUrl}?t=${Date.now()}`;
+    try { const { data: sd } = await db.storage.from('avatars').createSignedUrl(path, 315360000); if (sd?.signedUrl) freshUrl = sd.signedUrl; } catch (e) {}
     const { error: updateError } = await db.from('profiles').upsert({ id: currentUser.id, avatar_url: freshUrl });
     if (updateError) { hideLoading(); return message('Ошибка: ' + updateError.message, true); }
     if (userProfile) userProfile.avatar_url = freshUrl;
@@ -3143,7 +3147,7 @@ $('saveProfile').addEventListener('click', async () => {
   if (error) { hideLoading(); return message(error.message, true); }
   const cd = getCardData();
   cd.slogan = $('profileSlogan').value.trim();
-  // QSO-код удалён по запросу
+  cd.qso_code = ($('profileQso')?.value || '').trim().toUpperCase();
   await db.from('profiles').update({ card_data: cd }).eq('id', currentUser.id);
   hideLoading();
   userProfile.card_data = cd;
