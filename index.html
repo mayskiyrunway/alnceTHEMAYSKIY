@@ -357,6 +357,21 @@ body.mobile-mode .doc-paper .header-doc{font-size:11px!important;margin-bottom:2
 .social-tg:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 10px 24px rgba(0,136,204,.55)}
 .social-help{background:linear-gradient(135deg,#5b8ee8 0%,#4a7fd6 100%);box-shadow:0 4px 14px rgba(74,127,214,.4)}
 .social-help:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 10px 24px rgba(74,127,214,.55)}
+/* ===== СОЦ-КНОПКИ ПОД ТЕМУ (синие оттенки остаются для: ally / aeroblue / light) ===== */
+body[data-theme="dark"] .social-vk{background:#3a3a3c;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+body[data-theme="dark"] .social-tg{background:#48484a;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+body[data-theme="dark"] .social-help{background:#5a5a5c;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+body[data-theme="dark"] .social-vk:hover,body[data-theme="dark"] .social-tg:hover,body[data-theme="dark"] .social-help:hover{box-shadow:0 10px 24px rgba(0,0,0,.65)}
+body[data-theme="victoria"] .social-vk{background:linear-gradient(135deg,#e07b24,#b85c12);box-shadow:0 4px 14px rgba(224,123,36,.4)}
+body[data-theme="victoria"] .social-tg{background:linear-gradient(135deg,#c96a1a,#8f4a0e);box-shadow:0 4px 14px rgba(201,106,26,.4)}
+body[data-theme="victoria"] .social-help{background:linear-gradient(135deg,#f08c3a,#d06a1c);box-shadow:0 4px 14px rgba(240,140,58,.4)}
+body[data-theme="zhvc"] .social-vk{background:linear-gradient(135deg,#2f7fc4,#1b5a94);box-shadow:0 4px 14px rgba(47,127,196,.45)}
+body[data-theme="zhvc"] .social-tg{background:linear-gradient(135deg,#c94f8e,#8e1f56);box-shadow:0 4px 14px rgba(201,79,142,.45)}
+body[data-theme="zhvc"] .social-help{background:linear-gradient(135deg,#7a5fd0,#c94f8e);box-shadow:0 4px 14px rgba(122,95,208,.45)}
+body[data-theme="myrunplay"] .social-vk{background:linear-gradient(135deg,#7a1610,#4a0c08);box-shadow:0 4px 14px rgba(0,0,0,.6)}
+body[data-theme="myrunplay"] .social-tg{background:linear-gradient(135deg,#a33025,#6e1a12);box-shadow:0 4px 14px rgba(0,0,0,.6)}
+body[data-theme="myrunplay"] .social-help{background:linear-gradient(135deg,#8c2018,#3d0d08);box-shadow:0 4px 14px rgba(0,0,0,.6)}
+body[data-theme="myrunplay"] .social-vk:hover,body[data-theme="myrunplay"] .social-tg:hover,body[data-theme="myrunplay"] .social-help:hover{box-shadow:0 10px 26px rgba(0,0,0,.75)}
 .cards-wrap{display:flex;flex-direction:column;gap:18px}
 .bank-card{width:100%;max-width:380px;aspect-ratio:1.586/1;border-radius:20px;padding:20px 24px;color:#fff;position:relative;overflow:hidden;box-shadow:0 12px 32px rgba(0,0,0,.28);display:flex;flex-direction:column;justify-content:space-between;margin:0 auto;font-family:Inter,sans-serif;transition:transform .5s var(--ios-spring),box-shadow .4s var(--ios-smooth)}
 .bank-card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 18px 46px rgba(0,0,0,.35)}
@@ -628,7 +643,6 @@ body.mobile-mode .transaction-item button{padding:4px 10px!important;font-size:1
             <div class="section-content">
               <div class="field"><label>Название</label><input id="profileName" maxlength="120"></div>
               <div class="field"><label>Наш лозунг</label><input id="profileSlogan" maxlength="100" placeholder="Коротко о главном"></div>
-              <div class="field"><label>QSO код (позывной авиакомпании)</label><input id="profileQso" maxlength="20" placeholder="Например: MAY-01"></div>
                             <div class="field"><label>Описание</label><textarea id="profileDescription"></textarea></div>
               <div class="field"><label>История</label><textarea id="profileHistory"></textarea></div>
               <button class="primary" id="saveProfile" type="button">Сохранить</button>
@@ -1216,6 +1230,30 @@ function updateSectionBadge(sectionId, count) {
   else summary.innerHTML = currentText;
 }
 
+/* ===== НОВОСТИ: красная точка гаснет после прочтения (в реальном времени) ===== */
+function getNewsReadKey() { return 'news_read_at_' + (currentUser?.id || 'guest'); }
+function getNewsReadAt() { return parseInt(localStorage.getItem(getNewsReadKey()) || '0', 10) || 0; }
+function updateNewsBadge(posts) {
+  const readAt = getNewsReadAt();
+  const unread = (posts || []).filter(p => { const t = new Date(p.created_at).getTime(); return !isNaN(t) && t > readAt; }).length;
+  updateSectionBadge('newsSection', unread);
+}
+function bindNewsRead() {
+  const sec = $('newsSection');
+  if (!sec || sec.dataset.readBound) return;
+  sec.dataset.readBound = '1';
+  const summary = sec.querySelector('summary');
+  if (!summary) return;
+  summary.addEventListener('click', () => {
+    setTimeout(() => {
+      if (sec.open) {
+        localStorage.setItem(getNewsReadKey(), String(Date.now()));
+        updateNewsBadge(window._lastPosts || []);
+      }
+    }, 500);
+  });
+}
+
 function setDeviceMode(mode, fromSettings = false) {
   localStorage.setItem('device_mode', mode);
   document.body.classList.toggle('mobile-mode', mode === 'mobile');
@@ -1371,16 +1409,18 @@ async function ensureAdminProfile() {
     await db.from('profiles').update(updates).eq('id', ADMIN_UID);
   }
 }
+/* ===== Бейдж заявок: отказоустойчивый (одна ошибка не ломает весь счётчик) ===== */
 async function updateAdminBadge() {
   if (!isAdmin) return;
   try {
-    const [apps, regs, maysks, subs, exits] = await Promise.all([
+    const [apps, regs, maysks, subs, exits] = await Promise.allSettled([
       db.from('applications').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
       db.from('registry_applications').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
       db.from('maysk_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
       db.from('subsidiaries').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
       db.from('exit_requests').select('id', { count: 'exact', head: true }).eq('status', 'pending')
     ]);
+    const cnt = r => (r && r.status === 'fulfilled' && r.value && typeof r.value.count === 'number') ? r.value.count : 0;
     let cardsCount = 0, socialCount = 0;
     try {
       const { data: cdProfiles } = await db.from('profiles').select('card_data');
@@ -1392,15 +1432,15 @@ async function updateAdminBadge() {
       });
     } catch(e) {}
     window.adminNotifCounts = [
-      { id:'adminAppsSection', label:'📋 Заявки на вступление', count: apps.count||0 },
-      { id:'adminExitSection', label:'🚪 Заявки на выход', count: exits.count||0 },
+      { id:'adminAppsSection', label:'📋 Заявки на вступление', count: cnt(apps) },
+      { id:'adminExitSection', label:'🚪 Заявки на выход', count: cnt(exits) },
       { id:'adminCardsSection', label:'💳 Заявки на карты', count: cardsCount },
       { id:'adminSocialSection', label:'🔗 Заявки на «Мы есть»', count: socialCount },
-      { id:'adminRegistrySection', label:'🏢 Заявки в Реестр', count: regs.count||0 },
-      { id:'adminSubsSection', label:'🏭 Дочерние компании', count: subs.count||0 },
-      { id:'adminMayskSection', label:'✈️ Заявки в Майск', count: maysks.count||0 }
+      { id:'adminRegistrySection', label:'🏢 Заявки в Реестр', count: cnt(regs) },
+      { id:'adminSubsSection', label:'🏭 Дочерние компании', count: cnt(subs) },
+      { id:'adminMayskSection', label:'✈️ Заявки в Майск', count: cnt(maysks) }
     ];
-    const total = (apps.count||0)+(regs.count||0)+(maysks.count||0)+(subs.count||0)+(exits.count||0)+cardsCount+socialCount;
+    const total = cnt(apps)+cnt(regs)+cnt(maysks)+cnt(subs)+cnt(exits)+cardsCount+socialCount;
     const badge = $('adminBadgeCount');
     if (badge) { badge.textContent = total; badge.classList.toggle('hidden', total === 0); }
   } catch (e) { console.error(e); }
@@ -1482,7 +1522,7 @@ function renderMembersPage() {
     const days = joined ? Math.floor((Date.now() - new Date(joined).getTime()) / 86400000) : 0;
     const code = displayCompanyCode(m, m.id);
     const check = isAdminUser ? adminBadge() : '<span class="black-check" title="Участник альянса">✓</span>';
-    return `<div class="member-card" onclick="openMemberProfile('${m.id}')"><div class="avatar">${m.avatar_url ? `<img loading="lazy" src="${esc(m.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div><h4>${esc(m.company_name)} ${check}</h4><p class="muted">${esc(m.rank || 'Участник')} · ${days} ${pluralDays(days)}</p><p class="muted" style="font-size:11px">${esc(code)}</p></div>`;
+    return `<div class="member-card" onclick="openMemberProfile('${m.id}')"><div class="avatar">${m.avatar_url ? `<img loading="eager" decoding="async" referrerpolicy="no-referrer" src="${esc(m.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div><h4>${esc(m.company_name)} ${check}</h4><p class="muted">${esc(m.rank || 'Участник')} · ${days} ${pluralDays(days)}</p><p class="muted" style="font-size:11px">${esc(code)}</p></div>`;
   }).join('') || '<div class="muted">Нет участников</div>';
   const pag = $('membersPagination');
   if (total > MEMBERS_PER_PAGE) {
@@ -1700,7 +1740,7 @@ window.openMemberProfile = async (userId) => {
   const joinedStr = fmtDate(joined);
   $('memberProfileContent').innerHTML = `
     <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;flex-wrap:wrap">
-      <div class="avatar" style="width:80px;height:80px;flex:0 0 80px;font-size:28px">${m.avatar_url ? `<img src="${esc(m.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div>
+      <div class="avatar" style="width:80px;height:80px;flex:0 0 80px;font-size:28px">${m.avatar_url ? `<img loading="eager" decoding="async" referrerpolicy="no-referrer" src="${esc(m.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div>
       <div style="flex:1;min-width:150px"><h2 style="margin:0 0 6px 0;font-size:22px">${esc(m.company_name)} ${check} ${qso ? `<span class="qso-badge">QSO: ${esc(qso)}</span>` : ''}</h2><p class="muted" style="margin:0">${esc(m.rank || 'Участник')} · ${esc(code)}</p><p class="muted" style="margin:4px 0 0 0">В альянсе: ${days} ${pluralDays(days)} · с ${joinedStr}</p></div>
     </div>
     ${slogan ? `<div class="slogan-display">"${esc(slogan)}"</div>` : ''}
@@ -1796,7 +1836,7 @@ window.closeAdminNotif = () => $('adminNotifModal').classList.remove('show');
 window.goToAdminSection = async function(secId) {
   closeAdminNotif();
   showLoading('Загрузка...');
-  await loadAdminData();
+  try { await loadAdminData(); } catch(e) { console.error(e); }
   hideLoading();
   showPage('adminPage');
   setTimeout(() => {
@@ -2083,7 +2123,7 @@ async function renderAdminCards() {
   el.innerHTML = items.map(it => {
     const isLegacy = it.type === 'legacy';
     const reqDate = it._req ? new Date(it._req).toLocaleString('ru-RU') : '—';
-    return `<div class="admin-card"><div class="avatar">${it._avatar ? `<img src="${esc(it._avatar)}">` : '✦'}</div><div class="admin-card-info"><h4>${esc(it._name)}</h4><p class="muted" style="font-size:12px;margin:4px 0"><span class="code-badge" style="margin:0">${esc(it.title)}</span>${isLegacy ? 'Номер: <strong>' + esc(it._legacyNum || '—') + '</strong>' : 'Запрошено: ' + reqDate}</p></div><div class="admin-actions"><button class="primary" type="button" onclick="approveNewCard('${esc(it._id)}','${it.type}')">✅ Одобрить</button><button class="secondary" type="button" style="border-color:var(--red);color:var(--red)" onclick="rejectNewCard('${esc(it._id)}','${it.type}')">❌ Отклонить</button></div></div>`;
+    return `<div class="admin-card"><div class="avatar">${it._avatar ? `<img loading="eager" decoding="async" referrerpolicy="no-referrer" src="${esc(it._avatar)}">` : '✦'}</div><div class="admin-card-info"><h4>${esc(it._name)}</h4><p class="muted" style="font-size:12px;margin:4px 0"><span class="code-badge" style="margin:0">${esc(it.title)}</span>${isLegacy ? 'Номер: <strong>' + esc(it._legacyNum || '—') + '</strong>' : 'Запрошено: ' + reqDate}</p></div><div class="admin-actions"><button class="primary" type="button" onclick="approveNewCard('${esc(it._id)}','${it.type}')">✅ Одобрить</button><button class="secondary" type="button" style="border-color:var(--red);color:var(--red)" onclick="rejectNewCard('${esc(it._id)}','${it.type}')">❌ Отклонить</button></div></div>`;
   }).join('');
 }
 async function approveNewCard(profileId, type) {
@@ -2641,7 +2681,6 @@ async function loadDashboard(silent = false) {
     if (!silent || !$('profileName').value) {
       $('profileName').value = companyName;
       if ($('profileSlogan')) $('profileSlogan').value = cd0.slogan || '';
-      if ($('profileQso')) $('profileQso').value = cd0.qso_code || '';
       $('profileDescription').value = profile?.description || '';
       $('profileHistory').value = profile?.history || '';
     }
@@ -2650,8 +2689,10 @@ async function loadDashboard(silent = false) {
 
     const since = new Date(Date.now() - 86400000).toISOString();
     const { data: posts } = await db.from('posts').select('*').gte('created_at', since).order('created_at', { ascending: false }).limit(10);
+    window._lastPosts = posts || [];
     $('newsList').innerHTML = posts?.length ? posts.map(p => `<div class="post-card"><div class="post-header"><strong>${esc(p.author_name)}</strong>${p.author_name === ADMIN_NAME ? adminBadge() : ''}<span>${new Date(p.created_at).toLocaleString()}</span></div><div class="post-content">${esc(p.content)}</div></div>`).join('') : '<div class="muted">Новостей нет.</div>';
-    updateSectionBadge('newsSection', posts?.length || 0);
+    bindNewsRead();
+    updateNewsBadge(posts || []);
 
     await Promise.all([
       db.from('profiles').select('id,company_name,birthday_date,card_data').then(r => renderHolidays(r.data)),
@@ -2796,81 +2837,97 @@ $('btnSubmitMayskSub').addEventListener('click', () => {
   submitMaysk('subsidiary');
 });
 
+/* ===== АДМИНКА: защита от "бесконечной загрузки" — всё в try/catch, селекты заполняются сразу ===== */
 async function loadAdminData() {
   if (!isAdmin) return;
-  const { data: profiles } = await db.from('profiles').select('*');
-  const ranks = ['Участник','Помощник заместителя','Младший заместитель','Средний заместитель','Высший заместитель','Зам. альянса (младший)','Зам. альянса (средний)','Зам. альянса (старший)'];
-  $('adminAllMembersList').innerHTML = profiles?.map(p => {
-    const isAdminUser = ADMIN_UIDS.includes(p.id);
-    let days = 0;
-    if (isAdminUser) days = Math.floor((Date.now() - new Date(ADMIN_JOIN_DATE).getTime()) / 86400000);
-    else if (p.joined_at) days = Math.floor((Date.now() - new Date(p.joined_at).getTime()) / 86400000);
-    const code = displayCompanyCode(p, p.id);
-    const isJoined = isAdminUser || p.joined_at != null;
-    const check = isAdminUser ? adminBadge() : (isJoined ? '<span class="black-check">✓</span>' : '');
-    return `<div class="admin-card"><div class="avatar">${p.avatar_url ? `<img src="${esc(p.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div><div class="admin-card-info"><h4 onclick="fillAdminSelects('${esc(p.id)}')">${esc(p.company_name)} <span class="code-badge">${esc(code)}</span> ${check}</h4><span class="muted" style="font-size:11px">Дней: ${days} | Ранг: ${esc(p.rank || 'Участник')} | Баланс: ${isAdminUser ? '∞' : fmtNum(p.balance)}</span></div><select onchange="updateRank('${esc(p.id)}',this.value)"><option value="">Звание...</option>${ranks.map(r => `<option value="${esc(r)}" ${p.rank === r ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select>${!isAdminUser && isJoined ? `<button class="secondary" style="border-color:var(--red);color:var(--red);padding:6px 12px;font-size:11px" onclick="expelMember('${esc(p.id)}','${esc(p.company_name)}')">Изгнать</button>` : ''}</div>`;
-  }).join('') || 'Нет участников';
-  const { data: trans } = await db.from('transactions').select('*').order('created_at', { ascending: false }).limit(30);
-  $('adminTransactionsList').innerHTML = trans?.length ? trans.map(t => {
-    const sb = t.sender_name === ADMIN_NAME ? adminBadge() : '';
-    const rb = t.receiver_name === ADMIN_NAME ? adminBadge() : '';
-    return `<div class="transaction-item"><span>${esc(t.sender_name)}${sb}${t.receiver_name ? ' → ' + esc(t.receiver_name) + rb : ''}</span><span>${esc(t.amount)} МайБит</span></div>`;
-  }).join('') : 'Нет операций.';
-  const { data: logs } = await db.from('admin_logs').select('*').order('created_at', { ascending: false }).limit(100);
-  $('adminLogsList').innerHTML = logs?.length ? logs.map(l => `<div style="padding:8px 0;border-bottom:1px solid var(--line)"><strong>${new Date(l.created_at).toLocaleString('ru-RU')}</strong> — ${esc(l.action)}${l.target ? ' · ' + esc(l.target) : ''}${l.details ? ' · ' + esc(l.details) : ''}</div>`).join('') : 'Нет действий.';
-  const { data: allPosts } = await db.from('posts').select('*').order('created_at', { ascending: false }).limit(30);
-  $('adminPostsList').innerHTML = allPosts?.length ? allPosts.map(p => `<div class="post-card"><button class="post-delete-btn" onclick="deletePost('${esc(p.id)}')" title="Удалить">×</button><div class="post-header"><strong>${esc(p.author_name)}</strong><span>${new Date(p.created_at).toLocaleString()}</span></div><div class="post-content">${esc(p.content)}</div></div>`).join('') : 'Нет постов.';
-  const { data: apps } = await db.from('applications').select('*').order('created_at', { ascending: false });
-  const pendingApps = apps?.filter(a => a.status === 'pending').length || 0;
-  updateSectionBadge('adminAppsSection', pendingApps);
-  $('adminAppsList').innerHTML = apps?.map(a => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(a.company_name)}</h4><p class="muted">${esc(a.contact_email)}</p></div>${a.status === 'pending' ? `<div class="admin-actions"><button class="primary" onclick="approveApp('${esc(a.id)}','${esc(a.user_id)}')">Принять</button><button class="secondary" onclick="rejectApp('${esc(a.id)}')">Отказать</button></div>` : esc(a.status)}</div>`).join('') || 'Нет заявок.';
-  const { data: exits } = await db.from('exit_requests').select('*').eq('status', 'pending');
-  updateSectionBadge('adminExitSection', exits?.length || 0);
-  $('adminExitList').innerHTML = exits?.length ? exits.map(e => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(e.company_name)}</h4><p class="muted">Причина: ${esc(e.reason)}</p></div><div class="admin-actions"><button class="primary" style="background:var(--red);" onclick="approveExit('${esc(e.id)}', '${esc(e.user_id)}')">Одобрить выход</button></div></div>`).join('') : 'Нет заявок.';
-  await Promise.all([renderAdminCards(), renderAdminSocialList(), loadAdminChart(), renderHolidayRequestsForAdmin()]);
-  const { data: regs } = await db.from('registry_applications').select('*').eq('status', 'pending');
-  updateSectionBadge('adminRegistrySection', regs?.length || 0);
-  const subIds = (regs || []).filter(r => r.application_type === 'subsidiary' && r.subsidiary_id).map(r => r.subsidiary_id);
-  const { data: subsData } = subIds.length ? await db.from('subsidiaries').select('id,parent_id').in('id', subIds) : { data: [] };
-  const parentIds = [...new Set((subsData || []).map(s => s.parent_id).filter(Boolean))];
-  const { data: parentsData } = parentIds.length ? await db.from('profiles').select('id,company_name').in('id', parentIds) : { data: [] };
-  const parentsMap = Object.fromEntries((parentsData || []).map(p => [p.id, p.company_name]));
-  const subsToParent = Object.fromEntries((subsData || []).map(s => [s.id, s.parent_id]));
-  $('adminRegistryList').innerHTML = regs?.map(r => {
-    let badge = r.application_type === 'subsidiary' ? '<span class="code-badge" style="background:#ffe0e0;border-color:var(--red);color:var(--red)">📎 Дочка</span>' : '<span class="code-badge">🏢 Основная</span>';
-    let parentInfo = '';
-    if (r.application_type === 'subsidiary') { const pid = r.subsidiary_id ? subsToParent[r.subsidiary_id] : null; const pn = pid ? parentsMap[pid] : null; if (pn) parentInfo = `<p class="muted" style="font-size:12px;margin-top:5px">👑 Мать: <strong>${esc(pn)}</strong>${pid === ADMIN_UID ? adminBadge() : ''}</p>`; }
-    return `<div class="admin-card"><div class="admin-card-info"><h4>${esc(r.company_name)} ${badge}</h4><p class="muted">${esc(r.reason)}</p>${parentInfo}</div><button class="primary" onclick="approveRegistry('${esc(r.id)}','${esc(r.user_id)}','${esc(r.application_type || 'main')}')">Одобрить</button><button class="secondary" onclick="rejectRegistry('${esc(r.id)}')">Отклонить</button></div>`;
-  }).join('') || 'Нет заявок.';
-  const { data: subs } = await db.from('subsidiaries').select('*').eq('status', 'pending');
-  updateSectionBadge('adminSubsSection', subs?.length || 0);
-  $('adminSubsList').innerHTML = subs?.map(s => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(s.company_name)}</h4></div><button class="primary" onclick="approveSub('${esc(s.id)}')">Одобрить</button><button class="secondary" onclick="rejectSub('${esc(s.id)}')">Отклонить</button></div>`).join('') || 'Нет заявок.';
-  const { data: orders } = await db.from('aircraft_orders').select('*').in('status', ['assembling', 'ready']).order('created_at', { ascending: true });
-  if (orders?.length) {
-    const grouped = {};
-    orders.forEach(o => { if (!grouped[o.user_id]) grouped[o.user_id] = []; grouped[o.user_id].push(o); });
-    const userIds = Object.keys(grouped);
-    const { data: ps } = await db.from('profiles').select('id,company_name').in('id', userIds);
-    const names = Object.fromEntries((ps || []).map(p => [p.id, p.company_name]));
-    $('adminAircraftOrders').innerHTML = Object.entries(grouped).map(([uid, uo]) => {
-      const cn = names[uid] || 'Компания';
-      const badge = uid === ADMIN_UID ? adminBadge() : '';
-      const oh = uo.map(o => { const ready = new Date(o.ready_at || new Date(o.created_at).getTime() + 7 * 86400000); const can = o.status === 'ready' || Date.now() >= ready.getTime(); return `<div class="order-row"><span><strong>${esc(o.model)}</strong> × ${Number(o.quantity)}</span><span class="muted">${fmtNum(o.price)} МайБит</span><span class="muted" style="font-size:11px">${can ? '✅ Готов' : '⏳ до ' + fmtDate(ready)}</span><div style="display:flex;gap:5px">${can ? `<button class="primary" style="padding:6px 12px;font-size:11px" onclick="releaseAircraft('${esc(o.id)}')">＋ Выдать</button>` : ''}<button class="secondary" style="padding:6px 12px;font-size:11px;border-color:var(--red);color:var(--red)" onclick="cancelAircraftOrder('${esc(o.id)}')">✕</button></div></div>`; }).join('');
-      return `<div class="company-orders-box"><h4>🏢 ${esc(cn)}${badge}</h4>${oh}</div>`;
-    }).join('');
-  } else $('adminAircraftOrders').textContent = 'Нет заказов.';
-  const { data: maysks, error: mayskErr } = await db.from('maysk_requests').select('*').eq('status', 'pending');
-  updateSectionBadge('adminMayskSection', maysks?.length || 0);
-  $('adminMayskList').innerHTML = mayskErr ? `<p class="muted" style="color:var(--red)">⚠️ Не удалось загрузить заявки: ${esc(mayskErr.message)}<br><span style="font-size:11px">Проверьте политики RLS таблицы maysk_requests (инструкция у разработчика в чате).</span></p>` : (maysks?.map(m => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(m.company_name)}</h4><p class="muted">${esc(m.reason)}</p></div><div class="admin-actions"><button class="primary" onclick="approveMaysk('${esc(m.id)}')">Одобрить</button><button class="secondary" onclick="rejectMaysk('${esc(m.id)}')">Отказать</button></div></div>`).join('') || 'Нет заявок.');
-  const { data: loans } = await db.from('loans').select('*').eq('status', 'active');
-  const loanIds = [...new Set((loans || []).map(l => l.user_id))];
-  const { data: lp } = loanIds.length ? await db.from('profiles').select('id,company_name').in('id', loanIds) : { data: [] };
-  const loanNames = Object.fromEntries((lp || []).map(p => [p.id, p.company_name]));
-  $('adminLoansList').innerHTML = loans?.length ? loans.map(l => { const due = new Date(l.due_date || new Date(l.created_at).getTime() + 7 * 86400000); const badge = l.user_id === ADMIN_UID ? adminBadge() : ''; const fineMarker = l.fine_applied ? ' <span style="color:var(--red);font-weight:bold">⚠️ Штраф 10 МайБит</span>' : ''; return `<div class="admin-card"><div class="admin-card-info"><h4>${esc(loanNames[l.user_id] || 'Компания')}${badge}</h4><p class="muted">Долг: ${loanDebt(l).toLocaleString('ru-RU')} | Срок: ${due.toLocaleString('ru-RU')} | ${Date.now() >= due ? '⚠️ Просрочен' : '✅'}${fineMarker}</p></div></div>`; }).join('') : 'Нет кредитов.';
-  const options = profiles?.map(p => `<option value="${esc(p.id)}">${esc(p.company_name)}</option>`).join('');
-  $('adminFineTarget').innerHTML = options || '<option value="">—</option>';
-  $('adminBalanceTarget').innerHTML = options || '<option value="">—</option>';
-  if ($('freezeTarget')) $('freezeTarget').innerHTML = options || '<option value="">—</option>';
+  try {
+    const { data: profiles } = await db.from('profiles').select('*');
+    const profList = profiles || [];
+
+    // Селекты авиакомпаний — заполняем ПЕРВЫМИ (состоящие в альянсе — в начале списка)
+    const joinedFirst = [
+      ...profList.filter(p => ADMIN_UIDS.includes(p.id) || p.joined_at != null),
+      ...profList.filter(p => !(ADMIN_UIDS.includes(p.id) || p.joined_at != null))
+    ];
+    const options = joinedFirst.map(p => `<option value="${esc(p.id)}">${esc(p.company_name)}${ADMIN_UIDS.includes(p.id) ? ' ✓' : ''}</option>`).join('');
+    $('adminFineTarget').innerHTML = options || '<option value="">—</option>';
+    $('adminBalanceTarget').innerHTML = options || '<option value="">—</option>';
+    if ($('freezeTarget')) $('freezeTarget').innerHTML = options || '<option value="">—</option>';
+
+    const ranks = ['Участник','Помощник заместителя','Младший заместитель','Средний заместитель','Высший заместитель','Зам. альянса (младший)','Зам. альянса (средний)','Зам. альянса (старший)'];
+    $('adminAllMembersList').innerHTML = profList.map(p => {
+      const isAdminUser = ADMIN_UIDS.includes(p.id);
+      let days = 0;
+      if (isAdminUser) days = Math.floor((Date.now() - new Date(ADMIN_JOIN_DATE).getTime()) / 86400000);
+      else if (p.joined_at) days = Math.floor((Date.now() - new Date(p.joined_at).getTime()) / 86400000);
+      const code = displayCompanyCode(p, p.id);
+      const isJoined = isAdminUser || p.joined_at != null;
+      const check = isAdminUser ? adminBadge() : (isJoined ? '<span class="black-check">✓</span>' : '');
+      return `<div class="admin-card"><div class="avatar">${p.avatar_url ? `<img loading="eager" decoding="async" referrerpolicy="no-referrer" src="${esc(p.avatar_url)}" onerror="this.parentElement.innerHTML='✦'">` : '✦'}</div><div class="admin-card-info"><h4 onclick="fillAdminSelects('${esc(p.id)}')">${esc(p.company_name)} <span class="code-badge">${esc(code)}</span> ${check}</h4><span class="muted" style="font-size:11px">Дней: ${days} | Ранг: ${esc(p.rank || 'Участник')} | Баланс: ${isAdminUser ? '∞' : fmtNum(p.balance)}</span></div><select onchange="updateRank('${esc(p.id)}',this.value)"><option value="">Звание...</option>${ranks.map(r => `<option value="${esc(r)}" ${p.rank === r ? 'selected' : ''}>${esc(r)}</option>`).join('')}</select>${!isAdminUser && isJoined ? `<button class="secondary" style="border-color:var(--red);color:var(--red);padding:6px 12px;font-size:11px" onclick="expelMember('${esc(p.id)}','${esc(p.company_name)}')">Изгнать</button>` : ''}</div>`;
+    }).join('') || 'Нет участников';
+
+    const { data: trans } = await db.from('transactions').select('*').order('created_at', { ascending: false }).limit(30);
+    $('adminTransactionsList').innerHTML = trans?.length ? trans.map(t => {
+      const sb = t.sender_name === ADMIN_NAME ? adminBadge() : '';
+      const rb = t.receiver_name === ADMIN_NAME ? adminBadge() : '';
+      return `<div class="transaction-item"><span>${esc(t.sender_name)}${sb}${t.receiver_name ? ' → ' + esc(t.receiver_name) + rb : ''}</span><span>${esc(t.amount)} МайБит</span></div>`;
+    }).join('') : 'Нет операций.';
+    const { data: logs } = await db.from('admin_logs').select('*').order('created_at', { ascending: false }).limit(100);
+    $('adminLogsList').innerHTML = logs?.length ? logs.map(l => `<div style="padding:8px 0;border-bottom:1px solid var(--line)"><strong>${new Date(l.created_at).toLocaleString('ru-RU')}</strong> — ${esc(l.action)}${l.target ? ' · ' + esc(l.target) : ''}${l.details ? ' · ' + esc(l.details) : ''}</div>`).join('') : 'Нет действий.';
+    const { data: allPosts } = await db.from('posts').select('*').order('created_at', { ascending: false }).limit(30);
+    $('adminPostsList').innerHTML = allPosts?.length ? allPosts.map(p => `<div class="post-card"><button class="post-delete-btn" onclick="deletePost('${esc(p.id)}')" title="Удалить">×</button><div class="post-header"><strong>${esc(p.author_name)}</strong><span>${new Date(p.created_at).toLocaleString()}</span></div><div class="post-content">${esc(p.content)}</div></div>`).join('') : 'Нет постов.';
+    const { data: apps } = await db.from('applications').select('*').order('created_at', { ascending: false });
+    const pendingApps = apps?.filter(a => a.status === 'pending').length || 0;
+    updateSectionBadge('adminAppsSection', pendingApps);
+    $('adminAppsList').innerHTML = apps?.map(a => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(a.company_name)}</h4><p class="muted">${esc(a.contact_email)}</p></div>${a.status === 'pending' ? `<div class="admin-actions"><button class="primary" onclick="approveApp('${esc(a.id)}','${esc(a.user_id)}')">Принять</button><button class="secondary" onclick="rejectApp('${esc(a.id)}')">Отказать</button></div>` : esc(a.status)}</div>`).join('') || 'Нет заявок.';
+    const { data: exits } = await db.from('exit_requests').select('*').eq('status', 'pending');
+    updateSectionBadge('adminExitSection', exits?.length || 0);
+    $('adminExitList').innerHTML = exits?.length ? exits.map(e => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(e.company_name)}</h4><p class="muted">Причина: ${esc(e.reason)}</p></div><div class="admin-actions"><button class="primary" style="background:var(--red);" onclick="approveExit('${esc(e.id)}', '${esc(e.user_id)}')">Одобрить выход</button></div></div>`).join('') : 'Нет заявок.';
+    await Promise.allSettled([renderAdminCards(), renderAdminSocialList(), loadAdminChart(), renderHolidayRequestsForAdmin()]);
+    const { data: regs } = await db.from('registry_applications').select('*').eq('status', 'pending');
+    updateSectionBadge('adminRegistrySection', regs?.length || 0);
+    const subIds = (regs || []).filter(r => r.application_type === 'subsidiary' && r.subsidiary_id).map(r => r.subsidiary_id);
+    const { data: subsData } = subIds.length ? await db.from('subsidiaries').select('id,parent_id').in('id', subIds) : { data: [] };
+    const parentIds = [...new Set((subsData || []).map(s => s.parent_id).filter(Boolean))];
+    const { data: parentsData } = parentIds.length ? await db.from('profiles').select('id,company_name').in('id', parentIds) : { data: [] };
+    const parentsMap = Object.fromEntries((parentsData || []).map(p => [p.id, p.company_name]));
+    const subsToParent = Object.fromEntries((subsData || []).map(s => [s.id, s.parent_id]));
+    $('adminRegistryList').innerHTML = regs?.map(r => {
+      let badge = r.application_type === 'subsidiary' ? '<span class="code-badge" style="background:#ffe0e0;border-color:var(--red);color:var(--red)">📎 Дочка</span>' : '<span class="code-badge">🏢 Основная</span>';
+      let parentInfo = '';
+      if (r.application_type === 'subsidiary') { const pid = r.subsidiary_id ? subsToParent[r.subsidiary_id] : null; const pn = pid ? parentsMap[pid] : null; if (pn) parentInfo = `<p class="muted" style="font-size:12px;margin-top:5px">👑 Мать: <strong>${esc(pn)}</strong>${pid === ADMIN_UID ? adminBadge() : ''}</p>`; }
+      return `<div class="admin-card"><div class="admin-card-info"><h4>${esc(r.company_name)} ${badge}</h4><p class="muted">${esc(r.reason)}</p>${parentInfo}</div><button class="primary" onclick="approveRegistry('${esc(r.id)}','${esc(r.user_id)}','${esc(r.application_type || 'main')}')">Одобрить</button><button class="secondary" onclick="rejectRegistry('${esc(r.id)}')">Отклонить</button></div>`;
+    }).join('') || 'Нет заявок.';
+    const { data: subs } = await db.from('subsidiaries').select('*').eq('status', 'pending');
+    updateSectionBadge('adminSubsSection', subs?.length || 0);
+    $('adminSubsList').innerHTML = subs?.map(s => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(s.company_name)}</h4></div><button class="primary" onclick="approveSub('${esc(s.id)}')">Одобрить</button><button class="secondary" onclick="rejectSub('${esc(s.id)}')">Отклонить</button></div>`).join('') || 'Нет заявок.';
+    const { data: orders } = await db.from('aircraft_orders').select('*').in('status', ['assembling', 'ready']).order('created_at', { ascending: true });
+    if (orders?.length) {
+      const grouped = {};
+      orders.forEach(o => { if (!grouped[o.user_id]) grouped[o.user_id] = []; grouped[o.user_id].push(o); });
+      const userIds = Object.keys(grouped);
+      const { data: ps } = await db.from('profiles').select('id,company_name').in('id', userIds);
+      const names = Object.fromEntries((ps || []).map(p => [p.id, p.company_name]));
+      $('adminAircraftOrders').innerHTML = Object.entries(grouped).map(([uid, uo]) => {
+        const cn = names[uid] || 'Компания';
+        const badge = uid === ADMIN_UID ? adminBadge() : '';
+        const oh = uo.map(o => { const ready = new Date(o.ready_at || new Date(o.created_at).getTime() + 7 * 86400000); const can = o.status === 'ready' || Date.now() >= ready.getTime(); return `<div class="order-row"><span><strong>${esc(o.model)}</strong> × ${Number(o.quantity)}</span><span class="muted">${fmtNum(o.price)} МайБит</span><span class="muted" style="font-size:11px">${can ? '✅ Готов' : '⏳ до ' + fmtDate(ready)}</span><div style="display:flex;gap:5px">${can ? `<button class="primary" style="padding:6px 12px;font-size:11px" onclick="releaseAircraft('${esc(o.id)}')">＋ Выдать</button>` : ''}<button class="secondary" style="padding:6px 12px;font-size:11px;border-color:var(--red);color:var(--red)" onclick="cancelAircraftOrder('${esc(o.id)}')">✕</button></div></div>`; }).join('');
+        return `<div class="company-orders-box"><h4>🏢 ${esc(cn)}${badge}</h4>${oh}</div>`;
+      }).join('');
+    } else $('adminAircraftOrders').textContent = 'Нет заказов.';
+    const { data: maysks, error: mayskErr } = await db.from('maysk_requests').select('*').eq('status', 'pending');
+    updateSectionBadge('adminMayskSection', maysks?.length || 0);
+    $('adminMayskList').innerHTML = mayskErr ? `<p class="muted" style="color:var(--red)">⚠️ Не удалось загрузить заявки: ${esc(mayskErr.message)}<br><span style="font-size:11px">Проверьте политики RLS таблицы maysk_requests (инструкция у разработчика в чате).</span></p>` : (maysks?.map(m => `<div class="admin-card"><div class="admin-card-info"><h4>${esc(m.company_name)}</h4><p class="muted">${esc(m.reason)}</p></div><div class="admin-actions"><button class="primary" onclick="approveMaysk('${esc(m.id)}')">Одобрить</button><button class="secondary" onclick="rejectMaysk('${esc(m.id)}')">Отказать</button></div></div>`).join('') || 'Нет заявок.');
+    const { data: loans } = await db.from('loans').select('*').eq('status', 'active');
+    const loanIds = [...new Set((loans || []).map(l => l.user_id))];
+    const { data: lp } = loanIds.length ? await db.from('profiles').select('id,company_name').in('id', loanIds) : { data: [] };
+    const loanNames = Object.fromEntries((lp || []).map(p => [p.id, p.company_name]));
+    $('adminLoansList').innerHTML = loans?.length ? loans.map(l => { const due = new Date(l.due_date || new Date(l.created_at).getTime() + 7 * 86400000); const badge = l.user_id === ADMIN_UID ? adminBadge() : ''; const fineMarker = l.fine_applied ? ' <span style="color:var(--red);font-weight:bold">⚠️ Штраф 10 МайБит</span>' : ''; return `<div class="admin-card"><div class="admin-card-info"><h4>${esc(loanNames[l.user_id] || 'Компания')}${badge}</h4><p class="muted">Долг: ${loanDebt(l).toLocaleString('ru-RU')} | Срок: ${due.toLocaleString('ru-RU')} | ${Date.now() >= due ? '⚠️ Просрочен' : '✅'}${fineMarker}</p></div></div>`; }).join('') : 'Нет кредитов.';
+    updateAdminBadge();
+  } catch (err) {
+    console.error('LOAD ADMIN ERROR:', err);
+    message('Ошибка загрузки админки: ' + (err.message || err), true);
+  }
 }
 window.loadAdminData = loadAdminData;
 
@@ -3147,7 +3204,6 @@ $('saveProfile').addEventListener('click', async () => {
   if (error) { hideLoading(); return message(error.message, true); }
   const cd = getCardData();
   cd.slogan = $('profileSlogan').value.trim();
-  cd.qso_code = ($('profileQso')?.value || '').trim().toUpperCase();
   await db.from('profiles').update({ card_data: cd }).eq('id', currentUser.id);
   hideLoading();
   userProfile.card_data = cd;
@@ -3211,7 +3267,12 @@ $('applicationForm').addEventListener('submit', async e => {
 $('btnRequestSocial').addEventListener('click', submitSocialLink);
 
 $('topLogout').addEventListener('click', async () => { await db.auth.signOut(); localStorage.removeItem('theme'); location.reload(); });
-$('topAdmin').addEventListener('click', async () => { showLoading('Загрузка...'); await loadAdminData(); hideLoading(); showPage('adminPage'); });
+$('topAdmin').addEventListener('click', async () => {
+  showLoading('Загрузка...');
+  try { await loadAdminData(); } catch (e) { console.error(e); }
+  hideLoading();
+  showPage('adminPage');
+});
 $('topCabinet').addEventListener('click', () => loadDashboard());
 
 db.auth.onAuthStateChange((event) => {
